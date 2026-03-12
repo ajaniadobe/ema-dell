@@ -1,0 +1,12 @@
+{
+  "templates": [
+    {
+      "name": "ai-solutions-page",
+      "urls": [
+        "https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence"
+      ],
+      "description": "Dell AI solutions category page showcasing artificial intelligence products and services",
+      "blocks": []
+    }
+  ]
+}
