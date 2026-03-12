@@ -6,7 +6,170 @@
         "https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence"
       ],
       "description": "Dell AI solutions category page showcasing artificial intelligence products and services",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#hero-ai",
+            ".live-optics-section"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#floating-cards.theme-cards-banner-dark",
+            "#floating-cards.theme-cards-banner-light",
+            ".value-pillars-container"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            "#ai-customer-story-tabs",
+            "#ai-ecosystem-tabs-container",
+            "#cpMFE-Tab"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            "#ai-infrastructure-carousel"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "#accordion-FAQ"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero",
+          "selector": ".ai-hero-container",
+          "style": "dark",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-outcomes",
+          "name": "Customer Outcomes",
+          "selector": "#ai-outcomes",
+          "style": "dark",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            ".outcomes-header"
+          ]
+        },
+        {
+          "id": "section-customer-stories",
+          "name": "AI Use Cases",
+          "selector": "#ai-customerstory",
+          "style": null,
+          "blocks": [
+            "tabs"
+          ],
+          "defaultContent": [
+            ".customerstory-header"
+          ]
+        },
+        {
+          "id": "section-ai-factory",
+          "name": "Dell AI Factory",
+          "selector": "#ai-factory-dell",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".ai-factory-header-wrapper",
+            ".ai-factory-content-wrapper",
+            ".ai-factory-animation-wrapper",
+            ".ai-factory-button-wrapper"
+          ]
+        },
+        {
+          "id": "section-live-optics",
+          "name": "AI Solutions Explorer CTA",
+          "selector": "#ai-liveOptics",
+          "style": "accent",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-data-ai",
+          "name": "Data for AI",
+          "selector": "#ai-data",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "#ai-data > .outcomes-header"
+          ]
+        },
+        {
+          "id": "section-infrastructure",
+          "name": "AI Infrastructure",
+          "selector": "#ai-infrastructure",
+          "style": null,
+          "blocks": [
+            "carousel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-ecosystem",
+          "name": "AI Partner Ecosystem",
+          "selector": "#ai-ecosystem",
+          "style": null,
+          "blocks": [
+            "tabs"
+          ],
+          "defaultContent": [
+            ".ai-ecosystem-row"
+          ]
+        },
+        {
+          "id": "section-services",
+          "name": "Professional Services",
+          "selector": ".vpmfe-container",
+          "style": "light",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            ".vpmfe-header-container"
+          ]
+        },
+        {
+          "id": "section-resources",
+          "name": "AI Resources",
+          "selector": "#cpMFE-Tab",
+          "style": null,
+          "blocks": [
+            "tabs"
+          ],
+          "defaultContent": [
+            ".cpmfe-title"
+          ]
+        },
+        {
+          "id": "section-faqs",
+          "name": "FAQs",
+          "selector": ".disclaimerFAQcontainer",
+          "style": null,
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": []
+        }
+      ]
     }
   ]
 }

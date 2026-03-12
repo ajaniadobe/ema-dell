@@ -1,19 +1,19 @@
 .hero {
-  --gradient-start: rgb(var(--color-dark-base) / 80%);
-  --gradient-end: rgb(var(--color-dark-base) / 20%);
-  --default-min-height: 360px;
+  --gradient-start: rgb(0 42 88 / 85%);
+  --gradient-end: rgb(0 42 88 / 40%);
+  --default-min-height: 400px;
   --min-height: var(--default-min-height);
 
   position: relative;
-  color: #fff;
+  color: var(--color-white);
   overflow: hidden;
 
   &.small {
-    --min-height: 180px;
+    --min-height: 200px;
   }
 
   &.large {
-    --min-height: 720px;
+    --min-height: 600px;
   }
 
   &.full {
@@ -21,13 +21,14 @@
   }
 
   &.light {
-    --gradient-start: rgb(var(--color-light-base) / 80%);
+    --gradient-start: rgb(245 246 247 / 90%);
+    --gradient-end: rgb(245 246 247 / 30%);
 
-    color: var(--color-dark);
+    color: var(--color-dell-near-black);
   }
 
   &.dark {
-    color: var(--color-light);
+    color: var(--color-white);
   }
 
   &.quiet-background {
@@ -66,8 +67,7 @@
     }
 
     > div {
-      /* Used for quiet-background */
-      background-color: var(--color-background);
+      background-color: var(--color-dell-navy);
       position: absolute;
       inset: 0;
     }
@@ -81,7 +81,7 @@
 
   .hero-foreground {
     min-height: var(--min-height);
-    padding: var(--spacing-xxl) 0;
+    padding: var(--spacing-xl) var(--spacing-m);
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -91,6 +91,18 @@
 
     p {
       margin: 8px 0;
+      font-size: var(--body-font-size-l);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--color-dell-light-blue);
+      text-decoration: underline;
+      font-weight: var(--button-font-weight);
+
+      &:hover {
+        color: var(--color-white);
+      }
     }
 
     .fg-text {
@@ -108,10 +120,14 @@
 
     .hero-detail {
       margin: 0;
+      font-size: var(--body-font-size-xl);
+      line-height: 1.4;
     }
 
     .hero-heading {
-      margin: 0;
+      margin: 0 0 var(--spacing-s);
+      font-weight: 300;
+      line-height: var(--heading-line-height);
     }
   }
 
@@ -124,12 +140,12 @@
     }
 
     .hero-foreground {
-      background: #111;
+      background: var(--color-dell-dark-teal);
     }
 
     &.light {
       .hero-foreground {
-        background: #f9f9f9;
+        background: var(--color-dell-light-gray);
       }
     }
 
@@ -156,6 +172,8 @@
 
 @media (width >= 600px) {
   .hero {
+    --default-min-height: 480px;
+
     .hero-foreground {
       display: grid;
       grid-template-columns: 45% 45%;
@@ -163,6 +181,7 @@
       max-width: var(--grid-container-width);
       margin: 0 auto;
       background: unset;
+      padding: var(--spacing-xxl) 0;
 
       .fg-text {
         width: unset;
@@ -218,6 +237,8 @@
 
 @media (width >= 1200px) {
   .hero {
+    --default-min-height: 560px;
+
     .hero-foreground {
       grid-template-columns: 33% 33%;
     }

@@ -53,12 +53,17 @@
 
 .carousel .carousel-slide .carousel-slide-content {
   z-index: 1;
-  margin: 68px;
-  padding: 16px;
-  color: white;
-  background-color: rgba(19 19 19 / 75%);
+  margin: var(--spacing-xl);
+  padding: var(--spacing-m);
+  color: var(--color-white);
+  background-color: rgb(29 44 59 / 85%);
   position: relative;
   width: var(--slide-content-width, auto);
+  border-radius: var(--button-border-radius);
+}
+
+.carousel .carousel-slide .carousel-slide-content a {
+  color: var(--color-dell-light-blue);
 }
 
 .carousel .carousel-slide-indicators {
@@ -66,25 +71,25 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 6px 12px;
-  padding: 12px;
-  background-color: var(--light-color);
+  padding: var(--spacing-s);
   line-height: 0;
 }
 
 .carousel .carousel-slide-indicator button {
-  width: 24px;
-  height: 24px;
+  width: 12px;
+  height: 12px;
   margin: 0;
   padding: 0;
+  border: 2px solid var(--color-dell-blue);
   border-radius: 50%;
-  background-color: #dadada;
+  background-color: transparent;
   transition: background-color 0.2s;
 }
 
 .carousel .carousel-slide-indicator button:disabled,
 .carousel .carousel-slide-indicator button:hover,
 .carousel .carousel-slide-indicator button:focus-visible {
-  background-color: var(--text-color);
+  background-color: var(--color-dell-blue);
 }
 
 .carousel .carousel-navigation-buttons {
@@ -106,14 +111,17 @@
   height: 44px;
   margin: 0;
   border-radius: 50%;
+  border: 1px solid var(--color-dell-blue);
   padding: 0;
-  background-color: rgba(19 19 19 / 25%);
-  transition: background-color 0.2s;
+  background-color: var(--color-white);
+  color: var(--color-dell-blue);
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .carousel .carousel-navigation-buttons button:hover,
 .carousel .carousel-navigation-buttons button:focus-visible {
-  background-color: rgba(19 19 19 / 75%);
+  background-color: var(--color-dell-blue);
+  color: var(--color-white);
 }
 
 .carousel .carousel-navigation-buttons button::after {
@@ -122,8 +130,8 @@
   border: 2px solid;
   border-bottom: 0;
   border-left: 0;
-  height: 12px;
-  width: 12px;
+  height: 10px;
+  width: 10px;
   position: absolute;
   top: 50%;
   left: calc(50% + 2px);
@@ -144,7 +152,7 @@
   .carousel .carousel-slide .carousel-slide-content {
     --slide-content-width: calc((100% - 184px) / 2);
 
-    margin: 92px;
+    margin: var(--spacing-xxl);
   }
 
   .carousel .carousel-slide .carousel-slide-content[data-align='justify'] {
