@@ -1,0 +1,81 @@
+.tabs .tabs-list {
+  display: flex;
+  gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  border-bottom: 2px solid rgb(0 0 0 / 10%);
+  scrollbar-width: none;
+}
+
+.tabs .tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs .tabs-list button {
+  flex: 0 0 max-content;
+  margin: 0;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: var(--spacing-s) var(--spacing-m);
+  background-color: transparent;
+  color: var(--color-dell-blue);
+  font-size: var(--body-font-size-m);
+  font-weight: var(--button-font-weight);
+  line-height: 1.5;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.tabs .tabs-list button p {
+  margin: 0;
+}
+
+.tabs .tabs-list button:hover {
+  color: var(--color-dell-blue-hover);
+}
+
+.tabs .tabs-list button[aria-selected='true'] {
+  border-bottom-color: var(--color-dell-blue);
+  color: var(--color-dell-blue);
+  font-weight: 700;
+}
+
+.tabs .tabs-panel {
+  padding: var(--spacing-l) 0;
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.tabs .tabs-panel img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--button-border-radius);
+}
+
+/* Dark section tab styles */
+.section.dark .tabs .tabs-list {
+  border-bottom-color: rgb(255 255 255 / 20%);
+}
+
+.section.dark .tabs .tabs-list button {
+  color: var(--color-dell-light-blue);
+}
+
+.section.dark .tabs .tabs-list button:hover {
+  color: var(--color-white);
+}
+
+.section.dark .tabs .tabs-list button[aria-selected='true'] {
+  border-bottom-color: var(--color-dell-light-blue);
+  color: var(--color-dell-light-blue);
+}
+
+@media (width >= 600px) {
+  .tabs .tabs-list button {
+    padding: var(--spacing-s) var(--spacing-l);
+  }
+}

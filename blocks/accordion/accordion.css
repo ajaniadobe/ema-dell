@@ -1,0 +1,66 @@
+.accordion details {
+  border-top: 1px solid #e1e1e1;
+}
+
+.accordion details:last-child {
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.accordion details + details {
+  margin-top: 0;
+}
+
+.accordion details p {
+  margin-bottom: 0.8em;
+}
+
+.accordion details summary {
+  position: relative;
+  padding: 16px 44px 16px 24px;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  color: var(--color-dell-near-black);
+  transition: background-color 0.2s;
+}
+
+.accordion details[open] summary {
+  font-weight: 500;
+}
+
+.accordion details summary:hover {
+  background-color: var(--color-dell-light-gray);
+}
+
+.accordion details summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion details summary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%) rotate(135deg);
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--color-dell-medium-gray);
+  border-width: 2px 2px 0 0;
+  transition: transform 0.2s;
+}
+
+.accordion details[open] summary::after {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.accordion details .accordion-item-body {
+  padding: 0 24px 16px;
+  font-size: var(--body-font-size-s);
+  line-height: 1.43;
+  color: var(--color-dell-near-black);
+}
+
+.accordion details .accordion-item-body a {
+  color: var(--color-dell-blue);
+}

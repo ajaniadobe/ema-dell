@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence",
+  "path": "en-us/shop/scc/sc/artificial-intelligence",
+  "timestamp": "2026-03-12T19:57:22.926Z",
+  "title": "Artificial Intelligence Solutions | Dell USA",
+  "template": "ai-solutions-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "cards",
+    "cards",
+    "cards",
+    "tabs",
+    "tabs",
+    "tabs",
+    "carousel",
+    "accordion"
+  ]
+}
