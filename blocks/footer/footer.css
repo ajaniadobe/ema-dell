@@ -1,22 +1,75 @@
 footer {
+  background-color: var(--color-dell-light-gray, #f5f6f7);
+  border-top: 1px solid #e1e1e1;
+
   a {
     text-decoration: none;
+    color: var(--color-dell-near-black, #0e0e0e);
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--color-dell-blue, #0672cb);
+    }
   }
 
   .footer-content {
     max-width: var(--grid-container-width);
-    margin: 48px auto;
+    margin: 0 auto;
+    padding: 48px var(--grid-gutter-width, 24px) 24px;
     font-size: 14px;
+    line-height: 1.5;
   }
 
-  .section-legal ul {
-    margin: 0;
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--color-dell-near-black, #0e0e0e);
+  }
+
+  .section:first-child ul {
+    margin: 0 0 24px;
     padding: 0;
     list-style: none;
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: #636363;
+      font-size: 13px;
+    }
   }
 
-  .section-copyright p {
-    margin: 0;
+  .section-legal {
+    border-top: 1px solid #ccc;
+    padding-top: 16px;
+    margin-top: 16px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    a {
+      font-size: 12px;
+      color: #636363;
+    }
+  }
+
+  .section-copyright {
+    margin-top: 12px;
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      color: #636363;
+    }
   }
 
   .section {
@@ -29,29 +82,26 @@ footer {
 
 @media (width >= 900px) {
   footer {
-    margin: 0;
+    .section:first-child .default-content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 32px;
+    }
 
     .section-legal {
-      display: flex;
-      justify-content: end;
-      gap: var(--spacing-xl);
-      margin-bottom: 24px;
-
       ul {
-        display: flex;
-        justify-content: end;
-        gap: var(--spacing-xl);
-      }
-
-      li {
-        margin: 0;
+        justify-content: center;
       }
     }
 
     .section-copyright {
-      display: flex;
-      justify-content: end;
-      gap: var(--spacing-xl);
+      text-align: center;
     }
+  }
+}
+
+@media (width >= 1200px) {
+  footer .section:first-child .default-content {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
