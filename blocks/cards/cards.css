@@ -9,7 +9,7 @@
 
 .cards > ul > li {
   background-color: var(--color-white);
-  border-radius: var(--button-border-radius);
+  border-radius: 4px;
   overflow: hidden;
   transition: box-shadow 0.2s ease;
 }
@@ -31,7 +31,7 @@
 
 .cards .cards-card-body p strong {
   font-size: var(--body-font-size-l);
-  font-weight: 700;
+  font-weight: 300;
   display: block;
   margin-bottom: var(--spacing-xs);
 }
@@ -39,7 +39,7 @@
 .cards .cards-card-body a {
   color: var(--color-dell-blue);
   text-decoration: underline;
-  font-weight: var(--button-font-weight);
+  font-weight: 400;
   font-size: var(--body-font-size-m);
 }
 
@@ -59,16 +59,53 @@
 
 /* Dark section card styles */
 .section.dark .cards > ul > li {
-  background-color: var(--color-dell-dark-bg);
-  border: 1px solid rgb(255 255 255 / 10%);
+  background-color: #293b4d;
+  border: none;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.section.dark .cards > ul > li:hover {
+  box-shadow: none;
+}
+
+.section.dark .cards .cards-card-image {
+  line-height: 0;
+  margin-bottom: 16px;
+}
+
+.section.dark .cards .cards-card-image img {
+  width: 48px;
+  height: 48px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: fill;
+}
+
+.section.dark .cards .cards-card-body {
+  padding: 0;
 }
 
 .section.dark .cards .cards-card-body p {
+  color: #c5d4e3;
+  font-weight: 300;
+}
+
+.section.dark .cards .cards-card-body p strong {
   color: var(--color-white);
+  font-size: 32px;
+  font-weight: 300;
 }
 
 .section.dark .cards .cards-card-body a {
-  color: var(--color-dell-light-blue);
+  color: #94dcf7;
+  text-decoration: underline;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.section.dark .cards .cards-card-body a:hover {
+  color: #b8e8fa;
 }
 
 @media (width >= 900px) {
