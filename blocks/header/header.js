@@ -4,7 +4,7 @@ import { setColorScheme } from '../section-metadata/section-metadata.js';
 
 const { locale } = getConfig();
 
-const HEADER_PATH = '/fragments/nav/header';
+const HEADER_PATH = '/content/fragments/nav/header';
 const HEADER_ACTIONS = [
   '/tools/widgets/scheme',
   '/tools/widgets/language',
@@ -130,7 +130,7 @@ function decorateNavItem(li) {
   const link = li.querySelector(':scope > p > a');
   if (link) link.classList.add('main-nav-link');
   const menu = decorateMegaMenu(li) || decorateMenu(li);
-  if (!(menu || link)) return;
+  if (!menu) return;
   link.addEventListener('click', (e) => {
     e.preventDefault();
     toggleMenu(li);
