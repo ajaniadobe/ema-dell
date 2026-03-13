@@ -6,7 +6,7 @@ function setBackgroundFocus(img) {
   img.style.objectPosition = `${x}% ${y}%`;
 }
 
-function decorateBackground(bg) {
+function decorateBackground(el, bg) {
   const bgPic = bg.querySelector('picture');
   if (!bgPic) return;
 
@@ -15,6 +15,7 @@ function decorateBackground(bg) {
 
   const vidLink = bgPic.closest('a[href*=".mp4"]');
   if (!vidLink) return;
+  el.classList.add('has-video');
   const video = document.createElement('video');
   video.src = vidLink.href;
   video.loop = true;
@@ -63,6 +64,6 @@ export default async function init(el) {
   if (rows.length) {
     const bg = rows.pop();
     bg.classList.add('hero-background');
-    decorateBackground(bg);
+    decorateBackground(el, bg);
   }
 }

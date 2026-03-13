@@ -67,7 +67,7 @@
     }
 
     > div {
-      background-color: var(--color-dell-navy);
+      background-color: var(--color-dell-navy, #002a58);
       position: absolute;
       inset: 0;
     }
@@ -96,7 +96,7 @@
     }
 
     a {
-      color: var(--color-dell-light-blue);
+      color: var(--color-dell-light-blue, #97c4e8);
       text-decoration: underline;
       font-weight: var(--button-font-weight);
 
@@ -128,6 +128,84 @@
       margin: 0 0 var(--spacing-s);
       font-weight: 300;
       line-height: var(--heading-line-height);
+    }
+  }
+
+  /* --- Split layout for heroes with video --- */
+  &.has-video {
+    .hero-background {
+      height: 300px;
+      position: relative;
+      overflow: hidden;
+
+      > div {
+        position: absolute;
+        inset: 0;
+      }
+
+      video {
+        display: block;
+      }
+    }
+
+    .hero-foreground {
+      background: var(--color-dell-navy, #002a58);
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+
+      .hero-heading {
+        font-size: 40px;
+        font-weight: 300;
+        line-height: 1.15;
+        margin: 0 0 20px;
+      }
+
+      p {
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 1.5;
+        margin: 0 0 24px;
+        color: rgb(255 255 255 / 85%);
+      }
+
+      /* CTA button links */
+      a {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 2px;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-right: 12px;
+        margin-bottom: 8px;
+        transition: background-color 0.2s, color 0.2s;
+      }
+
+      /* Primary CTA: first link in the foreground */
+      .fg-text > p:nth-last-child(2) a,
+      .fg-text > p:nth-last-child(1) a {
+        border: 2px solid var(--color-white);
+        background: transparent;
+        color: var(--color-white);
+
+        &:hover {
+          background: var(--color-white);
+          color: var(--color-dell-navy, #002a58);
+        }
+      }
+
+      /* Primary button override: specifically the first CTA */
+      .fg-text > p:nth-last-child(2) a {
+        border: 1px solid var(--color-dell-blue, #0672cb);
+        background: var(--color-white);
+        color: var(--color-dell-blue, #0063b8);
+
+        &:hover {
+          background: var(--color-dell-blue, #0672cb);
+          color: var(--color-white);
+        }
+      }
     }
   }
 
@@ -218,6 +296,21 @@
         }
       }
     }
+
+    /* Split layout at tablet */
+    &.has-video {
+      .hero-foreground {
+        display: flex;
+        max-width: unset;
+        margin: unset;
+        background: var(--color-dell-navy, #002a58);
+        padding: 40px 32px;
+
+        .hero-heading {
+          font-size: 48px;
+        }
+      }
+    }
   }
 }
 
@@ -232,6 +325,40 @@
     .hero-foreground {
       grid-template-columns: 40% 40%;
     }
+
+    /* Side-by-side layout at desktop */
+    &.has-video {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .hero-background {
+        order: 2;
+        min-height: 600px;
+        position: relative;
+        overflow: hidden;
+
+        > div {
+          position: absolute;
+          inset: 0;
+        }
+      }
+
+      .hero-foreground {
+        order: 1;
+        min-height: 600px;
+        padding: 80px 60px;
+        grid-template-columns: unset;
+
+        .hero-heading {
+          font-size: 64px;
+          line-height: 1.15;
+        }
+
+        p {
+          font-size: 22px;
+        }
+      }
+    }
   }
 }
 
@@ -241,6 +368,21 @@
 
     .hero-foreground {
       grid-template-columns: 33% 33%;
+    }
+
+    &.has-video {
+      .hero-foreground {
+        padding: 80px 80px;
+
+        .hero-heading {
+          font-size: 72px;
+          line-height: 88px;
+        }
+
+        p {
+          font-size: 24px;
+        }
+      }
     }
   }
 }
