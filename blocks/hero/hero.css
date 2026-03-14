@@ -7,6 +7,7 @@
   position: relative;
   color: var(--color-white);
   overflow: hidden;
+  margin: -60px -20px;
 
   &.small {
     --min-height: 200px;
@@ -322,6 +323,8 @@
 
 @media (width >= 900px) {
   .hero {
+    margin-inline: -40px;
+
     .hero-foreground {
       grid-template-columns: 40% 40%;
     }
@@ -366,13 +369,15 @@
   .hero {
     --default-min-height: 560px;
 
+    margin-inline: -80px;
+
     .hero-foreground {
       grid-template-columns: 33% 33%;
     }
 
     &.has-video {
       .hero-foreground {
-        padding: 80px 80px;
+        padding: 80px;
 
         .hero-heading {
           font-size: 72px;
