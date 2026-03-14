@@ -12,12 +12,13 @@
 }
 
 .tabs .tabs-list button {
-  flex: 0 0 max-content;
+  flex: 0 0 auto;
+  width: 155px;
   margin: 0;
   border: none;
   border-bottom: 3px solid transparent;
   border-radius: 0;
-  padding: var(--spacing-s) var(--spacing-m);
+  padding: 16px 0 28px;
   background-color: transparent;
   color: var(--color-dell-blue);
   font-size: var(--body-font-size-m);
@@ -25,7 +26,8 @@
   line-height: 1.5;
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
 }
 
 .tabs .tabs-list button p {
@@ -43,7 +45,7 @@
 }
 
 .tabs .tabs-panel {
-  padding: var(--spacing-l) 0;
+  padding: 0 0 var(--spacing-l);
 }
 
 .tabs .tabs-panel[aria-hidden='true'] {
@@ -53,20 +55,211 @@
 .tabs .tabs-panel img {
   max-width: 100%;
   height: auto;
+}
+
+/* Use-case icon (1x1.gif placeholder) */
+.tabs .tabs-icon {
+  margin: 0;
+}
+
+.tabs .tabs-icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 4px;
+  padding: 4px;
+  background: rgb(255 255 255 / 5%);
+}
+
+/* Header: icon+title on left, description+CTA on right */
+.tabs .tabs-panel-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+  padding: var(--spacing-l) 0;
+}
+
+.tabs .tabs-panel-header-left {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--spacing-m);
+  min-width: 200px;
+}
+
+.tabs .tabs-panel-header-left h3 {
+  font-size: var(--heading-font-size-m);
+  font-weight: 400;
+  margin: 0;
+}
+
+.tabs .tabs-panel-header-right p {
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-m);
+}
+
+/* CTA link as outline button with arrow */
+.tabs .tabs-panel-header-right p:has(> a:only-child) {
+  margin-top: var(--spacing-s);
+}
+
+.tabs .tabs-panel-header-right p > a:only-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: var(--button-padding);
+  border: 1px solid currentcolor;
   border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-weight: var(--button-font-weight);
+  font-size: var(--body-font-size-m);
+  transition: var(--button-transition);
+}
+
+.tabs .tabs-panel-header-right p > a:only-child::after {
+  content: '\2192';
+  font-size: 1.1em;
+}
+
+.tabs .tabs-panel-header-right p > a:only-child:hover {
+  background-color: var(--color-dell-blue);
+  border-color: var(--color-dell-blue);
+  color: var(--color-white);
+}
+
+/* Full-width video thumbnail with play button */
+.tabs .tabs-panel-video {
+  margin: var(--spacing-l) 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.tabs .tabs-panel-video img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+
+.tabs .tabs-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.tabs .tabs-video-play svg {
+  width: 80px;
+  height: 80px;
+  display: block;
+}
+
+.tabs .tabs-video-play:hover {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* 16:9 aspect ratio for video iframe */
+.tabs .tabs-panel-video-playing {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.tabs .tabs-video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Customer story section */
+.tabs .tabs-panel-story {
+  padding: var(--spacing-l) 0 0;
+}
+
+.tabs .tabs-panel-story img {
+  max-height: 60px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  margin-bottom: var(--spacing-m);
+}
+
+.tabs .tabs-panel-story h4 {
+  font-size: var(--heading-font-size-s);
+  font-weight: 400;
+  margin: 0 0 var(--spacing-s);
+}
+
+.tabs .tabs-panel-story p {
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-m);
+}
+
+/* Story link with arrow */
+.tabs .tabs-panel-story p > a:only-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: var(--button-font-weight);
+}
+
+.tabs .tabs-panel-story p > a:only-child::after {
+  content: '\2192';
+  font-size: 1.1em;
+  transition: transform 0.2s;
+}
+
+.tabs .tabs-panel-story p > a:only-child:hover::after {
+  transform: translateX(4px);
+}
+
+/* Full-width background breakout for dark sections */
+.section.dark .tabs .tabs-list,
+.section.dark .tabs .tabs-panel-header {
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: calc(50vw - 50%);
+  padding-right: calc(50vw - 50%);
 }
 
 /* Dark section tab styles */
 .section.dark .tabs .tabs-list {
+  background-color: var(--color-dell-dark-bg);
   border-bottom-color: rgb(255 255 255 / 20%);
 }
 
 .section.dark .tabs .tabs-list button {
-  color: var(--color-dell-light-blue);
+  color: var(--color-white);
+}
+
+.section.dark .tabs .tabs-panel-header {
+  background-color: #141d28;
+  border-radius: 4px;
 }
 
 .section.dark .tabs .tabs-list button:hover {
-  color: var(--color-white);
+  color: var(--color-dell-light-blue);
 }
 
 .section.dark .tabs .tabs-list button[aria-selected='true'] {
@@ -74,8 +267,42 @@
   color: var(--color-dell-light-blue);
 }
 
+.section.dark .tabs .tabs-panel-header-left h3,
+.section.dark .tabs .tabs-panel-story h4 {
+  color: var(--color-white);
+}
+
+.section.dark .tabs .tabs-panel-header-right p,
+.section.dark .tabs .tabs-panel-story p {
+  color: var(--color-white);
+}
+
+.section.dark .tabs .tabs-panel-header-right a,
+.section.dark .tabs .tabs-panel-story a {
+  color: var(--color-dell-light-blue);
+}
+
+.section.dark .tabs .tabs-panel-header-right p > a:only-child {
+  border-color: var(--color-dell-light-blue);
+  color: var(--color-dell-light-blue);
+}
+
+.section.dark .tabs .tabs-panel-header-right p > a:only-child:hover {
+  background-color: var(--color-dell-light-blue);
+  border-color: var(--color-dell-light-blue);
+  color: var(--color-dell-dark-teal);
+}
+
+/* Responsive: stack on mobile */
+@media (width < 900px) {
+  .tabs .tabs-panel-header {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-m);
+  }
+}
+
 @media (width >= 600px) {
   .tabs .tabs-list button {
-    padding: var(--spacing-s) var(--spacing-l);
+    padding: 16px 8px 28px;
   }
 }
