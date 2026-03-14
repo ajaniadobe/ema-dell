@@ -23,6 +23,11 @@ function updateActiveSlide(slide) {
       indicator.querySelector('button').setAttribute('disabled', 'true');
     }
   });
+
+  const counter = block.querySelector('.carousel-slide-counter');
+  if (counter) {
+    counter.textContent = `${slideIndex + 1} of ${slides.length}`;
+  }
 }
 
 export function showSlide(block, slideIndex = 0) {
@@ -61,7 +66,7 @@ function bindEvents(block) {
     entries.forEach((entry) => {
       if (entry.isIntersecting) updateActiveSlide(entry.target);
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.5, root: block.querySelector('.carousel-slides') });
   block.querySelectorAll('.carousel-slide').forEach((slide) => {
     slideObserver.observe(slide);
   });
@@ -119,7 +124,11 @@ export default async function decorate(block) {
       <button type="button" class="slide-next" aria-label="Next Slide"></button>
     `;
 
+    const slideCounter = document.createElement('div');
+    slideCounter.classList.add('carousel-slide-counter');
+    slideCounter.textContent = `1 of ${rows.length}`;
     container.append(slideNavButtons);
+    container.append(slideCounter);
   }
 
   rows.forEach((row, idx) => {
