@@ -630,18 +630,31 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Infrastructure for AI — carousel card layout (image on top, text below) */
+.section:has(.block-content .carousel) .carousel .carousel-slides-container {
+  padding-bottom: 48px;
+  position: relative;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slides {
+  gap: 20px;
+  padding-left: 0;
+}
+
 .section:has(.block-content .carousel) .carousel .carousel-slide {
+  flex: 0 0 82%;
   flex-direction: column;
   align-items: stretch;
   min-height: auto;
+  padding: 0;
 }
 
 .section:has(.block-content .carousel) .carousel .carousel-slide-image {
   position: relative;
-  min-height: 300px;
+  min-height: 324px;
+  background-color: var(--color-dell-light-gray);
   background-size: cover;
   background-position: center;
-  border-radius: 4px 4px 0 0;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -652,31 +665,87 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 .section:has(.block-content .carousel) .carousel .carousel-slide-content {
-  background-color: var(--color-white);
-  color: var(--color-dark);
-  padding: 32px 40px;
-  border-radius: 0 0 4px 4px;
+  background-color: var(--color-dell-light-gray);
+  color: #0e0e0e;
+  padding: 40px;
+  border-radius: 0;
   width: auto;
   margin: 0;
 }
 
 .section:has(.block-content .carousel) .carousel .carousel-slide-content h2 {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 300;
-  line-height: 36px;
-  margin: 0 0 16px;
-  color: var(--color-dark);
+  line-height: 40px;
+  margin: 0 0 8px;
+  padding-bottom: 4px;
+  color: #0e0e0e;
 }
 
 .section:has(.block-content .carousel) .carousel .carousel-slide-content p {
   font-size: 16px;
   line-height: 24px;
-  margin: 0 0 12px;
-  color: var(--color-dell-medium-gray);
+  margin: 0 0 8px;
+  color: #0e0e0e;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-content p:last-child {
+  margin-top: 24px;
 }
 
 .section:has(.block-content .carousel) .carousel .carousel-slide-content a {
-  color: var(--color-dell-blue);
+  color: #0672cb;
+  text-decoration: none;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-content a::after {
+  content: ' →';
+}
+
+/* Infrastructure carousel — navigation buttons (bottom-right, square) */
+.section:has(.block-content .carousel) .carousel .carousel-navigation-buttons {
+  position: absolute;
+  inset: auto 0 0 auto;
+  transform: none;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-navigation-buttons button {
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  border: none;
+  background-color: var(--color-white);
+  color: #0e0e0e;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-navigation-buttons button:hover,
+.section:has(.block-content .carousel) .carousel .carousel-navigation-buttons button:focus-visible {
+  background-color: var(--color-dell-light-gray);
+  color: #0e0e0e;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-navigation-buttons button::after {
+  border-color: #0e0e0e;
+}
+
+/* Infrastructure carousel — hide dot indicators, use slide counter */
+.section:has(.block-content .carousel) .carousel nav[aria-label="Carousel Slide Controls"] {
+  display: none;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-counter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 14px;
+  line-height: 40px;
+  color: #0e0e0e;
+  background-color: var(--color-dell-light-gray);
+  padding: 0 16px;
+  border-radius: 20px;
 }
 
 /* Infrastructure carousel slide images */
