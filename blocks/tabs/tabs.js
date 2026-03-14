@@ -38,6 +38,13 @@ function cleanTabPanel(container) {
     keep.add(iconP);
   }
 
+  // Detect Brightcove video links before cleanup
+  // They appear as separate <p><a href="brightcove...">...</a></p> paragraphs
+  let brightcoveUrl = null;
+  container.querySelectorAll('a[href*="players.brightcove.net"]').forEach((a) => {
+    if (!brightcoveUrl) brightcoveUrl = a.getAttribute('href');
+  });
+
   const seenImgSrcs = new Set();
   container.querySelectorAll('p').forEach((p) => {
     if (keep.has(p)) return;
@@ -59,6 +66,10 @@ function cleanTabPanel(container) {
 
     if (isEmptyLink) {
       // skip empty links without images
+    } else if (
+      hasLink && linkHref && linkHref.includes('players.brightcove.net')
+    ) {
+      // skip Brightcove link paragraphs (URL already captured)
     } else if (
       isSrcImg && hasLink
       && (!linkHref || linkHref === '')
@@ -110,11 +121,12 @@ function cleanTabPanel(container) {
 
   // Video thumbnail is the last image-only paragraph
   // (appears after the story link, not the customer logo)
+  // Images may be wrapped in <a> tags with Brightcove video URLs
   let videoP = null;
   for (let i = storyEls.length - 1; i >= 0; i -= 1) {
     const el = storyEls[i];
     if (el.tagName === 'P' && el.textContent.trim() === '') {
-      const img = el.querySelector(':scope > img');
+      const img = el.querySelector(':scope > img, :scope > a > img');
       if (img && !img.src.includes('1x1.gif') && !img.src.includes('icon-set-96x96')) {
         videoP = el;
         storyEls.splice(i, 1);
@@ -155,6 +167,26 @@ function cleanTabPanel(container) {
   container.append(header);
   if (videoP) {
     videoP.className = 'tabs-panel-video';
+    // Add click-to-play if a Brightcove video URL was found
+    if (brightcoveUrl) {
+      videoP.dataset.videoSrc = brightcoveUrl;
+      // Add play button overlay
+      const playBtn = document.createElement('button');
+      playBtn.className = 'tabs-video-play';
+      playBtn.setAttribute('aria-label', 'Play video');
+      playBtn.innerHTML = '<svg viewBox="0 0 80 80" width="80" height="80"><circle cx="40" cy="40" r="40" fill="rgba(0,0,0,0.6)"/><polygon points="32,24 32,56 58,40" fill="#fff"/></svg>';
+      videoP.append(playBtn);
+      // Click to play
+      videoP.addEventListener('click', () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `${brightcoveUrl}&autoplay=true`;
+        iframe.allow = 'autoplay; encrypted-media; fullscreen';
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.className = 'tabs-video-iframe';
+        videoP.replaceChildren(iframe);
+        videoP.classList.add('tabs-panel-video-playing');
+      });
+    }
     container.append(videoP);
   }
   container.append(story);
