@@ -198,14 +198,21 @@ a {
   }
 }
 
-/* Sections */
-.section {
+/* Sections — override section-metadata.css default of --top-bottom-spacing: 0 */
+main > .section {
+  --top-bottom-spacing: 60px;
+
   display: block;
   padding: var(--section-padding);
 
   > .default-content {
     max-width: var(--grid-container-width);
     margin: 0 auto;
+  }
+
+  > .block-content {
+    max-width: var(--grid-container-width);
+    margin-inline: auto;
   }
 }
 
@@ -553,6 +560,268 @@ main > .section.accent {
         opacity: 1;
       }
     }
+  }
+}
+
+/* Hide Dell 1x1.gif tracking pixels / spacer images */
+img[src*="1x1.gif"] {
+  display: none;
+}
+
+/* Also hide paragraphs that only contain a hidden 1x1.gif */
+p:has(> img[src*="1x1.gif"]:only-child) {
+  display: none;
+}
+
+/* Section icon images — constrain to proper icon size */
+.default-content > p:first-child:has(> img:only-child) > img {
+  max-width: 64px;
+  max-height: 64px;
+  width: auto;
+  height: auto;
+}
+
+/* Infrastructure for AI — hide raw carousel data in default-content
+   (the carousel block in .block-content handles display) */
+.section:has(.block-content .carousel) > .default-content > ul,
+.section:has(.block-content .carousel) > .default-content > ul ~ * {
+  display: none;
+}
+
+/* Infrastructure / AI Partner Ecosystem — section intro styling
+   These sections use h4 for heading + h3/h5 for description */
+.section:has(.block-content .carousel) > .default-content > h4,
+.section:has(.block-content .tabs) > .default-content > h4 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 40px;
+  margin: 0 0 16px;
+}
+
+/* Infrastructure for AI — heading icon */
+.section:has(.block-content .carousel) > .default-content > h4::before {
+  content: '';
+  display: block;
+  width: 64px;
+  min-width: 64px;
+  height: 64px;
+  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/infrastructure.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+}
+
+/* AI Partner Ecosystem — heading icon */
+.section:not(.dark, .light, .accent):has(.block-content .tabs) > .default-content > h4::before {
+  content: '';
+  display: block;
+  width: 64px;
+  min-width: 64px;
+  height: 64px;
+  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partners.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+}
+
+.section:has(.block-content .carousel) > .default-content > h3,
+.section:has(.block-content .tabs) > .default-content > h5 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0 0 32px;
+}
+
+/* Infrastructure for AI — carousel card layout (image on top, text below) */
+.section:has(.block-content .carousel) .carousel .carousel-slide {
+  flex-direction: column;
+  align-items: stretch;
+  min-height: auto;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-image {
+  position: relative;
+  min-height: 300px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-image picture,
+.section:has(.block-content .carousel) .carousel .carousel-slide-image img {
+  position: relative;
+  display: none;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-content {
+  background-color: var(--color-white);
+  color: var(--color-dark);
+  padding: 32px 40px;
+  border-radius: 0 0 4px 4px;
+  width: auto;
+  margin: 0;
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-content h2 {
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 36px;
+  margin: 0 0 16px;
+  color: var(--color-dark);
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-content p {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 0 12px;
+  color: var(--color-dell-medium-gray);
+}
+
+.section:has(.block-content .carousel) .carousel .carousel-slide-content a {
+  color: var(--color-dell-blue);
+}
+
+/* Infrastructure carousel slide images */
+.section:has(.block-content .carousel) .carousel-slide:nth-child(1) .carousel-slide-image {
+  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-02-0135-la9450t-poweredge-xe9680.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+}
+
+.section:has(.block-content .carousel) .carousel-slide:nth-child(2) .carousel-slide-image {
+  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-monitor-0086-u4025qw-pr5690nt-km900.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+}
+
+.section:has(.block-content .carousel) .carousel-slide:nth-child(3) .carousel-slide-image {
+  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0205-la9450t-powerscale.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+}
+
+.section:has(.block-content .carousel) .carousel-slide:nth-child(4) .carousel-slide-image {
+  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0074-la9450t.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+}
+
+.section:has(.block-content .carousel) .carousel-slide:nth-child(5) .carousel-slide-image {
+  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
+}
+
+/* Data for AI — section heading with icon */
+.section:not(.light, .dark, .accent):has(.cards) > .default-content > h2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 48px;
+}
+
+.section:not(.light, .dark, .accent):has(.cards) > .default-content > h2::before {
+  content: '';
+  display: block;
+  width: 64px;
+  min-width: 64px;
+  height: 64px;
+  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/datastore-96.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+}
+
+/* Data for AI cards — gray product tile cards */
+.section:not(.light, .dark, .accent) .cards > ul {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.section:not(.light, .dark, .accent) .cards > ul > li {
+  background-color: var(--color-dell-light-gray);
+  padding: 40px;
+  border-radius: 4px;
+}
+
+.section:not(.light, .dark, .accent) .cards > ul > li:hover {
+  box-shadow: none;
+}
+
+.section:not(.light, .dark, .accent) .cards .cards-card-body {
+  padding: 0;
+}
+
+/* Card title — 24px weight 400 */
+.section:not(.light, .dark, .accent) .cards .cards-card-body strong {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* Card description text */
+.section:not(.light, .dark, .accent) .cards .cards-card-body:nth-child(2) {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 12px;
+}
+
+/* Professional Services step cards — 5-column icon+heading+desc layout */
+.section.light .cards > ul {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto auto;
+  grid-auto-flow: column;
+  gap: 0 24px;
+}
+
+/* Hide empty separator cards (all card-body divs empty, no images) */
+.section.light .cards > ul > li:not(:has(img), :has(.cards-card-body:not(:empty))) {
+  display: none;
+}
+
+/* Remove card backgrounds and hover for step cards */
+.section.light .cards > ul > li {
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.section.light .cards > ul > li:hover {
+  box-shadow: none;
+}
+
+/* Step icon images — small icons, not full-width */
+.section.light .cards > ul > li img {
+  width: 64px;
+  height: 64px;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+/* Step heading cards */
+.section.light .cards > ul > li:has(h3) .cards-card-body h3 {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  margin: 0;
+}
+
+/* Step description cards */
+.section.light .cards > ul > li:not(:has(img), :has(h3)) .cards-card-body {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-dell-medium-gray);
+  padding: 0;
+}
+
+/* Duplicate AI Resources tab entries — hide the second set */
+.tabs-panel > div > h3:nth-of-type(n+4),
+.tabs-panel > div > h3:nth-of-type(n+4) + p,
+.tabs-panel > div > h3:nth-of-type(n+4) + p + p {
+  display: none;
+}
+
+@media (width < 600px) {
+  .section:not(.light, .dark, .accent) .cards > ul {
+    grid-template-columns: 1fr;
+  }
+
+  .section.light .cards > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 600px) and (width < 900px) {
+  .section.light .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
