@@ -370,6 +370,100 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   }
 }
 
+/* AI Factory section — default-content with h2 + h3 pattern */
+.section > .default-content:has(> h2:first-child + h3) {
+  padding: 60px 20px;
+
+  > h2:first-child {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 48px;
+    margin-bottom: 8px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      min-width: 40px;
+      height: 10px;
+      background-color: var(--color-dell-blue);
+    }
+  }
+
+  > h3 {
+    font-size: 64px;
+    font-weight: 300;
+    line-height: 76px;
+    letter-spacing: -0.32px;
+    margin-top: 60px;
+    margin-bottom: 8px;
+  }
+
+  /* Body text paragraph */
+  > p:has(a[href*="principled"], a[href*="economic"], a[href*="securing"]) {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-top: 20px;
+  }
+
+  /* Footnote paragraphs — hidden (shown as popovers on original) */
+  > p:not(:has(a), :last-child) {
+    display: none;
+  }
+
+  /* Empty link paragraph — hide */
+  > p:has(> a[href=""]:only-child) {
+    display: none;
+  }
+
+  /* CTA buttons paragraph — stack vertically, centered */
+  > p:last-child:has(a[href*="nvidia"]) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+
+    > a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-dell-blue);
+      background-color: transparent;
+      border: 1px solid rgb(0 99 184);
+      border-radius: 2px;
+      padding: 4px 12px;
+      height: 34px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: var(--button-transition);
+
+      &:hover {
+        background-color: var(--color-dell-blue);
+        color: var(--color-white);
+      }
+    }
+  }
+}
+
+@media (width >= 900px) {
+  .section > .default-content:has(> h2:first-child + h3) {
+    padding: 60px 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  .section > .default-content:has(> h2:first-child + h3) {
+    padding: 60px 80px;
+  }
+}
+
 /* Light section variant (light gray background) */
 main > .section.light {
   background-color: var(--color-dell-light-gray);
