@@ -13,11 +13,12 @@ function decorateBackground(el, bg) {
   const img = bgPic.querySelector('img');
   setBackgroundFocus(img);
 
-  const vidLink = bgPic.closest('a[href*=".mp4"]');
+  const vidLink = bgPic.closest('a[href*=".mp4"], a[href*="-mp4"]');
   if (!vidLink) return;
   el.classList.add('has-video');
   const video = document.createElement('video');
-  video.src = vidLink.href;
+  // DA may mangle .mp4 to -mp4; restore the correct extension for playback
+  video.src = vidLink.href.replace(/-mp4$/, '.mp4');
   video.loop = true;
   video.muted = true;
   video.inert = true;
