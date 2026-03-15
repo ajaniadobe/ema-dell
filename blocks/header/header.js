@@ -179,6 +179,47 @@ async function decorateHeader(fragment) {
   }
 }
 
+function buildBreadcrumbs() {
+  const title = getMetadata('og:title') || document.title;
+  const nav = document.createElement('nav');
+  nav.className = 'breadcrumbs';
+  nav.setAttribute('aria-label', 'Breadcrumb');
+  const ol = document.createElement('ol');
+  const items = [
+    { label: '', href: '/', isHome: true },
+    { label: 'USA', href: 'https://www.dell.com/en-us' },
+    { label: title },
+  ];
+  items.forEach((item, i) => {
+    const li = document.createElement('li');
+    if (i < items.length - 1) {
+      const a = document.createElement('a');
+      a.href = item.href;
+      if (item.isHome) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 20 20');
+        svg.setAttribute('width', '16');
+        svg.setAttribute('height', '16');
+        svg.setAttribute('aria-label', 'Home');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M10 2.5L2 9h2.5v6.5h4V12h3v3.5h4V9H18L10 2.5z');
+        path.setAttribute('fill', 'currentColor');
+        svg.append(path);
+        a.append(svg);
+      } else {
+        a.textContent = item.label;
+      }
+      li.append(a);
+    } else {
+      li.setAttribute('aria-current', 'page');
+      li.textContent = item.label;
+    }
+    ol.append(li);
+  });
+  nav.append(ol);
+  return nav;
+}
+
 /**
  * loads and decorates the header
  * @param {Element} el The header element
@@ -191,6 +232,8 @@ export default async function init(el) {
     fragment.classList.add('header-content');
     await decorateHeader(fragment);
     el.append(fragment);
+    const breadcrumbs = buildBreadcrumbs();
+    el.append(breadcrumbs);
   } catch (e) {
     throw Error(e);
   }
