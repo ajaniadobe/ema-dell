@@ -234,7 +234,6 @@ export default async function init(el) {
     el.append(fragment);
     const breadcrumbs = buildBreadcrumbs();
     el.append(breadcrumbs);
-    document.body.classList.add('has-breadcrumbs');
   } catch (e) {
     throw Error(e);
   }
