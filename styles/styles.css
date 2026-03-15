@@ -91,8 +91,8 @@ body {
   padding: var(--header-height) 0 0;
   -webkit-font-smoothing: antialiased;
 
-  &.has-breadcrumb {
-    margin: calc(var(--header-height) + var(--breadcrumb-height)) 0 0;
+  &.has-breadcrumbs {
+    padding-top: calc(var(--header-height) + var(--breadcrumb-height) + 9px);
   }
 
   &.no-header {
