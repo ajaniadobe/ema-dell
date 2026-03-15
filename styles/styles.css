@@ -860,11 +860,10 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   padding: 0;
 }
 
-/* Duplicate AI Resources tab entries — hide the second set */
-.tabs-panel > div > h3:nth-of-type(n+4),
-.tabs-panel > div > h3:nth-of-type(n+4) + p,
-.tabs-panel > div > h3:nth-of-type(n+4) + p + p {
-  display: none;
+/* Professional Services CTA — centered button */
+.section.light > .default-content:has(.btn) {
+  text-align: center;
+  margin-top: var(--spacing-xl);
 }
 
 @media (width < 600px) {
