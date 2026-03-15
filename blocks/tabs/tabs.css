@@ -293,11 +293,159 @@
   color: var(--color-dell-dark-teal);
 }
 
+/* ===== AI Partner Ecosystem tabs ===== */
+
+/* Hide duplicate tab label text (e.g., "Ecosystem" duplicating the tab button) */
+.tabs-partner .tabs-partner-label {
+  display: none;
+}
+
+/* Partner tab heading (h5) */
+.tabs-partner .tabs-panel h5 {
+  font-size: var(--heading-font-size-l);
+  font-weight: 400;
+  margin: var(--spacing-l) 0 var(--spacing-s);
+  line-height: 1.3;
+}
+
+/* Partner tab description */
+.tabs-partner .tabs-panel > div:last-child > p:not(.tabs-partner-label, .tabs-partner-logo, .tabs-partner-footer-cta) {
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-l);
+}
+
+/* --- Ecosystem logo grid (2 columns) --- */
+.tabs-partner .tabs-partner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: var(--spacing-m);
+}
+
+.tabs-partner .tabs-partner-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 0;
+  min-height: 100px;
+}
+
+.tabs-partner .tabs-partner-logo img {
+  max-width: 180px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* --- Partner cards grid (AI Accelerator, Data, Models, Deploy) --- */
+.tabs-partner .tabs-partner-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: var(--spacing-m);
+}
+
+.tabs-partner .tabs-partner-card {
+  background-color: #f4f4f4;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabs-partner .tabs-partner-card-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  min-height: 120px;
+}
+
+.tabs-partner .tabs-partner-card-logo img {
+  max-width: 200px;
+  max-height: 70px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.tabs-partner .tabs-partner-card-content {
+  padding: 0 24px 24px;
+}
+
+.tabs-partner .tabs-partner-card-content p {
+  font-size: var(--body-font-size-s);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-s);
+  color: #333;
+}
+
+/* CTA links inside partner cards */
+.tabs-partner .tabs-partner-card-content p:has(> a:only-child) {
+  margin-top: var(--spacing-s);
+}
+
+.tabs-partner .tabs-partner-card-content p > a:only-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-weight: var(--button-font-weight);
+  font-size: var(--body-font-size-s);
+  color: var(--color-dell-blue);
+}
+
+.tabs-partner .tabs-partner-card-content p > a:only-child::after {
+  content: '\2192';
+  font-size: 1.1em;
+  transition: transform 0.2s;
+}
+
+.tabs-partner .tabs-partner-card-content p > a:only-child:hover {
+  color: var(--color-dell-blue-hover);
+}
+
+.tabs-partner .tabs-partner-card-content p > a:only-child:hover::after {
+  transform: translateX(4px);
+}
+
+/* Footer CTA (e.g., "Explore more accelerators") — filled blue button, centered */
+.tabs-partner .tabs-partner-footer-cta {
+  margin-top: var(--spacing-xl);
+  text-align: center;
+}
+
+.tabs-partner .tabs-partner-footer-cta a {
+  display: inline-block;
+  padding: 14px 32px;
+  background-color: var(--color-dell-blue);
+  color: var(--color-white);
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-weight: var(--button-font-weight);
+  font-size: var(--body-font-size-m);
+  transition: background-color 0.2s;
+}
+
+.tabs-partner .tabs-partner-footer-cta a:hover {
+  background-color: var(--color-dell-blue-hover);
+}
+
 /* Responsive: stack on mobile */
 @media (width < 900px) {
   .tabs .tabs-panel-header {
     grid-template-columns: 1fr;
     gap: var(--spacing-m);
+  }
+
+  .tabs-partner .tabs-partner-grid,
+  .tabs-partner .tabs-partner-cards {
+    grid-template-columns: 1fr;
   }
 }
 
