@@ -812,48 +812,42 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   margin-bottom: 12px;
 }
 
-/* Professional Services step cards — 5-column icon+heading+desc layout */
+/* Professional Services step cards — 2-column layout matching original */
 .section:has(#professional-services-for-ai) .cards > ul {
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: auto auto auto;
-  grid-auto-flow: column;
-  gap: 0 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px 64px;
 }
 
-/* Hide empty separator cards (all card-body divs empty, no images) */
-.section:has(#professional-services-for-ai) .cards > ul > li:not(:has(img), :has(.cards-card-body:not(:empty))) {
-  display: none;
-}
-
-/* Remove card backgrounds and hover for step cards */
-.section:has(#professional-services-for-ai) .cards > ul > li {
+/* Step card wrappers — grouped icon + heading + description */
+.section:has(#professional-services-for-ai) .cards .cards-step {
   background: transparent;
   border-radius: 0;
   overflow: visible;
+  list-style: none;
 }
 
-.section:has(#professional-services-for-ai) .cards > ul > li:hover {
+.section:has(#professional-services-for-ai) .cards .cards-step:hover {
   box-shadow: none;
 }
 
-/* Step icon images — small icons, not full-width */
-.section:has(#professional-services-for-ai) .cards > ul > li img {
+/* Step icon images — small icons */
+.section:has(#professional-services-for-ai) .cards .cards-step img {
   width: 64px;
   height: 64px;
   aspect-ratio: 1;
   object-fit: contain;
 }
 
-/* Step heading cards */
-.section:has(#professional-services-for-ai) .cards > ul > li:has(h3) .cards-card-body h3 {
+/* Step headings */
+.section:has(#professional-services-for-ai) .cards .cards-step h3 {
   font-size: 20px;
   font-weight: 400;
   line-height: 28px;
-  margin: 0;
+  margin: 8px 0;
 }
 
-/* Step description cards */
-.section:has(#professional-services-for-ai) .cards > ul > li:not(:has(img), :has(h3)) .cards-card-body {
+/* Step descriptions */
+.section:has(#professional-services-for-ai) .cards .cards-step .cards-card-body:last-child {
   font-size: 14px;
   line-height: 20px;
   color: var(--color-dell-medium-gray);
@@ -1009,19 +1003,24 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   cursor: default;
 }
 
+/* ===== FAQs section ===== */
+.section:has(#faqs) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section:has(#faqs) > .default-content > h2 {
+  font-size: var(--heading-font-size-l);
+  font-weight: 300;
+}
+
 @media (width < 600px) {
   .section:not(.light, .dark, .accent) .cards > ul {
     grid-template-columns: 1fr;
   }
 
   .section:has(#professional-services-for-ai) .cards > ul {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (width >= 600px) and (width < 900px) {
-  .section:has(#professional-services-for-ai) .cards > ul {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
