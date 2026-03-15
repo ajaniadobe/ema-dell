@@ -36,6 +36,12 @@ const decorateArea = ({ area = document }) => {
 export async function loadPage() {
   setConfig({ hostnames, locales, linkBlocks, components, decorateArea });
   await loadArea();
+
+  // Add missing anchor target for hero "Explore AI Portfolio" CTA
+  const factoryHeading = document.querySelector('#dell-ai-factory');
+  if (factoryHeading && !document.querySelector('#ai-factory-dell')) {
+    factoryHeading.id = 'ai-factory-dell';
+  }
 }
 await loadPage();
 
