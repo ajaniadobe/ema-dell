@@ -813,7 +813,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Professional Services step cards — 5-column icon+heading+desc layout */
-.section.light .cards > ul {
+.section:has(#professional-services-for-ai) .cards > ul {
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto auto auto;
   grid-auto-flow: column;
@@ -821,23 +821,23 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Hide empty separator cards (all card-body divs empty, no images) */
-.section.light .cards > ul > li:not(:has(img), :has(.cards-card-body:not(:empty))) {
+.section:has(#professional-services-for-ai) .cards > ul > li:not(:has(img), :has(.cards-card-body:not(:empty))) {
   display: none;
 }
 
 /* Remove card backgrounds and hover for step cards */
-.section.light .cards > ul > li {
+.section:has(#professional-services-for-ai) .cards > ul > li {
   background: transparent;
   border-radius: 0;
   overflow: visible;
 }
 
-.section.light .cards > ul > li:hover {
+.section:has(#professional-services-for-ai) .cards > ul > li:hover {
   box-shadow: none;
 }
 
 /* Step icon images — small icons, not full-width */
-.section.light .cards > ul > li img {
+.section:has(#professional-services-for-ai) .cards > ul > li img {
   width: 64px;
   height: 64px;
   aspect-ratio: 1;
@@ -845,7 +845,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Step heading cards */
-.section.light .cards > ul > li:has(h3) .cards-card-body h3 {
+.section:has(#professional-services-for-ai) .cards > ul > li:has(h3) .cards-card-body h3 {
   font-size: 20px;
   font-weight: 400;
   line-height: 28px;
@@ -853,7 +853,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Step description cards */
-.section.light .cards > ul > li:not(:has(img), :has(h3)) .cards-card-body {
+.section:has(#professional-services-for-ai) .cards > ul > li:not(:has(img), :has(h3)) .cards-card-body {
   font-size: 14px;
   line-height: 20px;
   color: var(--color-dell-medium-gray);
@@ -861,7 +861,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Professional Services CTA — centered button */
-.section.light > .default-content:has(.btn) {
+.section:has(#professional-services-for-ai) > .default-content:has(.btn) {
   text-align: center;
   margin-top: var(--spacing-xl);
 }
@@ -871,13 +871,13 @@ p:has(> img[src*="1x1.gif"]:only-child) {
     grid-template-columns: 1fr;
   }
 
-  .section.light .cards > ul {
+  .section:has(#professional-services-for-ai) .cards > ul {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (width >= 600px) and (width < 900px) {
-  .section.light .cards > ul {
+  .section:has(#professional-services-for-ai) .cards > ul {
     grid-template-columns: repeat(3, 1fr);
   }
 }
