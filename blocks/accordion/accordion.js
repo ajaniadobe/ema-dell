@@ -13,4 +13,26 @@ export default function decorate(block) {
     details.append(summary, body);
     row.replaceWith(details);
   });
+
+  // Add Expand All / Collapse All controls
+  const controls = document.createElement('div');
+  controls.className = 'accordion-controls';
+
+  const expandBtn = document.createElement('button');
+  expandBtn.textContent = 'Expand All';
+  expandBtn.addEventListener('click', () => {
+    block.querySelectorAll('details').forEach((d) => { d.open = true; });
+  });
+
+  const separator = document.createElement('span');
+  separator.textContent = ' / ';
+
+  const collapseBtn = document.createElement('button');
+  collapseBtn.textContent = 'Collapse All';
+  collapseBtn.addEventListener('click', () => {
+    block.querySelectorAll('details').forEach((d) => { d.open = false; });
+  });
+
+  controls.append(expandBtn, separator, collapseBtn);
+  block.prepend(controls);
 }

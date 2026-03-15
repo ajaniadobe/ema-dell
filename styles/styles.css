@@ -411,9 +411,26 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
     display: none;
   }
 
-  /* Empty link paragraph — hide */
-  > p:has(> a[href=""]:only-child) {
+  /* Empty link paragraph — hide (except video thumbnails with images) */
+  > p:has(> a[href=""]:only-child):not(:has(img)) {
     display: none;
+  }
+
+  /* AI Factory video thumbnail */
+  > p:has(> a[href=""]:only-child img) {
+    display: block;
+    margin: 40px auto;
+    max-width: 800px;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    a {
+      pointer-events: none;
+    }
   }
 
   /* CTA buttons paragraph — stack vertically, centered */
@@ -862,11 +879,18 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 
 /* ===== AI Resources section ===== */
 
+/* Override light to dark for AI Resources */
+main > .section.light:has(#ai-resources) {
+  background-color: var(--color-dell-near-black);
+  color: var(--color-white);
+}
+
 /* Blue accent bar before heading */
 .section.light:has(#ai-resources) > .default-content > h2 {
   display: flex;
   align-items: center;
   gap: 20px;
+  color: var(--color-white);
 }
 
 .section.light:has(#ai-resources) > .default-content > h2::before {
@@ -878,19 +902,19 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   flex-shrink: 0;
 }
 
-/* Tab label overrides — inactive tabs grey, not blue */
-.section.light .tabs .tabs-list button {
-  color: #636363;
+/* Tab label overrides for dark background */
+.section.light:has(#ai-resources) .tabs .tabs-list button {
+  color: #999;
   font-weight: 400;
 }
 
-.section.light .tabs .tabs-list button[aria-selected='true'] {
+.section.light:has(#ai-resources) .tabs .tabs-list button[aria-selected='true'] {
   color: var(--color-dell-blue);
   font-weight: 700;
 }
 
-.section.light .tabs .tabs-list button:hover {
-  color: #333;
+.section.light:has(#ai-resources) .tabs .tabs-list button:hover {
+  color: #ccc;
 }
 
 /* Resource cards carousel container */
@@ -911,10 +935,10 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 .tabs-resource-card {
   flex: 0 0 min(85%, 560px);
   scroll-snap-align: start;
-  border: 1px solid #ddd;
+  border: 1px solid #444;
   border-radius: 8px;
   padding: 24px;
-  background: #fff;
+  background: #1a1a1a;
 }
 
 .tabs-resource-card h3 {
@@ -922,12 +946,13 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   font-weight: 400;
   line-height: 1.3;
   margin: 0 0 16px;
+  color: var(--color-white);
 }
 
 .tabs-resource-card p {
   font-size: 16px;
   line-height: 1.6;
-  color: #636363;
+  color: #aaa;
   margin: 0 0 12px;
 }
 
@@ -968,9 +993,9 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 
 .tabs-resource-counter {
   font-size: 14px;
-  color: #636363;
+  color: #aaa;
   padding: 6px 16px;
-  border: 1px solid #ddd;
+  border: 1px solid #555;
   border-radius: 20px;
 }
 
@@ -982,11 +1007,11 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 .tabs-resource-arrows button {
   width: 40px;
   height: 40px;
-  border: 1px solid #ccc;
+  border: 1px solid #555;
   border-radius: 50%;
   background: transparent;
   font-size: 18px;
-  color: #333;
+  color: #ccc;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -995,7 +1020,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 .tabs-resource-arrows button:hover {
-  border-color: #333;
+  border-color: #ccc;
 }
 
 .tabs-resource-arrows button:disabled {
