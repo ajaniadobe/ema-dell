@@ -317,6 +317,125 @@ function structurePartnerCards(container, headerEls) {
   }
 }
 
+function decorateResourceCards(block) {
+  // Only apply to tabs in the AI Resources section
+  // Use heading ID rather than section class (which may not be set yet)
+  const section = block.closest('.section');
+  if (!section || !section.querySelector('#ai-resources')) return;
+
+  const panels = block.querySelectorAll('[role=tabpanel]');
+  let hasResourceContent = false;
+
+  panels.forEach((panel) => {
+    const content = panel.querySelector(':scope > div:last-child');
+    if (!content) return;
+
+    // Resource panels have h3 headings but NO h4 or h5
+    const h3s = content.querySelectorAll('h3');
+    if (h3s.length === 0 || content.querySelector('h4') || content.querySelector('h5')) return;
+
+    hasResourceContent = true;
+
+    // Group elements: each h3 starts a new card (h3 + following p elements)
+    const cards = [];
+    let currentCard = null;
+    [...content.children].forEach((el) => {
+      if (el.tagName === 'H3') {
+        if (currentCard) cards.push(currentCard);
+        currentCard = [el];
+      } else if (currentCard) {
+        currentCard.push(el);
+      }
+    });
+    if (currentCard) cards.push(currentCard);
+    if (cards.length === 0) return;
+
+    // Build carousel container
+    const carousel = document.createElement('div');
+    carousel.className = 'tabs-resource-carousel';
+
+    cards.forEach((cardEls) => {
+      const card = document.createElement('div');
+      card.className = 'tabs-resource-card';
+      cardEls.forEach((el) => card.append(el));
+      carousel.append(card);
+    });
+
+    // Build navigation
+    const nav = document.createElement('div');
+    nav.className = 'tabs-resource-nav';
+
+    const counter = document.createElement('span');
+    counter.className = 'tabs-resource-counter';
+    counter.textContent = `1 of ${cards.length}`;
+
+    const arrows = document.createElement('div');
+    arrows.className = 'tabs-resource-arrows';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.setAttribute('aria-label', 'Previous');
+    prevBtn.innerHTML = '&#8592;';
+    prevBtn.disabled = true;
+
+    const nextBtn = document.createElement('button');
+    nextBtn.setAttribute('aria-label', 'Next');
+    nextBtn.innerHTML = '&#8594;';
+    if (cards.length <= 1) nextBtn.disabled = true;
+
+    arrows.append(prevBtn, nextBtn);
+    nav.append(counter, arrows);
+
+    // Scroll handling to update counter and button states
+    let currentIndex = 0;
+    const updateNav = () => {
+      counter.textContent = `${currentIndex + 1} of ${cards.length}`;
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= cards.length - 1;
+    };
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        const cardEl = carousel.children[currentIndex];
+        carousel.scrollTo({ left: cardEl.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+        updateNav();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < cards.length - 1) {
+        currentIndex += 1;
+        const cardEl = carousel.children[currentIndex];
+        carousel.scrollTo({ left: cardEl.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+        updateNav();
+      }
+    });
+
+    // Detect scroll position changes (user swipe or drag)
+    carousel.addEventListener('scrollend', () => {
+      const { scrollLeft } = carousel;
+      let closest = 0;
+      let minDist = Infinity;
+      [...carousel.children].forEach((card, idx) => {
+        const dist = Math.abs(card.offsetLeft - carousel.offsetLeft - scrollLeft);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = idx;
+        }
+      });
+      currentIndex = closest;
+      updateNav();
+    });
+
+    // Clear content and append carousel + nav
+    content.replaceChildren(carousel, nav);
+  });
+
+  if (hasResourceContent) {
+    block.classList.add('tabs-resource');
+  }
+}
+
 function decoratePartnerTabs(block) {
   const panels = block.querySelectorAll('[role=tabpanel]');
   let hasPartnerContent = false;
@@ -441,6 +560,9 @@ export default async function decorate(block) {
       section.classList.add('dark');
     }
   }
+
+  // Structure AI Resources tabs (resource cards carousel)
+  decorateResourceCards(block);
 
   // Structure AI Partner Ecosystem tabs (logo grid + partner cards)
   decoratePartnerTabs(block);
