@@ -2,7 +2,7 @@ import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { setColorScheme } from '../section-metadata/section-metadata.js';
 
-const { locale } = getConfig();
+const { locale, codeBase } = getConfig();
 
 const HEADER_PATH = '/fragments/nav/header';
 const HEADER_ACTIONS = [
@@ -141,11 +141,22 @@ function decorateNavItem(li) {
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
   const brandLink = section.querySelector('a');
-  const [, text] = brandLink.childNodes;
-  const span = document.createElement('span');
-  span.className = 'brand-text';
-  span.append(text);
-  brandLink.append(span);
+  const text = Array.from(brandLink.childNodes).find(
+    (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
+  );
+  if (text) {
+    const span = document.createElement('span');
+    span.className = 'brand-text';
+    span.append(text);
+    brandLink.append(span);
+  }
+  // Add logo if icon span was stripped by the server
+  if (!brandLink.querySelector('svg, img, .icon')) {
+    const logo = document.createElement('img');
+    logo.src = `${codeBase}/img/icons/dell-logo.svg`;
+    logo.alt = 'Dell Technologies';
+    brandLink.prepend(logo);
+  }
 }
 
 function decorateNavSection(section) {
