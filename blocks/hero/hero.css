@@ -32,6 +32,20 @@
     color: var(--color-white);
   }
 
+  &.small.light {
+    margin-top: 0;
+
+    .hero-foreground .hero-heading {
+      font-size: var(--heading-font-size-l);
+    }
+
+    .hero-foreground .hero-detail {
+      color: var(--color-dell-blue, #0672cb);
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
   &.quiet-background {
     .hero-background div::after {
       content: '';
@@ -283,6 +297,13 @@
     &.center {
       .hero-foreground {
         display: flex;
+      }
+    }
+
+    &.small.light {
+      .hero-foreground {
+        grid-template-columns: 1fr;
+        padding-block: 32px;
       }
     }
 
