@@ -1307,8 +1307,8 @@ aem-sidekick {
 
 /* ===== Hide Empty Card Items ===== */
 
-/* Cards where all child divs have no visible text or images */
-.cards > ul > li:not(:has(img), :has(a)) {
+/* Cards where all child divs have no visible text, images, or links */
+.cards > ul > li:not(:has(img), :has(a), :has(strong), :has(h2), :has(h3)) {
   display: none;
 }
 
