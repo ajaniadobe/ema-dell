@@ -205,9 +205,9 @@ main > .section {
   }
 }
 
-/* Collapse spacing between adjacent dark sections */
+/* Reduce spacing between adjacent dark sections */
 main > .section.dark + .section.dark {
-  padding-top: 0;
+  padding-top: 40px;
 }
 
 /* Collapse spacing between Infrastructure for AI and AI Partner Ecosystem */
@@ -283,7 +283,6 @@ main > .section.dark {
       font-weight: 300;
       line-height: 1.5;
       color: var(--color-white);
-      max-width: 900px;
     }
   }
 }
