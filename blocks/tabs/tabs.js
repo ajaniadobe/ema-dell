@@ -252,9 +252,13 @@ function cleanTabPanel(container) {
 
 function replacePartnerLogos(container) {
   container.querySelectorAll('img').forEach((img) => {
-    if (img.src.includes('1x1.gif')) {
-      const url = PARTNER_LOGOS[img.alt.trim()];
-      if (url) img.src = `https:${url}`;
+    const url = PARTNER_LOGOS[img.alt.trim()];
+    if (url) {
+      img.src = `https:${url}`;
+      const picture = img.closest('picture');
+      if (picture) {
+        picture.replaceWith(img);
+      }
     }
   });
 }
