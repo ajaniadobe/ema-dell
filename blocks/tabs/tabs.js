@@ -71,9 +71,17 @@ function cleanTabPanel(container) {
 
   container.querySelectorAll('h3, h4').forEach((el) => keep.add(el));
 
-  // Keep use-case icon paragraphs (1x1.gif placeholder or 96x96 SVG icons)
+  // Keep use-case icon paragraphs (1x1.gif placeholder, 96x96 icons, or small images before text)
   const iconP = [...container.querySelectorAll('p')]
-    .find((p) => p.querySelector('img[src*="1x1.gif"], img[src*="icon-set-96x96"]'));
+    .find((p) => {
+      const img = p.querySelector('img');
+      if (!img) return false;
+      if (img.src.includes('1x1.gif') || img.src.includes('icon-set-96x96')) return true;
+      // Detect small icons by their width/height attributes (e.g., 96x96 from DA)
+      const w = parseInt(img.getAttribute('width'), 10);
+      const h = parseInt(img.getAttribute('height'), 10);
+      return w > 0 && w <= 96 && h > 0 && h <= 96;
+    });
   if (iconP) {
     iconP.classList.add('tabs-icon');
     keep.add(iconP);
@@ -92,7 +100,8 @@ function cleanTabPanel(container) {
     const text = p.textContent.trim();
     const hasImg = p.querySelector('img');
     const hasLink = p.querySelector('a');
-    const isIconImg = hasImg && (hasImg.src.includes('1x1.gif') || hasImg.src.includes('icon-set-96x96'));
+    const isIconImg = hasImg && (hasImg.src.includes('1x1.gif') || hasImg.src.includes('icon-set-96x96')
+      || (parseInt(hasImg.getAttribute('width'), 10) <= 96 && parseInt(hasImg.getAttribute('height'), 10) <= 96));
     const isSrcImg = hasImg && !isIconImg;
     const linkHref = hasLink
       ? hasLink.getAttribute('href') : null;
@@ -168,7 +177,10 @@ function cleanTabPanel(container) {
     const el = storyEls[i];
     if (el.tagName === 'P' && el.textContent.trim() === '') {
       const img = el.querySelector(':scope > img, :scope > a > img');
-      if (img && !img.src.includes('1x1.gif') && !img.src.includes('icon-set-96x96')) {
+      const imgW = parseInt(img?.getAttribute('width'), 10);
+      const imgH = parseInt(img?.getAttribute('height'), 10);
+      const isSmallIcon = imgW > 0 && imgW <= 96 && imgH > 0 && imgH <= 96;
+      if (img && !img.src.includes('1x1.gif') && !img.src.includes('icon-set-96x96') && !isSmallIcon) {
         videoP = el;
         storyEls.splice(i, 1);
         break;
