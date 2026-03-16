@@ -141,19 +141,25 @@ function decorateNavItem(li) {
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
   const brandLink = section.querySelector('a');
-  const text = Array.from(brandLink.childNodes).find(
-    (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
-  );
-  if (text) {
-    const span = document.createElement('span');
-    span.className = 'brand-text';
-    span.append(text);
-    brandLink.append(span);
+  const p = brandLink.closest('p');
+
+  // Hide stray text nodes inside the brand link and beside it (in the <p>)
+  const containers = [brandLink, ...(p ? [p] : [])];
+  for (const container of containers) {
+    const textNodes = Array.from(container.childNodes)
+      .filter((n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+    for (const text of textNodes) {
+      const span = document.createElement('span');
+      span.className = 'brand-text';
+      span.append(text);
+      brandLink.append(span);
+    }
   }
+
   if (!brandLink.querySelector('svg, img, .icon')) {
     const logo = document.createElement('img');
     logo.src = `${codeBase}/img/icons/dell-logo.svg`;
-    logo.alt = 'Dell Technologies';
+    logo.alt = '';
     brandLink.prepend(logo);
   }
 }
