@@ -414,7 +414,7 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   }
 
   /* Footnote paragraphs — hidden (shown as popovers on original) */
-  > p:not(:has(a), :last-child) {
+  > p:not(:has(a), :has(img), :last-child) {
     display: none;
   }
 
@@ -424,7 +424,8 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   }
 
   /* AI Factory video thumbnail */
-  > p:has(> a[href=""]:only-child img) {
+  > p:has(> a[href=""]:only-child img),
+  > p:has(> img:only-child) {
     display: block;
     margin: 40px auto;
     max-width: 800px;
