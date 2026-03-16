@@ -270,18 +270,212 @@
       "name": "solutions-landing-page",
       "urls": [
         "https://www.dell.com/en-us/lp/dt/payment-solutions",
-        "https://www.dell.com/en-us/lp/dt/devops-solutions"
+        "https://www.dell.com/en-us/lp/dt/devops-solutions",
+        "https://www.dell.com/en-us/lp/disaggregated-infrastructure",
+        "https://www.dell.com/en-us/lp/dt/energy-efficient-data-center",
+        "https://www.dell.com/en-us/lp/enterprise-upgrades"
       ],
       "description": "Solutions landing page promoting Dell solution offerings with hero, feature sections, and CTAs",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Two)"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)",
+            ".rwp-webpart-TileLayout"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container",
+          "style": "dark",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-intro",
+          "name": "Introduction",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": ["[id*='dellbuyercontentlayoutwebparts-1'] .rwp-contentlayout"]
+        },
+        {
+          "id": "section-features",
+          "name": "Features",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-benefits",
+          "name": "Benefits",
+          "selector": "[id*='dellbuyertilelayoutwebparts-1'].cp-container",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-product-1",
+          "name": "Product Highlight 1",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": ["[id*='dellbuyercontentlayoutwebparts-3'] .rwp-contentlayout"]
+        },
+        {
+          "id": "section-product-2",
+          "name": "Product Highlight 2",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": ["[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout"]
+        },
+        {
+          "id": "section-resources",
+          "name": "Resources",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        }
+      ]
     },
     {
       "name": "product-category-page",
       "urls": [
-        "https://www.dell.com/en-us/shop/scc/sc/apex"
+        "https://www.dell.com/en-us/shop/scc/sc/apex",
+        "https://www.dell.com/en-us/shop/scc/sc/servers",
+        "https://www.dell.com/en-us/shop/scc/sc/storage-products",
+        "https://www.dell.com/en-us/shop/scc/sc/cyber-resilience",
+        "https://www.dell.com/en-us/shop/scc/sc/private-cloud-solutions",
+        "https://www.dell.com/en-us/shop/scc/sc/networking-products"
       ],
       "description": "Product category page showcasing a Dell product line with hero, product cards, tabs, and resources",
-      "blocks": []
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#show-nav-bar > section:first-child"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#floating-cards",
+            "#number-claim",
+            ".portfolio-container"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "#immersive-learning",
+            "#accordion-FAQ"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            "#announcement-carousel-no-arrows"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            "#cpMFE-Tab"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero",
+          "selector": "#show-nav-bar",
+          "style": "dark",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-cards",
+          "name": "Feature Cards",
+          "selector": "#floating-cards",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-stats",
+          "name": "Stats",
+          "selector": "#number-claim",
+          "style": null,
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-portfolio",
+          "name": "Product Portfolio",
+          "selector": "#portfolio",
+          "style": null,
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-demo",
+          "name": "Interactive Demo",
+          "selector": "#demo",
+          "style": "dark",
+          "blocks": ["accordion"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-featured",
+          "name": "Featured Announcements",
+          "selector": "#featured",
+          "style": null,
+          "blocks": ["carousel"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-resources",
+          "name": "Resources",
+          "selector": "#resources",
+          "style": null,
+          "blocks": ["tabs"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-ownership",
+          "name": "Ownership",
+          "selector": "#ownership",
+          "style": null,
+          "blocks": [],
+          "defaultContent": ["#ownership"]
+        },
+        {
+          "id": "section-faqs",
+          "name": "FAQs",
+          "selector": ".disclaimerFAQcontainer",
+          "style": null,
+          "blocks": ["accordion"],
+          "defaultContent": []
+        }
+      ]
     }
   ]
 }
