@@ -7,11 +7,11 @@ function setBackgroundFocus(img) {
 }
 
 function decorateBackground(el, bg) {
-  const bgPic = bg.querySelector('picture');
+  const bgPic = bg.querySelector('picture') || bg.querySelector('img');
   if (!bgPic) return;
 
-  const img = bgPic.querySelector('img');
-  setBackgroundFocus(img);
+  const img = bgPic.tagName === 'IMG' ? bgPic : bgPic.querySelector('img');
+  if (img) setBackgroundFocus(img);
 
   const vidLink = bgPic.closest('a[href*=".mp4"], a[href*="-mp4"]');
   if (!vidLink) return;
