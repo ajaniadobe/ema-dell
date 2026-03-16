@@ -176,7 +176,7 @@ function cleanTabPanel(container) {
   for (let i = storyEls.length - 1; i >= 0; i -= 1) {
     const el = storyEls[i];
     if (el.tagName === 'P' && el.textContent.trim() === '') {
-      const img = el.querySelector(':scope > img, :scope > a > img');
+      const img = el.querySelector(':scope > img, :scope > picture img, :scope > a > img, :scope > a > picture img');
       const imgW = parseInt(img?.getAttribute('width'), 10);
       const imgH = parseInt(img?.getAttribute('height'), 10);
       const isSmallIcon = imgW > 0 && imgW <= 96 && imgH > 0 && imgH <= 96;
@@ -216,7 +216,7 @@ function cleanTabPanel(container) {
   story.className = 'tabs-panel-story';
   finalStory.forEach((el) => story.append(el));
 
-  // Assemble: header, video, story
+  // Assemble: header, then story+video side-by-side
   container.append(header);
   if (videoP) {
     videoP.className = 'tabs-panel-video';
@@ -240,9 +240,14 @@ function cleanTabPanel(container) {
         videoP.classList.add('tabs-panel-video-playing');
       });
     }
-    container.append(videoP);
+    // Wrap story + video side-by-side
+    const storyRow = document.createElement('div');
+    storyRow.className = 'tabs-panel-story-row';
+    storyRow.append(story, videoP);
+    container.append(storyRow);
+  } else {
+    container.append(story);
   }
-  container.append(story);
 }
 
 function replacePartnerLogos(container) {
