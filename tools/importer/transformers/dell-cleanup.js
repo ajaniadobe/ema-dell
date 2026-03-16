@@ -2,15 +2,19 @@
 /* global WebImporter */
 
 /**
- * Transformer: Dell AI page cleanup.
+ * Transformer: Dell site cleanup.
  * Removes non-authorable content from Dell.com pages.
- * All selectors verified from captured DOM of https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
+ * Selectors verified from captured DOM of:
+ *   - https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
+ *   - https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing
  */
 const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'afterTransform' };
 
 export default function transform(hookName, element, payload) {
   if (hookName === TransformHook.beforeTransform) {
-    // Remove chat widgets, virtual assistant, contact panel (from captured DOM: aside#ucTarget, .shop-ai-chat-wrapper, #uc-panel, #uc-floating-button)
+    // Remove chat widgets, virtual assistant, contact panel
+    // AI page: aside#ucTarget, .shop-ai-chat-wrapper, #uc-panel, #uc-floating-button
+    // Customer stories: .cp-agreements-container
     WebImporter.DOMUtils.remove(element, [
       '#ucTarget',
       '.shop-ai-chat-wrapper',
@@ -18,16 +22,22 @@ export default function transform(hookName, element, payload) {
       '#uc-floating-button',
       '#dell-global-mbox',
       '.tnt-html',
+      '.cp-agreements-container',
     ]);
   }
   if (hookName === TransformHook.afterTransform) {
     // Remove non-authorable site chrome (from captured DOM)
     WebImporter.DOMUtils.remove(element, [
-      // Breadcrumbs and partner banners
+      // Breadcrumbs and partner banners (AI page)
       '#aibreadcrumb',
       '.ai-breadcrumb-box',
       '.ai-breadcrumbs-container',
       '.cf-partner-section',
+      // Breadcrumbs (customer story pages)
+      '.cp-breadcrumbs',
+      '.cp-page-top-container',
+      // Screen-reader only page title (customer story pages - content has own headings)
+      'h1.sr-only',
       // Footer
       'footer',
       // iframes, links, noscript, scripts
@@ -39,8 +49,14 @@ export default function transform(hookName, element, payload) {
       'svg[style*="position: absolute"][aria-hidden="true"]',
       // FAQ controls (expand/collapse all buttons - not authorable)
       '.faq-controls',
-      // FAQ SVG icons
       '.faq-icon',
+      // Carousel navigation controls (non-authorable UI chrome)
+      '.rwp-ic-controls-container',
+      '.rwp-ic-itemcount-container',
+      // Video play button overlays (non-authorable UI)
+      'button.rwp-play-button',
+      'div.rwp-play-button',
+      '.sr-only[id^="description-"]',
     ]);
   }
 }

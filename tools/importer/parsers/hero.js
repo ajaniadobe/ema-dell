@@ -3,20 +3,26 @@
 /**
  * Parser for hero.
  * Base block: hero.
- * Source: https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
- * Instances: #hero-ai (main hero with video), .live-optics-section (CTA banner with bg image)
- * Generated: 2026-03-12 (Dell page is JS-rendered; selectors target fully-rendered DOM)
+ * Sources:
+ *   - https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
+ *     Instances: #hero-ai (main hero with video), .live-optics-section (CTA banner with bg image)
+ *   - https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing
+ *     Instance: cp-container with bgvideo + rwp-contentlayout (logo + eyebrow + heading)
  *
  * Block library structure:
- *   Row 1: Background image/video (optional)
- *   Row 2: Title + subheading + CTAs
+ *   Row 1: Background image or video (optional)
+ *   Row 2: Eyebrow + Title + subheading + CTAs
  */
 export default function parse(element, { document }) {
   const cells = [];
 
-  // Row 1: Background image or video poster
-  // #hero-ai has a video with poster; .live-optics-section has a background image
+  // --- Row 1: Background image or video poster ---
+
+  // Pattern A: AI page - <video> with poster attribute
   const video = element.querySelector('video');
+  // Pattern B: Customer story - Brightcove bgvideo element with data-video-id
+  const bgVideo = element.querySelector('bgvideo[data-video-id]');
+  // Pattern C: AI page - live optics background image
   const bgImg = element.querySelector('.live-optics-img-banner, img.live-optics-img-banner');
 
   if (video) {
@@ -25,6 +31,16 @@ export default function parse(element, { document }) {
       const img = document.createElement('img');
       img.src = posterUrl.startsWith('//') ? `https:${posterUrl}` : posterUrl;
       img.alt = 'Hero background';
+      cells.push([img]);
+    }
+  } else if (bgVideo) {
+    // For Brightcove videos, use the first content image as background fallback
+    const heroImage = element.querySelector('.rwp-contentlayout-item__visual-container img.rwp-image');
+    if (heroImage) {
+      const src = heroImage.getAttribute('src') || '';
+      const img = document.createElement('img');
+      img.src = src.startsWith('//') ? `https:${src}` : src;
+      img.alt = heroImage.alt || 'Hero background';
       cells.push([img]);
     }
   } else if (bgImg) {
@@ -37,23 +53,40 @@ export default function parse(element, { document }) {
     }
   }
 
-  // Row 2: Heading + description + CTAs
+  // --- Row 2: Heading + description + CTAs ---
   const contentCell = [];
 
-  // Heading: h1 or h2
-  const heading = element.querySelector('h1, h2');
-  if (heading) contentCell.push(heading);
+  // Customer story eyebrow text (e.g., "CUSTOMER STORIES")
+  const eyebrow = element.querySelector('.rwp-webpart__eyebrowHeader-container_text');
+  if (eyebrow) {
+    const p = document.createElement('p');
+    p.textContent = eyebrow.textContent.trim();
+    contentCell.push(p);
+  }
+
+  // Heading: h1, h2, or rwp-contentlayout title span
+  const heading = element.querySelector('h1, h2, .rwp-contentlayout-item__title');
+  if (heading) {
+    // Wrap in h1 for hero block if it's a span
+    if (heading.tagName === 'SPAN') {
+      const h1 = document.createElement('h1');
+      h1.textContent = heading.textContent.trim();
+      contentCell.push(h1);
+    } else {
+      contentCell.push(heading);
+    }
+  }
 
   // Description / subtitle
   const desc = element.querySelector(
-    '.dds_Hero-ai-content, .live-optics-description, p:not(.faq-question)'
+    '.dds_Hero-ai-content, .live-optics-description, .rwp-contentlayout-item__description, p:not(.faq-question)'
   );
   if (desc && desc !== heading) contentCell.push(desc);
 
   // CTA links
   const ctaLinks = Array.from(
     element.querySelectorAll(
-      '.ai-uc-hero-btn, .live-optics-button, a.dds__button, a.live-optics-button'
+      '.ai-uc-hero-btn, .live-optics-button, a.dds__button, a.live-optics-button, .rwp-button__link'
     )
   );
   ctaLinks.forEach((link) => contentCell.push(link));
