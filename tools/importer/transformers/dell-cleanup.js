@@ -4,25 +4,20 @@
 /**
  * Transformer: Dell site cleanup.
  * Removes non-authorable content from Dell.com pages.
- * Selectors verified from captured DOM of:
- *   - https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
- *   - https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing
  */
 const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'afterTransform' };
 
 export default function transform(hookName, element, payload) {
+  const { document } = payload;
+
   if (hookName === TransformHook.beforeTransform) {
     // Remove site-wide header/navigation chrome
-    // AI page: <header id="unified-masthead"> contains skip link, search, sign-in, nav menus
-    // Customer stories: header may also exist
     WebImporter.DOMUtils.remove(element, [
       'header',
       '#unified-masthead',
     ]);
 
     // Remove chat widgets, virtual assistant, contact panel
-    // AI page: aside#ucTarget, .shop-ai-chat-wrapper, #uc-panel, #uc-floating-button
-    // Customer stories: .cp-agreements-container
     WebImporter.DOMUtils.remove(element, [
       '#ucTarget',
       '.shop-ai-chat-wrapper',
@@ -48,14 +43,52 @@ export default function transform(hookName, element, payload) {
       '.cd-compare-drawer-wrap',
     ]);
 
-    // Remove tracking pixels (Yahoo analytics, etc.)
+    // Remove Brightcove / Video.js player UI chrome
+    // These render as text content (play/pause/skip/captions/quality) in the imported HTML
+    WebImporter.DOMUtils.remove(element, [
+      '.vjs-control-bar',
+      '.vjs-modal-dialog',
+      '.vjs-loading-spinner',
+      '.vjs-big-play-button',
+      '.vjs-text-track-display',
+      '.vjs-title-bar',
+      '.vjs-poster',
+      '.vjs-tech',
+      'video-js',
+    ]);
+
+    // Remove tracking pixels and analytics beacons
     WebImporter.DOMUtils.remove(element, [
       'img[alt="dot image pixel"]',
       'img[src*="sp.analytics.yahoo.com"]',
+      'img[src*="tvspix.com"]',
+      'img[src*="bat.bing.com"]',
+      'img[src*="t.co/1/i/adsct"]',
+      'img[src*="analytics.twitter.com"]',
+      'img[src*="1x1.gif"]',
     ]);
+
+    // Remove pagination UI chrome from carousels/tabs
+    const paginationEls = element.querySelectorAll('*');
+    paginationEls.forEach((el) => {
+      if (el.children.length === 0 && /^Showing page \d+ of \d+$/.test(el.textContent.trim())) {
+        el.remove();
+      }
+      if (el.children.length === 0 && /^\d+\/\d+$/.test(el.textContent.trim())) {
+        const prev = el.previousElementSibling;
+        if (prev && /^Showing page/.test(prev.textContent.trim())) {
+          el.remove();
+        }
+      }
+    });
+
+    // Remove blob: URLs (invalid references from original browser session)
+    const blobLinks = element.querySelectorAll('a[href^="blob:"]');
+    blobLinks.forEach((a) => a.remove());
   }
+
   if (hookName === TransformHook.afterTransform) {
-    // Remove non-authorable site chrome (from captured DOM)
+    // Remove non-authorable site chrome
     WebImporter.DOMUtils.remove(element, [
       // Breadcrumbs and partner banners (AI page)
       '#aibreadcrumb',
