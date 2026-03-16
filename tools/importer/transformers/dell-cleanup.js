@@ -32,6 +32,27 @@ export default function transform(hookName, element, payload) {
       '.tnt-html',
       '.cp-agreements-container',
     ]);
+
+    // Remove OneTrust cookie consent SDK (banner, preference center, overlay)
+    WebImporter.DOMUtils.remove(element, [
+      '#onetrust-consent-sdk',
+      '#onetrust-pc-sdk',
+      '#onetrust-banner-sdk',
+      '.onetrust-pc-dark-filter',
+      '#ot-sdk-cookie-policy',
+    ]);
+
+    // Remove Compare Products drawer widget
+    WebImporter.DOMUtils.remove(element, [
+      '.cf-compare-drawer-wrap',
+      '.cd-compare-drawer-wrap',
+    ]);
+
+    // Remove tracking pixels (Yahoo analytics, etc.)
+    WebImporter.DOMUtils.remove(element, [
+      'img[alt="dot image pixel"]',
+      'img[src*="sp.analytics.yahoo.com"]',
+    ]);
   }
   if (hookName === TransformHook.afterTransform) {
     // Remove non-authorable site chrome (from captured DOM)

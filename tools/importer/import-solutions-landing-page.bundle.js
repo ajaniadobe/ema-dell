@@ -285,6 +285,21 @@ var CustomImportScript = (() => {
         ".tnt-html",
         ".cp-agreements-container"
       ]);
+      WebImporter.DOMUtils.remove(element, [
+        "#onetrust-consent-sdk",
+        "#onetrust-pc-sdk",
+        "#onetrust-banner-sdk",
+        ".onetrust-pc-dark-filter",
+        "#ot-sdk-cookie-policy"
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        ".cf-compare-drawer-wrap",
+        ".cd-compare-drawer-wrap"
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        'img[alt="dot image pixel"]',
+        'img[src*="sp.analytics.yahoo.com"]'
+      ]);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
