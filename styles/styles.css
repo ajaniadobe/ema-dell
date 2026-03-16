@@ -205,6 +205,11 @@ main > .section {
   }
 }
 
+/* Collapse spacing between adjacent dark sections */
+main > .section.dark + .section.dark {
+  padding-top: 0;
+}
+
 /* Dark section variant (navy/teal backgrounds) */
 main > .section.dark {
   background-color: var(--color-dell-dark-teal);
@@ -580,7 +585,8 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Section icon images — constrain to proper icon size */
-.default-content > p:first-child:has(> img:only-child) > img {
+.default-content > p:first-child:has(> img:only-child) > img,
+.default-content > p:first-child:has(> picture:only-child) img {
   max-width: 64px;
   max-height: 64px;
   width: auto;
@@ -773,6 +779,11 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(5) .carousel-slide-image {
   background-image: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
+}
+
+/* Data for AI — hide icon image paragraph (icon is rendered via h2::before) */
+.section:not(.light, .dark, .accent):has(.cards) > .default-content > p:first-child:has(picture) {
+  display: none;
 }
 
 /* Data for AI — section heading with icon */
