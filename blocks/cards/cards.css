@@ -57,6 +57,12 @@
   object-fit: cover;
 }
 
+/* Dark section cards: 2-column layout */
+.section.dark .cards > ul {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
 /* Dark section card styles */
 .section.dark .cards > ul > li {
   background-color: #293b4d;
