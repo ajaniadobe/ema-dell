@@ -6,19 +6,56 @@ function setBackgroundFocus(img) {
   img.style.objectPosition = `${x}% ${y}%`;
 }
 
-function decorateBackground(el, bg) {
-  const bgPic = bg.querySelector('picture');
+async function getVideoSrc(bg) {
+  // Pattern 1: <a> link wrapping/near picture
+  const img = bg.querySelector('img');
+  const vidLink = (img && img.closest('a[href*=".mp4"], a[href*="-mp4"]'))
+    || bg.querySelector('a[href*=".mp4"], a[href*="-mp4"]');
+  if (vidLink) {
+    const src = vidLink.href.replace(/-mp4$/, '.mp4');
+    vidLink.remove();
+    return src;
+  }
+
+  // Pattern 2: plain text URL in background
+  const vidTextEl = [...bg.querySelectorAll(':scope > div')]
+    .find((d) => /https?:\/\/[^\s]+\.mp4/.test(d.textContent) && !d.querySelector('picture, img'));
+  if (vidTextEl) {
+    const src = vidTextEl.textContent.trim().match(/https?:\/\/[^\s]+\.mp4/)?.[0];
+    vidTextEl.remove();
+    if (src) return src;
+  }
+
+  // Pattern 3: lookup from hero-videos.json config
+  try {
+    const pagePath = window.location.pathname
+      .replace(/\/content/, '')
+      .replace(/\/$/, '')
+      .replace(/\.html$/, '');
+    const resp = await fetch('/hero-videos.json');
+    if (resp.ok) {
+      const configs = await resp.json();
+      const match = configs.find((c) => pagePath.endsWith(c.path));
+      if (match) return match.video;
+    }
+  } catch (e) { /* config not available */ }
+
+  return null;
+}
+
+async function decorateBackground(el, bg) {
+  const bgPic = bg.querySelector('picture') || bg.querySelector('img');
   if (!bgPic) return;
 
-  const img = bgPic.querySelector('img');
-  setBackgroundFocus(img);
+  const img = bgPic.tagName === 'IMG' ? bgPic : bgPic.querySelector('img');
+  if (img) setBackgroundFocus(img);
 
-  const vidLink = bgPic.closest('a[href*=".mp4"], a[href*="-mp4"]');
-  if (!vidLink) return;
+  const vidSrc = await getVideoSrc(bg);
+  if (!vidSrc) return;
+
   el.classList.add('has-video');
   const video = document.createElement('video');
-  // DA may mangle .mp4 to -mp4; restore the correct extension for playback
-  video.src = vidLink.href.replace(/-mp4$/, '.mp4');
+  video.src = vidSrc;
   video.loop = true;
   video.muted = true;
   video.inert = true;
@@ -29,8 +66,8 @@ function decorateBackground(el, bg) {
     video.play();
     bgPic.remove();
   });
-  vidLink.parentElement.append(video, bgPic);
-  vidLink.remove();
+
+  bgPic.parentElement.append(video);
 }
 
 function decorateForeground(fg) {
@@ -88,6 +125,6 @@ export default async function init(el) {
   if (rows.length) {
     const bg = rows.pop();
     bg.classList.add('hero-background');
-    decorateBackground(el, bg);
+    await decorateBackground(el, bg);
   }
 }

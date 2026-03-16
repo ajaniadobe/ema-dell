@@ -7,6 +7,7 @@ import cardsParser from './parsers/cards.js';
 import tabsParser from './parsers/tabs.js';
 import carouselParser from './parsers/carousel.js';
 import accordionParser from './parsers/accordion.js';
+import valuePillarsParser from './parsers/value-pillars.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
@@ -19,6 +20,7 @@ const parsers = {
   'tabs': tabsParser,
   'carousel': carouselParser,
   'accordion': accordionParser,
+  'value-pillars': valuePillarsParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION
@@ -46,6 +48,12 @@ const PAGE_TEMPLATE = {
         '#floating-cards',
         '#number-claim',
         '.portfolio-container'
+      ]
+    },
+    {
+      name: 'value-pillars',
+      instances: [
+        '.value-pillars-container'
       ]
     },
     {
@@ -94,9 +102,17 @@ const PAGE_TEMPLATE = {
       defaultContent: []
     },
     {
+      id: 'section-benefits',
+      name: 'Benefits',
+      selector: '#benefits',
+      style: 'dark',
+      blocks: ['cards'],
+      defaultContent: []
+    },
+    {
       id: 'section-portfolio',
       name: 'Product Portfolio',
-      selector: '#portfolio',
+      selector: ['#portfolio', '#solutions'],
       style: null,
       blocks: ['cards'],
       defaultContent: []
