@@ -12,6 +12,14 @@ const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'aft
 
 export default function transform(hookName, element, payload) {
   if (hookName === TransformHook.beforeTransform) {
+    // Remove site-wide header/navigation chrome
+    // AI page: <header id="unified-masthead"> contains skip link, search, sign-in, nav menus
+    // Customer stories: header may also exist
+    WebImporter.DOMUtils.remove(element, [
+      'header',
+      '#unified-masthead',
+    ]);
+
     // Remove chat widgets, virtual assistant, contact panel
     // AI page: aside#ucTarget, .shop-ai-chat-wrapper, #uc-panel, #uc-floating-button
     // Customer stories: .cp-agreements-container

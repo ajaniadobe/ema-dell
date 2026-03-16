@@ -273,6 +273,10 @@ var CustomImportScript = (() => {
   function transform(hookName, element, payload) {
     if (hookName === TransformHook.beforeTransform) {
       WebImporter.DOMUtils.remove(element, [
+        "header",
+        "#unified-masthead"
+      ]);
+      WebImporter.DOMUtils.remove(element, [
         "#ucTarget",
         ".shop-ai-chat-wrapper",
         "#uc-panel",
