@@ -1739,3 +1739,20 @@ aem-sidekick {
     display: none;
   }
 }
+
+/* ===== Empty accordion — hide when no FAQ items ===== */
+.accordion:not(:has(details)) {
+  display: none;
+}
+
+
+/* ===== Empty card list items (no text, no images) ===== */
+.cards > ul > li:not(:has(img), :has(a)):is(:empty, :has(.cards-card-body:empty)) {
+  display: none;
+}
+
+/* Cards stat items — keep text-only cards but limit sizing */
+.cards > ul > li:not(:has(img)) .cards-card-body:has(h2):not(:has(a)) {
+  padding: 16px;
+  text-align: center;
+}

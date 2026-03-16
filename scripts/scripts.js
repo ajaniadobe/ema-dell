@@ -42,6 +42,20 @@ export async function loadPage() {
   if (factoryHeading && !document.querySelector('#ai-factory-dell')) {
     factoryHeading.id = 'ai-factory-dell';
   }
+
+  // Remove leftover pagination text artifacts from imported content
+  const paginationPatterns = /^(Previous Page\s+Next Page|Previous Slide\s+Next Slide|\d+\/\d+)$/;
+  document.querySelectorAll('main .default-content p').forEach((p) => {
+    if (paginationPatterns.test(p.textContent.trim())) p.remove();
+  });
+
+  // Hide sections with empty accordion blocks (no FAQ items imported)
+  document.querySelectorAll('main .accordion').forEach((acc) => {
+    if (!acc.querySelector('details')) {
+      const section = acc.closest('.section');
+      if (section) section.style.display = 'none';
+    }
+  });
 }
 await loadPage();
 
