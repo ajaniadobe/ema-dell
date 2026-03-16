@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/devops-solutions",
+  "path": "en-us/lp/dt/devops-solutions",
+  "timestamp": "2026-03-16T13:22:37.890Z",
+  "title": "Developers & DevOps | Dell USA",
+  "template": "solutions-landing-page",
+  "blocks": [
+    "columns",
+    "cards"
+  ]
+}

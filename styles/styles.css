@@ -1186,3 +1186,556 @@ aem-sidekick {
     opacity: 1;
   }
 }
+
+/* ===== Sticky Sub-Navigation Bar (Product Category pages) ===== */
+
+/* Pattern: default-content with p>a[href="#"] + ul + p>a (title + nav links + CTA) */
+.section.dark > .default-content:has(> p > a[href="#"]) {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 20px;
+  margin: 0 -20px;
+  border-bottom: 1px solid #e1e1e1;
+  max-width: unset;
+
+  > p:first-child {
+    margin: 0;
+    padding: 12px 16px 12px 0;
+    border-right: 1px solid #e1e1e1;
+    font-size: var(--body-font-size-m);
+    font-weight: 500;
+
+    a {
+      color: var(--color-dell-near-black);
+      text-decoration: none;
+    }
+  }
+
+  > ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    gap: 0;
+
+    li {
+      margin: 0;
+
+      a {
+        display: block;
+        padding: 12px 16px;
+        color: var(--color-dell-blue);
+        text-decoration: none;
+        font-size: var(--body-font-size-s);
+        font-weight: 400;
+        white-space: nowrap;
+        transition: color 0.2s;
+
+        &:hover {
+          color: var(--color-dell-blue-hover);
+        }
+      }
+    }
+  }
+
+  > p:last-child {
+    margin: 0;
+    padding: 12px 0 12px 16px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 20px;
+      background-color: var(--color-dell-blue);
+      color: var(--color-white);
+      text-decoration: none;
+      font-size: var(--body-font-size-s);
+      font-weight: var(--button-font-weight);
+      border-radius: var(--button-border-radius);
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--color-dell-blue-hover);
+        color: var(--color-white);
+      }
+    }
+  }
+}
+
+@media (width >= 900px) {
+  .section.dark > .default-content:has(> p > a[href="#"]) {
+    margin: 0 -40px;
+    padding: 0 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  .section.dark > .default-content:has(> p > a[href="#"]) {
+    margin: 0 -80px;
+    padding: 0 80px;
+  }
+}
+
+/* ===== Hide Empty Card Items ===== */
+
+/* Cards where all child divs have no visible text or images */
+.cards > ul > li:not(:has(img), :has(a)) {
+  display: none;
+}
+
+/* Also hide cards list items that only have empty divs */
+.cards > ul > li:has(.cards-card-body:empty) {
+  display: none;
+}
+
+/* Hide card items that only contain a link with no text (image placeholders) */
+.cards > ul > li:has(a:empty):not(:has(img)) {
+  display: none;
+}
+
+/* Hide empty cards blocks (block with no visible content) */
+.cards:not(:has(li:not([style*="display: none"]))) {
+  display: none;
+}
+
+/* ===== Product Portfolio Cards (Product Category pages) ===== */
+
+/* Section with only cards block and no default-content heading */
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards > ul {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0;
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards > ul > li {
+  background-color: var(--color-white);
+  border-bottom: 1px solid #e8e8e8;
+  padding: 16px 0;
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards > ul > li:hover {
+  box-shadow: none;
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards .cards-card-body {
+  padding: 0;
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards .cards-card-body p {
+  font-size: var(--body-font-size-m);
+  line-height: 1.5;
+  color: var(--color-dell-medium-gray);
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards .cards-card-body a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-dell-blue);
+  text-decoration: none;
+  font-weight: var(--button-font-weight);
+  font-size: var(--body-font-size-m);
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards .cards-card-body a::after {
+  content: '\2192';
+  font-size: 1.1em;
+  transition: transform 0.2s;
+}
+
+.section:not(.dark, .light, .accent) > .block-content:only-child > .cards .cards-card-body a:hover::after {
+  transform: translateX(4px);
+}
+
+/* ===== CTA Cards Section (Product Category bottom) ===== */
+
+/* default-content with repeating h3 + p + p(link) groups */
+.section:not(.dark, .light, .accent) > .default-content:has(> h3 + p + p + h3) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+
+  > h3 {
+    grid-column: auto;
+    font-size: var(--heading-font-size-s);
+    font-weight: 500;
+    margin: 0;
+    padding: 24px 24px 8px;
+    background-color: var(--color-dell-light-gray);
+    border-radius: 8px 8px 0 0;
+  }
+
+  > h3 ~ p {
+    background-color: var(--color-dell-light-gray);
+    padding: 0 24px;
+    margin: 0;
+    font-size: var(--body-font-size-s);
+    line-height: 1.5;
+  }
+
+  /* Link paragraphs */
+  > p:has(> a:only-child) {
+    padding-bottom: 24px;
+    border-radius: 0 0 8px 8px;
+
+    a {
+      color: var(--color-dell-blue);
+      text-decoration: none;
+      font-weight: var(--button-font-weight);
+      font-size: var(--body-font-size-s);
+    }
+  }
+}
+
+/* ===== Promo Banner Styling (top of product-category dark section) ===== */
+
+/* Hide duplicate promo banner content (appears twice in imported HTML) */
+.section.dark > .default-content > p:nth-child(4),
+.section.dark > .default-content > p:nth-child(5) {
+  display: none;
+}
+
+/* Promo banner image — constrain width */
+.section.dark > .default-content > p:first-child:has(> img:only-child) {
+  margin-bottom: 8px;
+
+  img {
+    max-width: 200px;
+    height: auto;
+  }
+}
+
+/* ===== Solutions Landing Page — Hero/Banner ===== */
+
+/* Pattern: h3 (title) + ul (nav) + p(image) + h2 + p (subtitle) */
+.section > .default-content:first-child:has(> h3:first-child + ul) {
+  > h3:first-child {
+    font-size: var(--body-font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-dell-medium-gray);
+    margin-bottom: var(--spacing-xs);
+
+    /* Style the sub-nav list */
+    + ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--spacing-l);
+      gap: 0;
+      border-bottom: 1px solid #e1e1e1;
+
+      li {
+        margin: 0;
+
+        a {
+          display: block;
+          padding: 12px 16px;
+          color: var(--color-dell-blue);
+          text-decoration: none;
+          font-size: var(--body-font-size-s);
+          font-weight: 400;
+          white-space: nowrap;
+          border-bottom: 2px solid transparent;
+          transition: border-color 0.2s;
+
+          &:hover {
+            border-bottom-color: var(--color-dell-blue);
+          }
+        }
+      }
+    }
+  }
+
+  /* Banner image — full width */
+  > ul + p:has(img) {
+    margin: 0 0 var(--spacing-l);
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      max-height: 300px;
+      object-fit: cover;
+    }
+  }
+
+  > h2 {
+    font-size: var(--heading-font-size-l);
+    font-weight: 300;
+    margin-bottom: var(--spacing-s);
+  }
+
+  > h2 + p {
+    font-size: var(--body-font-size-l);
+    color: var(--color-dell-medium-gray);
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
+/* ===== Solutions Landing Page — Portfolio Cards ===== */
+
+/* Pattern: h2 + p(image) + h3 + p + p(link) repeating */
+.section > .default-content:has(> h3 + p + p:has(a) + p:has(img)) {
+  > p:has(img:only-child) {
+    margin: var(--spacing-l) 0;
+
+    img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+
+  > h3 {
+    font-size: var(--heading-font-size-s);
+    font-weight: 500;
+    color: var(--color-dell-near-black);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  > h3 + p {
+    font-size: var(--body-font-size-m);
+    line-height: 1.5;
+    color: var(--color-dell-medium-gray);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  > p:has(> a:only-child) {
+    margin-bottom: var(--spacing-xl);
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: var(--button-padding);
+      border: 1px solid var(--color-dell-blue);
+      border-radius: var(--button-border-radius);
+      text-decoration: none;
+      font-weight: var(--button-font-weight);
+      font-size: var(--body-font-size-m);
+      transition: var(--button-transition);
+
+      &::after {
+        content: '\2192';
+        font-size: 1.1em;
+      }
+
+      &:hover {
+        background-color: var(--color-dell-blue);
+        color: var(--color-white);
+      }
+    }
+  }
+}
+
+/* ===== Solutions Landing Page — Customer Story Cards ===== */
+
+/* Pattern: h2 + p + p(image) + h3 + p + p(link) repeating */
+.section > .default-content:has(> h2 + p + p:has(img) + h3) {
+  > h2 {
+    font-size: var(--heading-font-size-l);
+    font-weight: 300;
+    margin-bottom: var(--spacing-s);
+  }
+
+  > h2 + p {
+    font-size: var(--body-font-size-l);
+    color: var(--color-dell-medium-gray);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  > p:has(img:only-child) {
+    margin: 0 0 var(--spacing-m);
+
+    img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+
+  > h3 {
+    font-size: var(--heading-font-size-xs);
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  > h3 + p {
+    font-size: var(--body-font-size-m);
+    line-height: 1.5;
+    color: var(--color-dell-medium-gray);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  > p:has(> a:only-child) {
+    margin-bottom: var(--spacing-xxl);
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-dell-blue);
+      text-decoration: none;
+      font-weight: var(--button-font-weight);
+
+      &::after {
+        content: '\2192';
+        font-size: 1.1em;
+        transition: transform 0.2s;
+      }
+
+      &:hover::after {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+@media (width >= 900px) {
+  /* Customer stories — 3-column grid on desktop */
+  .section > .default-content:has(> h2 + p + p:has(img) + h3) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 24px;
+
+    > h2 {
+      grid-column: 1 / -1;
+    }
+
+    > h2 + p {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+/* ===== Solutions Landing Page — FAQ as plain headings ===== */
+
+/* When FAQ section has h2 + h3 + p repeating (not in accordion block) */
+.section > .default-content:has(> h2#frequently-asked-questions + h3) {
+  > h2#frequently-asked-questions {
+    font-size: var(--heading-font-size-l);
+    font-weight: 300;
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+  }
+
+  > h3 {
+    font-size: var(--body-font-size-l);
+    font-weight: 500;
+    padding: 16px 0;
+    margin-bottom: 0;
+    border-top: 1px solid #e1e1e1;
+    cursor: default;
+  }
+
+  > h3 + p {
+    font-size: var(--body-font-size-m);
+    line-height: 1.6;
+    color: var(--color-dell-medium-gray);
+    padding-bottom: 16px;
+    margin-top: 0;
+  }
+
+  /* Legal footnote text at end */
+  > p:last-child {
+    font-size: var(--body-font-size-xs);
+    line-height: 1.5;
+    color: var(--color-dell-medium-gray);
+    border-top: 1px solid #e1e1e1;
+    padding-top: var(--spacing-l);
+    margin-top: var(--spacing-l);
+  }
+}
+
+/* ===== Tabs — hide orphan arrow text from pagination controls ===== */
+
+/* Leftover → → → text nodes from removed pagination sit directly inside .tabs */
+.tabs {
+  font-size: 0;
+  line-height: 0;
+}
+
+.tabs > * {
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+/* ===== Featured Carousel — background image fallback ===== */
+
+/* When carousel slides have no images, show a neutral gradient */
+.carousel .carousel-slide:not(:has(.carousel-slide-image img[src])) .carousel-slide-image {
+  background: linear-gradient(135deg, var(--color-dell-light-gray) 0%, #d8dee5 100%);
+}
+
+/* ===== Tabs — resource content styling improvements ===== */
+
+/* Tab panels with flat p + h3 + p + p(link) resource card pattern */
+.tabs .tabs-panel p + h3 {
+  font-size: var(--heading-font-size-xs);
+  font-weight: 500;
+  margin: var(--spacing-m) 0 var(--spacing-xs);
+}
+
+/* Category labels (ANALYST REPORT, BRIEF, LIBRARY, etc.) */
+.tabs .tabs-panel > div > p:not(:has(a), :has(img)) {
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-dell-medium-gray);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+/* "Previous Slide   Next Slide" text — hide */
+.tabs .tabs-panel > div > p:first-child + p + p {
+  display: none;
+}
+
+/* Hide "1/2" pagination text in tabs */
+.tabs .tabs-panel > div > p {
+  &:empty {
+    display: none;
+  }
+}
+
+/* ===== Columns — resource card styling (solutions-landing) ===== */
+.columns .row .col {
+  background-color: var(--color-dell-light-gray);
+  border-radius: 8px;
+  padding: 24px;
+
+  h3 {
+    font-size: var(--heading-font-size-xs);
+    font-weight: 500;
+    margin-bottom: var(--spacing-s);
+  }
+
+  p {
+    font-size: var(--body-font-size-s);
+    line-height: 1.6;
+    color: var(--color-dell-medium-gray);
+  }
+
+  a {
+    color: var(--color-dell-blue);
+    text-decoration: none;
+    font-weight: var(--button-font-weight);
+    font-size: var(--body-font-size-s);
+  }
+
+  /* Empty columns — hide */
+  &:empty {
+    display: none;
+  }
+}
