@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/training-and-certification",
+  "path": "en-us/lp/dt/training-and-certification",
+  "timestamp": "2026-03-16T17:06:20.627Z",
+  "title": "Training and Certification | Dell USA",
+  "template": "services-detail-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "cards"
+  ]
+}

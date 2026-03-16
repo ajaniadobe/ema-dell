@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/recovery-recycling-services",
+  "path": "en-us/lp/dt/recovery-recycling-services",
+  "timestamp": "2026-03-16T17:07:20.907Z",
+  "title": "Recovery and Recycling Services | Dell USA",
+  "template": "services-detail-page",
+  "blocks": [
+    "cards",
+    "cards",
+    "cards",
+    "carousel",
+    "carousel"
+  ]
+}
