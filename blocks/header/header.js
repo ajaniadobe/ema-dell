@@ -150,7 +150,6 @@ function decorateBrandSection(section) {
     span.append(text);
     brandLink.append(span);
   }
-  // Add logo if icon span was stripped by the server
   if (!brandLink.querySelector('svg, img, .icon')) {
     const logo = document.createElement('img');
     logo.src = `${codeBase}/img/icons/dell-logo.svg`;
