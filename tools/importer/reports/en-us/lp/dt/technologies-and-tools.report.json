@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/technologies-and-tools",
+  "path": "en-us/lp/dt/technologies-and-tools",
+  "timestamp": "2026-03-16T17:06:26.016Z",
+  "title": "Technologies and Tools | Dell USA",
+  "template": "services-detail-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "columns",
+    "columns",
+    "cards"
+  ]
+}

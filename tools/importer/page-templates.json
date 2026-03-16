@@ -303,7 +303,9 @@
           "name": "Hero",
           "selector": "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container",
           "style": "dark",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -312,14 +314,18 @@
           "selector": "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
           "style": "dark",
           "blocks": [],
-          "defaultContent": ["[id*='dellbuyercontentlayoutwebparts-1'] .rwp-contentlayout"]
+          "defaultContent": [
+            "[id*='dellbuyercontentlayoutwebparts-1'] .rwp-contentlayout"
+          ]
         },
         {
           "id": "section-features",
           "name": "Features",
           "selector": "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -327,7 +333,9 @@
           "name": "Benefits",
           "selector": "[id*='dellbuyertilelayoutwebparts-1'].cp-container",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -336,7 +344,9 @@
           "selector": "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
           "style": "dark",
           "blocks": [],
-          "defaultContent": ["[id*='dellbuyercontentlayoutwebparts-3'] .rwp-contentlayout"]
+          "defaultContent": [
+            "[id*='dellbuyercontentlayoutwebparts-3'] .rwp-contentlayout"
+          ]
         },
         {
           "id": "section-product-2",
@@ -344,14 +354,18 @@
           "selector": "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
           "style": "dark",
           "blocks": [],
-          "defaultContent": ["[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout"]
+          "defaultContent": [
+            "[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout"
+          ]
         },
         {
           "id": "section-resources",
           "name": "Resources",
           "selector": "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         }
       ]
@@ -408,7 +422,9 @@
           "name": "Hero",
           "selector": "#show-nav-bar",
           "style": "dark",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -416,7 +432,9 @@
           "name": "Feature Cards",
           "selector": "#floating-cards",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -424,7 +442,9 @@
           "name": "Stats",
           "selector": "#number-claim",
           "style": null,
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -432,7 +452,9 @@
           "name": "Product Portfolio",
           "selector": "#portfolio",
           "style": null,
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -440,7 +462,9 @@
           "name": "Interactive Demo",
           "selector": "#demo",
           "style": "dark",
-          "blocks": ["accordion"],
+          "blocks": [
+            "accordion"
+          ],
           "defaultContent": []
         },
         {
@@ -448,7 +472,9 @@
           "name": "Featured Announcements",
           "selector": "#featured",
           "style": null,
-          "blocks": ["carousel"],
+          "blocks": [
+            "carousel"
+          ],
           "defaultContent": []
         },
         {
@@ -456,7 +482,9 @@
           "name": "Resources",
           "selector": "#resources",
           "style": null,
-          "blocks": ["tabs"],
+          "blocks": [
+            "tabs"
+          ],
           "defaultContent": []
         },
         {
@@ -465,14 +493,341 @@
           "selector": "#ownership",
           "style": null,
           "blocks": [],
-          "defaultContent": ["#ownership"]
+          "defaultContent": [
+            "#ownership"
+          ]
         },
         {
           "id": "section-faqs",
           "name": "FAQs",
           "selector": ".disclaimerFAQcontainer",
           "style": null,
-          "blocks": ["accordion"],
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "services-hub-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/services"
+      ],
+      "description": "Top-level services overview page with video hero, stats counters, card grids, and customer story tiles",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "[id*='viewallservices-hero-banner-wp']"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "[id*='viewallservices-overview1-wp']:not([id*='-2']) .rwp-contentlayout"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "[id*='viewallservices-how-we-can-help-wp'] .rwp-contentlayout",
+            "[id*='viewallservices-customers-wp'] .rwp-contentlayout",
+            "[id*='viewallservices-tile'] .rwp-webpart-TileLayout",
+            "[id*='viewallservices-industry-awards-wp'] .rwp-contentlayout"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Video Hero",
+          "selector": "[id*='viewallservices-hero-banner-wp']",
+          "style": "dark",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-forrester-banner",
+          "name": "Forrester Study Banner",
+          "selector": "[id*='viewallservices-banner-wp']",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            "[id*='viewallservices-banner-wp'] .rwp-contentlayout"
+          ]
+        },
+        {
+          "id": "section-what-we-offer",
+          "name": "What We Offer",
+          "selector": "[id*='viewallservices-overview1-wp']:not([id*='-2'])",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-service-credits",
+          "name": "Service Credits Banner",
+          "selector": "[id*='viewallservices-overview1-wp-2']",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "[id*='viewallservices-overview1-wp-2'] .rwp-contentlayout"
+          ]
+        },
+        {
+          "id": "section-how-we-can-help",
+          "name": "How We Can Help",
+          "selector": "[id*='viewallservices-how-we-can-help-wp']",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "[id*='viewallservices-how-we-can-help-wp'] h2"
+          ]
+        },
+        {
+          "id": "section-stats",
+          "name": "Stats",
+          "selector": "[id*='viewallservices-customers-wp']",
+          "style": "dark",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "[id*='viewallservices-customers-wp'] h2:first-of-type"
+          ]
+        },
+        {
+          "id": "section-customer-stories",
+          "name": "Customer Stories",
+          "selector": "[id*='viewallservices-tile']",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "[id*='viewallservices-tile'] h2"
+          ]
+        },
+        {
+          "id": "section-awards",
+          "name": "Awards & Achievements",
+          "selector": "[id*='viewallservices-industry-awards-wp']",
+          "style": "light",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "[id*='viewallservices-industry-awards-wp'] h2:first-of-type"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "services-category-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/professional-services",
+        "https://www.dell.com/en-us/lp/dt/lifecycle-services"
+      ],
+      "description": "Services category overview page with static hero, card carousels for sub-categories, process icon grid, and customer story carousel",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "[id*='hero-banner-wp']"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            "[id*='section2'] .rwp-itemcarousel",
+            "[id*='section']:not([id*='section1']):not([id*='section2']):not([id*='section3']):not([id*='section4']) .rwp-itemcarousel"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "[id*='section1-wp'] .rwp-contentlayout"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "[id*='section4-wp'] .rwp-contentlayout",
+            "[id*='dt-awards'] .rwp-contentlayout"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero Banner",
+          "selector": "[id*='hero-banner-wp']",
+          "style": "dark",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-outcomes-carousel",
+          "name": "Service Outcomes",
+          "selector": "[id*='section2']",
+          "style": null,
+          "blocks": [
+            "carousel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-what-we-offer",
+          "name": "What We Offer",
+          "selector": "[id*='section1-wp']",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-it-potential",
+          "name": "IT Potential",
+          "selector": "[id*='section3-wp']",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            "[id*='section3-wp'] .rwp-contentlayout"
+          ]
+        },
+        {
+          "id": "section-service-phases",
+          "name": "Service Phases",
+          "selector": "[id*='section4-wp']",
+          "style": "dark",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-customer-stories",
+          "name": "Customer Stories",
+          "selector": [
+            "[id*='section']:not([id*='section1']):not([id*='section2']):not([id*='section3']):not([id*='section4']):has(.rwp-itemcarousel)"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-awards",
+          "name": "Awards",
+          "selector": "[id*='dt-awards']",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "[id*='dt-awards'] h2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "services-detail-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/training-and-certification",
+        "https://www.dell.com/en-us/lp/dt/technologies-and-tools",
+        "https://www.dell.com/en-us/lp/dt/artificial-intelligence-services",
+        "https://www.dell.com/en-us/lp/dt/multicloud-services",
+        "https://www.dell.com/en-us/lp/dt/modern-workforce",
+        "https://www.dell.com/en-us/lp/dt/security-and-resiliency",
+        "https://www.dell.com/en-us/lp/dt/deployment-services",
+        "https://www.dell.com/en-us/lp/dt/managed-services",
+        "https://www.dell.com/en-us/lp/dt/support-services",
+        "https://www.dell.com/en-us/lp/dt/recovery-recycling-services"
+      ],
+      "description": "Specific service offering page with hero banner, alternating image-text content layouts, feature sections, and resource carousel",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "[id*='hero-banner-wp']",
+            "[id*='dellbuyerbannercarouselwp']"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".cp-container:has(.rwp-contentlayout-item--columns-One):has(img):has(h3)"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)",
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Four)",
+            ".rwp-webpart-TileLayout"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            ".rwp-itemcarousel"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero Banner",
+          "selector": [
+            "[id*='hero-banner-wp']",
+            "[id*='dellbuyerbannercarouselwp']"
+          ],
+          "style": "dark",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-intro",
+          "name": "Introduction",
+          "selector": "#webparts > .cp-container:nth-child(2)",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".rwp-contentlayout-item--columns-One"
+          ]
+        },
+        {
+          "id": "section-content",
+          "name": "Content Sections",
+          "selector": "#webparts > .cp-container",
+          "style": null,
+          "blocks": [
+            "columns",
+            "cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-resource-carousel",
+          "name": "Resource Carousel",
+          "selector": ".cp-container:has(.rwp-itemcarousel)",
+          "style": "dark",
+          "blocks": [
+            "carousel"
+          ],
           "defaultContent": []
         }
       ]
