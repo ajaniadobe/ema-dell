@@ -3,26 +3,31 @@
 /**
  * Parser for cards.
  * Base block: cards.
- * Source: https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
- * Instances:
- *   #floating-cards.theme-cards-banner-dark (customer stories with logos)
- *   #floating-cards.theme-cards-banner-light (data AI cards)
- *   .value-pillars-container (services icon cards)
- * Generated: 2026-03-12 (Dell page is JS-rendered; selectors target fully-rendered DOM)
+ * Sources:
+ *   - https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence
+ *     Instances: #floating-cards (customer stories/data AI), .value-pillars-container (services)
+ *   - https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing
+ *     Instances: .rwp-contentlayout (business results with icons), .rwp-itemcarousel (product cards)
  *
- * Block library structure (2 columns):
- *   Each row: image/icon (cell 1) | title + description + CTA (cell 2)
- * Block library structure (no images, 1 column):
- *   Each row: title + description + CTA
+ * Block library structure:
+ *   Row per card: [image] | title + desc + CTA
  */
 export default function parse(element, { document }) {
   const cells = [];
 
-  // Floating cards (customer stories / data AI) - desktop view cards
+  // --- Pattern A: AI page - Floating cards (customer stories / data AI) ---
   const floatingCards = Array.from(element.querySelectorAll('.desktopView .floating-card'));
 
-  // Value pillars (services section)
+  // --- Pattern B: AI page - Value pillars (services section) ---
   const valuePillars = Array.from(element.querySelectorAll('.value-pillar-card, .value-pillar'));
+
+  // --- Pattern C: Customer story - ContentLayout items with icons (business results) ---
+  const contentLayoutItems = Array.from(
+    element.querySelectorAll('.rwp-contentlayout-item--columns-Four')
+  );
+
+  // --- Pattern D: Customer story - ItemCarousel slides (product cards) ---
+  const carouselSlides = Array.from(element.querySelectorAll('.rwp-ic-slide'));
 
   if (floatingCards.length > 0) {
     // Floating cards with image/logo + title + description + link
@@ -33,9 +38,7 @@ export default function parse(element, { document }) {
       const link = card.querySelector('.floatingcardLinks');
 
       const imageCell = [];
-      if (img) {
-        imageCell.push(img);
-      }
+      if (img) imageCell.push(img);
 
       const contentCell = [];
       if (title) {
@@ -71,6 +74,62 @@ export default function parse(element, { document }) {
       if (imageCell.length > 0) {
         cells.push([imageCell, contentCell]);
       } else {
+        cells.push(contentCell);
+      }
+    });
+  } else if (contentLayoutItems.length > 0) {
+    // Customer story business results - 4-column icon+stat cards
+    contentLayoutItems.forEach((card) => {
+      // SVG icons are in visual container
+      const svgIcon = card.querySelector('.rwp-contentlayout-item__visual-container svg');
+      const desc = card.querySelector('.rwp-contentlayout-item__description');
+
+      const imageCell = [];
+      if (svgIcon) {
+        // Convert SVG icon name to a placeholder image reference
+        const iconName = svgIcon.getAttribute('data-icon-name') || 'icon';
+        const img = document.createElement('img');
+        img.src = `./icons/${iconName}.svg`;
+        img.alt = iconName;
+        imageCell.push(img);
+      }
+
+      const contentCell = [];
+      if (desc) {
+        const p = document.createElement('p');
+        p.innerHTML = desc.innerHTML.trim();
+        contentCell.push(p);
+      }
+
+      if (imageCell.length > 0 && contentCell.length > 0) {
+        cells.push([imageCell, contentCell]);
+      } else if (contentCell.length > 0) {
+        cells.push(contentCell);
+      }
+    });
+  } else if (carouselSlides.length > 0) {
+    // Customer story product cards (text-only, no images)
+    carouselSlides.forEach((slide) => {
+      const title = slide.querySelector('.rwp-ic-slide__title, h3, h2');
+      const desc = slide.querySelector('.rwp-ic-slide__description');
+      const ctaLink = slide.querySelector('.rwp-button__link, .rwp-webpart__links a');
+
+      const contentCell = [];
+      if (title) {
+        const strong = document.createElement('strong');
+        strong.textContent = title.textContent.trim();
+        const p = document.createElement('p');
+        p.appendChild(strong);
+        contentCell.push(p);
+      }
+      if (desc) {
+        const p = document.createElement('p');
+        p.textContent = desc.textContent.trim();
+        contentCell.push(p);
+      }
+      if (ctaLink) contentCell.push(ctaLink);
+
+      if (contentCell.length > 0) {
         cells.push(contentCell);
       }
     });

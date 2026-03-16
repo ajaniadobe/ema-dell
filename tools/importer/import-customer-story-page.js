@@ -3,10 +3,8 @@
 
 // PARSER IMPORTS
 import heroParser from './parsers/hero.js';
+import columnsParser from './parsers/columns.js';
 import cardsParser from './parsers/cards.js';
-import tabsParser from './parsers/tabs.js';
-import carouselParser from './parsers/carousel.js';
-import accordionParser from './parsers/accordion.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
@@ -15,53 +13,35 @@ import dellSectionsTransformer from './transformers/dell-sections.js';
 // PARSER REGISTRY
 const parsers = {
   'hero': heroParser,
+  'columns': columnsParser,
   'cards': cardsParser,
-  'tabs': tabsParser,
-  'carousel': carouselParser,
-  'accordion': accordionParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
-  name: 'ai-solutions-page',
-  description: 'Dell AI solutions category page showcasing artificial intelligence products and services',
+  name: 'customer-story-page',
+  description: 'Customer story landing page featuring a specific Dell customer case study with hero, video, testimonials, and product highlights',
   urls: [
-    'https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence'
+    'https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing'
   ],
   blocks: [
     {
       name: 'hero',
       instances: [
-        '#hero-ai',
-        '.live-optics-section'
+        "[id*='dellbuyercontentlayoutwebparts-1'].cp-container"
+      ]
+    },
+    {
+      name: 'columns',
+      instances: [
+        "[id*='dellbuyercontentlayoutwebparts-2'] .rwp-contentlayout"
       ]
     },
     {
       name: 'cards',
       instances: [
-        '#floating-cards.theme-cards-banner-dark',
-        '#floating-cards.theme-cards-banner-light',
-        '.value-pillars-container'
-      ]
-    },
-    {
-      name: 'tabs',
-      instances: [
-        '#ai-customer-story-tabs',
-        '#ai-ecosystem-tabs-container',
-        '#cpMFE-Tab'
-      ]
-    },
-    {
-      name: 'carousel',
-      instances: [
-        '#ai-infrastructure-carousel'
-      ]
-    },
-    {
-      name: 'accordion',
-      instances: [
-        '#accordion-FAQ'
+        "[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout",
+        ".rwp-itemcarousel"
       ]
     }
   ],
@@ -69,95 +49,59 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-hero',
       name: 'Hero',
-      selector: '.ai-hero-container',
+      selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
       style: 'dark',
       blocks: ['hero'],
       defaultContent: []
     },
     {
-      id: 'section-outcomes',
-      name: 'Customer Outcomes',
-      selector: '#ai-outcomes',
+      id: 'section-customer-overview',
+      name: 'Customer Overview',
+      selector: "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+      style: null,
+      blocks: ['columns'],
+      defaultContent: []
+    },
+    {
+      id: 'section-quote-video',
+      name: 'Quote & Video',
+      selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
       style: 'dark',
-      blocks: ['cards'],
-      defaultContent: ['.outcomes-header']
-    },
-    {
-      id: 'section-customer-stories',
-      name: 'AI Use Cases',
-      selector: '#ai-customerstory',
-      style: null,
-      blocks: ['tabs'],
-      defaultContent: ['.customerstory-header']
-    },
-    {
-      id: 'section-ai-factory',
-      name: 'Dell AI Factory',
-      selector: '#ai-factory-dell',
-      style: null,
       blocks: [],
       defaultContent: [
-        '.ai-factory-header-wrapper',
-        '.ai-factory-content-wrapper',
-        '.ai-factory-animation-wrapper',
-        '.ai-factory-button-wrapper'
+        "[data-iid*='dellbuyercontentlayoutitems-6']",
+        "[data-iid*='dellbuyercontentlayoutitems-7']"
       ]
     },
     {
-      id: 'section-live-optics',
-      name: 'AI Solutions Explorer CTA',
-      selector: '#ai-liveOptics',
-      style: 'accent',
-      blocks: ['hero'],
-      defaultContent: []
-    },
-    {
-      id: 'section-data-ai',
-      name: 'Data for AI',
-      selector: '#ai-data',
+      id: 'section-business-results',
+      name: 'Business Results',
+      selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
       style: null,
       blocks: ['cards'],
-      defaultContent: ['#ai-data > .outcomes-header']
+      defaultContent: [
+        "[id*='dellbuyercontentlayoutwebparts-4'] h2"
+      ]
     },
     {
-      id: 'section-infrastructure',
-      name: 'AI Infrastructure',
-      selector: '#ai-infrastructure',
-      style: null,
-      blocks: ['carousel'],
-      defaultContent: []
-    },
-    {
-      id: 'section-ecosystem',
-      name: 'AI Partner Ecosystem',
-      selector: '#ai-ecosystem',
-      style: null,
-      blocks: ['tabs'],
-      defaultContent: ['.ai-ecosystem-row']
-    },
-    {
-      id: 'section-services',
-      name: 'Professional Services',
-      selector: '.vpmfe-container',
-      style: 'light',
+      id: 'section-products',
+      name: 'Products',
+      selector: "[id*='dellbuyeritemcarouselwebparts-1'].cp-container",
+      style: 'dark',
       blocks: ['cards'],
-      defaultContent: ['.vpmfe-header-container']
+      defaultContent: [
+        '.rwp-webpart__subtitle'
+      ]
     },
     {
-      id: 'section-resources',
-      name: 'AI Resources',
-      selector: '#cpMFE-Tab',
-      style: null,
-      blocks: ['tabs'],
-      defaultContent: ['.cpmfe-title']
-    },
-    {
-      id: 'section-faqs',
-      name: 'FAQs',
-      selector: '.disclaimerFAQcontainer',
-      style: null,
-      blocks: ['accordion'],
-      defaultContent: []
+      id: 'section-cta',
+      name: 'CTA',
+      selector: "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
+      style: 'dark',
+      blocks: [],
+      defaultContent: [
+        "[data-iid*='dellbuyercontentlayoutitems-13']"
+      ]
     }
   ]
 };

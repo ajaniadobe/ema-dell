@@ -1,6 +1,101 @@
 {
   "templates": [
     {
+      "name": "customer-story-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing"
+      ],
+      "description": "Customer story landing page featuring a specific Dell customer case study with hero, video, testimonials, and product highlights",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "[id*='dellbuyercontentlayoutwebparts-1'].cp-container"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "[id*='dellbuyercontentlayoutwebparts-2'] .rwp-contentlayout"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout",
+            ".rwp-itemcarousel"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+          "style": "dark",
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-customer-overview",
+          "name": "Customer Overview",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-quote-video",
+          "name": "Quote & Video",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            "[data-iid*='dellbuyercontentlayoutitems-6']",
+            "[data-iid*='dellbuyercontentlayoutitems-7']"
+          ]
+        },
+        {
+          "id": "section-business-results",
+          "name": "Business Results",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "[id*='dellbuyercontentlayoutwebparts-4'] h2"
+          ]
+        },
+        {
+          "id": "section-products",
+          "name": "Products",
+          "selector": "[id*='dellbuyeritemcarouselwebparts-1'].cp-container",
+          "style": "dark",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            ".rwp-webpart__subtitle"
+          ]
+        },
+        {
+          "id": "section-cta",
+          "name": "CTA",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [
+            "[data-iid*='dellbuyercontentlayoutitems-13']"
+          ]
+        }
+      ]
+    },
+    {
       "name": "ai-solutions-page",
       "urls": [
         "https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence"
@@ -170,6 +265,23 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "solutions-landing-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/payment-solutions",
+        "https://www.dell.com/en-us/lp/dt/devops-solutions"
+      ],
+      "description": "Solutions landing page promoting Dell solution offerings with hero, feature sections, and CTAs",
+      "blocks": []
+    },
+    {
+      "name": "product-category-page",
+      "urls": [
+        "https://www.dell.com/en-us/shop/scc/sc/apex"
+      ],
+      "description": "Product category page showcasing a Dell product line with hero, product cards, tabs, and resources",
+      "blocks": []
     }
   ]
 }

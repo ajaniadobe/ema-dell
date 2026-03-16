@@ -34,10 +34,10 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-ai-solutions-page.js
-  var import_ai_solutions_page_exports = {};
-  __export(import_ai_solutions_page_exports, {
-    default: () => import_ai_solutions_page_default
+  // tools/importer/import-customer-story-page.js
+  var import_customer_story_page_exports = {};
+  __export(import_customer_story_page_exports, {
+    default: () => import_customer_story_page_default
   });
 
   // tools/importer/parsers/hero.js
@@ -106,8 +106,48 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/cards.js
+  // tools/importer/parsers/columns.js
   function parse2(element, { document }) {
+    const cells = [];
+    const columnItems = Array.from(
+      element.querySelectorAll(".rwp-contentlayout-item")
+    );
+    if (columnItems.length > 0) {
+      const row = [];
+      columnItems.forEach((col) => {
+        const cellContent = [];
+        const img = col.querySelector("img.rwp-image, img");
+        if (img) {
+          const src = img.getAttribute("src") || "";
+          const newImg = document.createElement("img");
+          newImg.src = src.startsWith("//") ? `https:${src}` : src;
+          newImg.alt = img.alt || "";
+          cellContent.push(newImg);
+        }
+        const title = col.querySelector(".rwp-contentlayout-item__title, h3, h2");
+        if (title) {
+          const h3 = document.createElement("h3");
+          h3.textContent = title.textContent.trim();
+          cellContent.push(h3);
+        }
+        const desc = col.querySelector(".rwp-contentlayout-item__description");
+        if (desc) {
+          const p = document.createElement("p");
+          p.innerHTML = desc.innerHTML;
+          cellContent.push(p);
+        }
+        const links = Array.from(col.querySelectorAll(".rwp-button__link, .rwp-webpart__links a"));
+        links.forEach((link) => cellContent.push(link));
+        row.push(cellContent);
+      });
+      cells.push(row);
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name: "columns", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/cards.js
+  function parse3(element, { document }) {
     const cells = [];
     const floatingCards = Array.from(element.querySelectorAll(".desktopView .floating-card"));
     const valuePillars = Array.from(element.querySelectorAll(".value-pillar-card, .value-pillar"));
@@ -228,87 +268,6 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/tabs.js
-  function parse3(element, { document }) {
-    const cells = [];
-    const tabButtons = Array.from(element.querySelectorAll('[role="tab"], .dds__tabs__tab'));
-    const tabPanes = Array.from(element.querySelectorAll('[role="tabpanel"], .dds__tabs__pane'));
-    if (tabButtons.length > 0 && tabPanes.length > 0) {
-      tabButtons.forEach((tab, index) => {
-        const label = tab.textContent.trim();
-        const pane = tabPanes[index];
-        if (label && pane) {
-          cells.push([label, pane]);
-        }
-      });
-    } else {
-      const tabItems = Array.from(element.querySelectorAll(".dds__tabs__tab"));
-      const paneItems = Array.from(element.querySelectorAll(".dds__tabs__pane"));
-      if (tabItems.length > 0) {
-        tabItems.forEach((tab, index) => {
-          const label = tab.textContent.trim();
-          const pane = paneItems[index];
-          if (label && pane) {
-            cells.push([label, pane]);
-          }
-        });
-      }
-    }
-    const block = WebImporter.Blocks.createBlock(document, { name: "tabs", cells });
-    element.replaceWith(block);
-  }
-
-  // tools/importer/parsers/carousel.js
-  function parse4(element, { document }) {
-    const cells = [];
-    const slides = Array.from(element.querySelectorAll(".dds__carousel__item"));
-    slides.forEach((slide) => {
-      const img = slide.querySelector(".ai-infrastructure-carousel-img, img");
-      const imageCell = [];
-      if (img) imageCell.push(img);
-      const contentCell = [];
-      const heading = slide.querySelector('h2, h3, [class*="h2"]');
-      if (heading) contentCell.push(heading);
-      const desc = slide.querySelector(".dds__body-2, p");
-      if (desc) contentCell.push(desc);
-      const ctaLinks = Array.from(slide.querySelectorAll(".cta-link a, .ai-infra-link"));
-      ctaLinks.forEach((link) => contentCell.push(link));
-      if (imageCell.length > 0 || contentCell.length > 0) {
-        cells.push([imageCell, contentCell]);
-      }
-    });
-    const block = WebImporter.Blocks.createBlock(document, { name: "carousel", cells });
-    element.replaceWith(block);
-  }
-
-  // tools/importer/parsers/accordion.js
-  function parse5(element, { document }) {
-    const cells = [];
-    const faqItems = Array.from(element.querySelectorAll("details.faq-item, .faq-item"));
-    if (faqItems.length > 0) {
-      faqItems.forEach((item) => {
-        const questionEl = item.querySelector(".faq-question, summary p, summary");
-        const answerEl = item.querySelector(".faq-answer, .faq-answer-container");
-        const questionText = questionEl ? questionEl.textContent.trim() : "";
-        const answerContent = answerEl || "";
-        if (questionText) {
-          cells.push([questionText, answerContent]);
-        }
-      });
-    } else {
-      const items = Array.from(element.querySelectorAll('[class*="accordion-item"], details'));
-      items.forEach((item) => {
-        const title = item.querySelector('summary, [class*="title"], [class*="header"], h3, h4');
-        const content = item.querySelector('[class*="content"], [class*="body"], [class*="answer"]');
-        if (title && content) {
-          cells.push([title.textContent.trim(), content]);
-        }
-      });
-    }
-    const block = WebImporter.Blocks.createBlock(document, { name: "accordion", cells });
-    element.replaceWith(block);
-  }
-
   // tools/importer/transformers/dell-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -394,54 +353,36 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-ai-solutions-page.js
+  // tools/importer/import-customer-story-page.js
   var parsers = {
     "hero": parse,
-    "cards": parse2,
-    "tabs": parse3,
-    "carousel": parse4,
-    "accordion": parse5
+    "columns": parse2,
+    "cards": parse3
   };
   var PAGE_TEMPLATE = {
-    name: "ai-solutions-page",
-    description: "Dell AI solutions category page showcasing artificial intelligence products and services",
+    name: "customer-story-page",
+    description: "Customer story landing page featuring a specific Dell customer case study with hero, video, testimonials, and product highlights",
     urls: [
-      "https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence"
+      "https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing"
     ],
     blocks: [
       {
         name: "hero",
         instances: [
-          "#hero-ai",
-          ".live-optics-section"
+          "[id*='dellbuyercontentlayoutwebparts-1'].cp-container"
+        ]
+      },
+      {
+        name: "columns",
+        instances: [
+          "[id*='dellbuyercontentlayoutwebparts-2'] .rwp-contentlayout"
         ]
       },
       {
         name: "cards",
         instances: [
-          "#floating-cards.theme-cards-banner-dark",
-          "#floating-cards.theme-cards-banner-light",
-          ".value-pillars-container"
-        ]
-      },
-      {
-        name: "tabs",
-        instances: [
-          "#ai-customer-story-tabs",
-          "#ai-ecosystem-tabs-container",
-          "#cpMFE-Tab"
-        ]
-      },
-      {
-        name: "carousel",
-        instances: [
-          "#ai-infrastructure-carousel"
-        ]
-      },
-      {
-        name: "accordion",
-        instances: [
-          "#accordion-FAQ"
+          "[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout",
+          ".rwp-itemcarousel"
         ]
       }
     ],
@@ -449,95 +390,59 @@ var CustomImportScript = (() => {
       {
         id: "section-hero",
         name: "Hero",
-        selector: ".ai-hero-container",
+        selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
         style: "dark",
         blocks: ["hero"],
         defaultContent: []
       },
       {
-        id: "section-outcomes",
-        name: "Customer Outcomes",
-        selector: "#ai-outcomes",
+        id: "section-customer-overview",
+        name: "Customer Overview",
+        selector: "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+        style: null,
+        blocks: ["columns"],
+        defaultContent: []
+      },
+      {
+        id: "section-quote-video",
+        name: "Quote & Video",
+        selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
         style: "dark",
-        blocks: ["cards"],
-        defaultContent: [".outcomes-header"]
-      },
-      {
-        id: "section-customer-stories",
-        name: "AI Use Cases",
-        selector: "#ai-customerstory",
-        style: null,
-        blocks: ["tabs"],
-        defaultContent: [".customerstory-header"]
-      },
-      {
-        id: "section-ai-factory",
-        name: "Dell AI Factory",
-        selector: "#ai-factory-dell",
-        style: null,
         blocks: [],
         defaultContent: [
-          ".ai-factory-header-wrapper",
-          ".ai-factory-content-wrapper",
-          ".ai-factory-animation-wrapper",
-          ".ai-factory-button-wrapper"
+          "[data-iid*='dellbuyercontentlayoutitems-6']",
+          "[data-iid*='dellbuyercontentlayoutitems-7']"
         ]
       },
       {
-        id: "section-live-optics",
-        name: "AI Solutions Explorer CTA",
-        selector: "#ai-liveOptics",
-        style: "accent",
-        blocks: ["hero"],
-        defaultContent: []
-      },
-      {
-        id: "section-data-ai",
-        name: "Data for AI",
-        selector: "#ai-data",
+        id: "section-business-results",
+        name: "Business Results",
+        selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
         style: null,
         blocks: ["cards"],
-        defaultContent: ["#ai-data > .outcomes-header"]
+        defaultContent: [
+          "[id*='dellbuyercontentlayoutwebparts-4'] h2"
+        ]
       },
       {
-        id: "section-infrastructure",
-        name: "AI Infrastructure",
-        selector: "#ai-infrastructure",
-        style: null,
-        blocks: ["carousel"],
-        defaultContent: []
-      },
-      {
-        id: "section-ecosystem",
-        name: "AI Partner Ecosystem",
-        selector: "#ai-ecosystem",
-        style: null,
-        blocks: ["tabs"],
-        defaultContent: [".ai-ecosystem-row"]
-      },
-      {
-        id: "section-services",
-        name: "Professional Services",
-        selector: ".vpmfe-container",
-        style: "light",
+        id: "section-products",
+        name: "Products",
+        selector: "[id*='dellbuyeritemcarouselwebparts-1'].cp-container",
+        style: "dark",
         blocks: ["cards"],
-        defaultContent: [".vpmfe-header-container"]
+        defaultContent: [
+          ".rwp-webpart__subtitle"
+        ]
       },
       {
-        id: "section-resources",
-        name: "AI Resources",
-        selector: "#cpMFE-Tab",
-        style: null,
-        blocks: ["tabs"],
-        defaultContent: [".cpmfe-title"]
-      },
-      {
-        id: "section-faqs",
-        name: "FAQs",
-        selector: ".disclaimerFAQcontainer",
-        style: null,
-        blocks: ["accordion"],
-        defaultContent: []
+        id: "section-cta",
+        name: "CTA",
+        selector: "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
+        style: "dark",
+        blocks: [],
+        defaultContent: [
+          "[data-iid*='dellbuyercontentlayoutitems-13']"
+        ]
       }
     ]
   };
@@ -578,7 +483,7 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
-  var import_ai_solutions_page_default = {
+  var import_customer_story_page_default = {
     transform: (payload) => {
       const { document, url, html, params } = payload;
       const main = document.body;
@@ -616,5 +521,5 @@ var CustomImportScript = (() => {
       }];
     }
   };
-  return __toCommonJS(import_ai_solutions_page_exports);
+  return __toCommonJS(import_customer_story_page_exports);
 })();
