@@ -96,7 +96,7 @@
       line-height: 1.5;
     }
 
-    a {
+    a:not(.btn) {
       color: var(--color-dell-light-blue, #97c4e8);
       text-decoration: underline;
       font-weight: var(--button-font-weight);
@@ -109,6 +109,12 @@
     .fg-text {
       width: var(--grid-container-width);
       margin: 0 auto;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     div > *:first-child {
@@ -132,12 +138,18 @@
     }
   }
 
-  /* --- Split layout for heroes with video --- */
-  &.has-video {
+  /* --- Split layout for heroes with video or static image --- */
+  &.has-video,
+  &.split {
     .hero-background {
       height: 300px;
       position: relative;
       overflow: hidden;
+
+      picture {
+        position: absolute;
+        inset: 0;
+      }
 
       > div {
         position: absolute;
@@ -299,7 +311,8 @@
     }
 
     /* Split layout at tablet */
-    &.has-video {
+    &.has-video,
+    &.split {
       .hero-foreground {
         display: flex;
         max-width: unset;
@@ -330,7 +343,8 @@
     }
 
     /* Side-by-side layout at desktop */
-    &.has-video {
+    &.has-video,
+    &.split {
       display: grid;
       grid-template-columns: 1fr 1fr;
 
@@ -375,7 +389,8 @@
       grid-template-columns: 33% 33%;
     }
 
-    &.has-video {
+    &.has-video,
+    &.split {
       .hero-foreground {
         padding: 80px;
 
