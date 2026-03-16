@@ -35,6 +35,8 @@ function decorateBackground(el, bg) {
 
 function decorateForeground(fg) {
   const { children } = fg;
+  let firstCta = true;
+  const ctaDivs = [];
   for (const [idx, child] of [...children].entries()) {
     const heading = child.querySelector('h1, h2, h3, h4, h5, h6');
     const text = heading || child.querySelector('p, a, ul');
@@ -54,6 +56,27 @@ function decorateForeground(fg) {
         child.closest('.hero').classList.add('hero-text-end');
       }
     }
+    // Detect CTA links: a div whose only child element is an <a> tag
+    const link = child.querySelector(':scope > a:only-child');
+    if (link && !heading) {
+      link.classList.add('btn');
+      if (firstCta) {
+        link.classList.add('btn-primary');
+        firstCta = false;
+      } else {
+        link.classList.add('btn-secondary');
+      }
+      ctaDivs.push(child);
+    }
+  }
+  // Group multiple CTA buttons into one container
+  if (ctaDivs.length > 1) {
+    const group = ctaDivs[0];
+    group.classList.add('hero-cta-group');
+    ctaDivs.slice(1).forEach((div) => {
+      group.append(div.querySelector('a'));
+      div.remove();
+    });
   }
 }
 
