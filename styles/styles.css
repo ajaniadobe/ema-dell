@@ -440,12 +440,13 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
     }
   }
 
-  /* CTA buttons paragraph — stack vertically, centered */
+  /* CTA buttons paragraph — horizontal row */
   > p:last-child:has(a[href*="nvidia"]) {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 20px 12px;
     margin-top: 40px;
 
     > a {
