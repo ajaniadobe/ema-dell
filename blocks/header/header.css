@@ -353,6 +353,25 @@ header {
       }
     }
 
+    .menu:not(.language) {
+      left: auto;
+      right: auto;
+      min-width: 220px;
+      padding: var(--spacing-m) var(--spacing-l);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+      z-index: 1001;
+
+      a {
+        display: block;
+        padding: 6px 0;
+
+        &:hover {
+          color: var(--color-dell-blue, #0672cb);
+        }
+      }
+    }
+
     .mega-menu {
       > .fragment-content {
         display: grid;
