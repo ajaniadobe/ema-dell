@@ -1,25 +1,8 @@
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -309,6 +292,39 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/value-pillars.js
+  function parse6(element, { document }) {
+    const cells = [];
+    const ddsCards = Array.from(element.querySelectorAll(".dds__card.vp_card_bg"));
+    if (ddsCards.length > 0) {
+      ddsCards.forEach((card) => {
+        const title = card.querySelector(".dds__card__header h3, .dds__card__header h4");
+        const desc = card.querySelector(".dds__card__body");
+        const link = card.querySelector(".dds__card__footer a");
+        const contentCell = [];
+        if (title) {
+          const strong = document.createElement("strong");
+          strong.textContent = title.textContent.trim();
+          const p = document.createElement("p");
+          p.appendChild(strong);
+          contentCell.push(p);
+        }
+        if (desc) {
+          const p = document.createElement("p");
+          p.textContent = desc.textContent.trim();
+          contentCell.push(p);
+        }
+        if (link) contentCell.push(link);
+        if (contentCell.length > 0) {
+          cells.push(contentCell);
+        }
+      });
+    }
+    if (cells.length === 0) return;
+    const block = WebImporter.Blocks.createBlock(document, { name: "cards", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/dell-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -446,7 +462,8 @@ var CustomImportScript = (() => {
     "cards": parse2,
     "tabs": parse3,
     "carousel": parse4,
-    "accordion": parse5
+    "accordion": parse5,
+    "value-pillars": parse6
   };
   var PAGE_TEMPLATE = {
     name: "product-category-page",
@@ -472,6 +489,12 @@ var CustomImportScript = (() => {
           "#floating-cards",
           "#number-claim",
           ".portfolio-container"
+        ]
+      },
+      {
+        name: "value-pillars",
+        instances: [
+          ".value-pillars-container"
         ]
       },
       {
@@ -520,9 +543,17 @@ var CustomImportScript = (() => {
         defaultContent: []
       },
       {
+        id: "section-benefits",
+        name: "Benefits",
+        selector: "#benefits",
+        style: "dark",
+        blocks: ["cards"],
+        defaultContent: []
+      },
+      {
         id: "section-portfolio",
         name: "Product Portfolio",
-        selector: "#portfolio",
+        selector: ["#portfolio", "#solutions"],
         style: null,
         blocks: ["cards"],
         defaultContent: []
@@ -574,9 +605,10 @@ var CustomImportScript = (() => {
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), {
+    const enhancedPayload = {
+      ...payload,
       template: PAGE_TEMPLATE
-    });
+    };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);

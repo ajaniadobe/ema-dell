@@ -1,20 +1,8 @@
 {
-  "status": "success",
+  "status": "failed",
   "url": "https://www.dell.com/en-us/shop/scc/sc/artificial-intelligence",
   "path": "en-us/shop/scc/sc/artificial-intelligence",
-  "timestamp": "2026-03-16T13:23:21.722Z",
-  "title": "Artificial Intelligence Solutions | Dell USA",
-  "template": "ai-solutions-page",
-  "blocks": [
-    "hero",
-    "hero",
-    "cards",
-    "cards",
-    "cards",
-    "tabs",
-    "tabs",
-    "tabs",
-    "carousel",
-    "accordion"
-  ]
+  "timestamp": "2026-03-16T22:23:09.210Z",
+  "error": "CustomImportScript.default not found after 10s. The bundled script may not have loaded correctly. Check browser console for errors.",
+  "errorStack": "Error: CustomImportScript.default not found after 10s. The bundled script may not have loaded correctly. Check browser console for errors.\n    at processUrl (file:///home/node/.claude/plugins/cache/excat-marketplace/excat/2.1.1/skills/excat-content-import/scripts/run-bulk-import.js:293:13)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:472:9)\n    at async main (file:///home/node/.claude/plugins/cache/excat-marketplace/excat/2.1.1/skills/excat-content-import/scripts/run-bulk-import.js:457:22)"
 }
