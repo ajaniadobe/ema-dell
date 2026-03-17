@@ -51,7 +51,10 @@ async function decorateBackground(el, bg) {
   if (img) setBackgroundFocus(img);
 
   const vidSrc = await getVideoSrc(bg);
-  if (!vidSrc) return;
+  if (!vidSrc) {
+    el.classList.add('split');
+    return;
+  }
 
   el.classList.add('has-video');
   const video = document.createElement('video');
