@@ -339,10 +339,15 @@ function structurePartnerCards(container, headerEls) {
 }
 
 function decorateResourceCards(block) {
-  // Only apply to tabs in the AI Resources section
+  // Only apply to tabs in resource sections (AI Resources, Networking Resources, etc.)
   // Use heading ID rather than section class (which may not be set yet)
   const section = block.closest('.section');
-  if (!section || !section.querySelector('#ai-resources')) return;
+  const hasResourceSection = section && (
+    section.querySelector('#ai-resources')
+    || section.querySelector('#networking-resources')
+    || section.querySelector('#server-resources')
+  );
+  if (!hasResourceSection) return;
 
   const panels = block.querySelectorAll('[role=tabpanel]');
   let hasResourceContent = false;
@@ -352,23 +357,52 @@ function decorateResourceCards(block) {
     if (!content) return;
 
     // Resource panels have h3 headings but NO h4 or h5
-    const h3s = content.querySelectorAll('h3');
-    if (h3s.length === 0 || content.querySelector('h4') || content.querySelector('h5')) return;
+    const allH3s = content.querySelectorAll('h3');
+    if (allH3s.length === 0 || content.querySelector('h4') || content.querySelector('h5')) return;
 
     hasResourceContent = true;
 
-    // Group elements: each h3 starts a new card (h3 + following p elements)
-    const cards = [];
-    let currentCard = null;
-    [...content.children].forEach((el) => {
-      if (el.tagName === 'H3') {
-        if (currentCard) cards.push(currentCard);
-        currentCard = [el];
-      } else if (currentCard) {
-        currentCard.push(el);
+    // Mark category labels (all-uppercase paragraphs without links/images)
+    const labelSet = new Set();
+    content.querySelectorAll('p').forEach((p) => {
+      const text = p.textContent.trim();
+      if (text && text === text.toUpperCase() && text.length > 2
+        && !p.querySelector('a') && !p.querySelector('img')) {
+        p.classList.add('tabs-resource-label');
+        labelSet.add(p);
       }
     });
-    if (currentCard) cards.push(currentCard);
+
+    // Remove orphaned non-label, non-heading elements at the start (tab title echoes)
+    while (content.firstElementChild
+      && content.firstElementChild.tagName !== 'H3'
+      && !labelSet.has(content.firstElementChild)) {
+      content.firstElementChild.remove();
+    }
+
+    // Group cards: each h3 forms a card, pulling in its preceding label
+    const cards = [];
+    const seenH3 = new Set();
+    allH3s.forEach((h3) => {
+      // Deduplicate cards with the same h3 text
+      const h3Text = h3.textContent.trim();
+      if (seenH3.has(h3Text)) return;
+      seenH3.add(h3Text);
+
+      const card = [];
+      // Include preceding category label if present
+      const prev = h3.previousElementSibling;
+      if (prev && labelSet.has(prev)) card.push(prev);
+
+      // Add h3 and following elements until next label or h3
+      card.push(h3);
+      let next = h3.nextElementSibling;
+      while (next && next.tagName !== 'H3' && !labelSet.has(next)) {
+        card.push(next);
+        next = next.nextElementSibling;
+      }
+      cards.push(card);
+    });
     if (cards.length === 0) return;
 
     // Build carousel container
@@ -455,6 +489,154 @@ function decorateResourceCards(block) {
   if (hasResourceContent) {
     block.classList.add('tabs-resource');
   }
+}
+
+function decorateAwards(block) {
+  // Find sibling default-content with #awards-and-reviews in the same section
+  const section = block.closest('.section');
+  if (!section) return;
+  const awardsContainer = section.querySelector('.default-content:has(#awards-and-reviews)');
+  if (!awardsContainer) return;
+
+  const awardsH2 = awardsContainer.querySelector('#awards-and-reviews');
+  if (!awardsH2) return;
+
+  // Remove junk paragraphs (nav text, counters)
+  [...awardsContainer.querySelectorAll('p')].forEach((p) => {
+    const text = p.textContent.trim();
+    if (text && isVideoJunk(text)) p.remove();
+  });
+  // Remove counter patterns like "1/2", "1/4"
+  [...awardsContainer.querySelectorAll('p')].forEach((p) => {
+    if (/^\d+\/\d+$/.test(p.textContent.trim())) p.remove();
+  });
+
+  // Capture subtitle before DOM manipulation moves elements
+  const subtitleEl = awardsH2.nextElementSibling;
+  const subtitleP = (subtitleEl && subtitleEl.tagName === 'P') ? subtitleEl : null;
+
+  // Group award cards: each h3 starts a card with preceding source label
+  const h3s = awardsContainer.querySelectorAll('h3');
+  if (h3s.length === 0) return;
+
+  const cards = [];
+  h3s.forEach((h3) => {
+    const card = document.createElement('div');
+    card.className = 'awards-card';
+
+    // Look for source label (p before h3 with short text, no link/img)
+    const prev = h3.previousElementSibling;
+    if (prev && prev.tagName === 'P' && !prev.querySelector('a')
+      && !prev.querySelector('img') && prev.textContent.trim().length < 30
+      && prev !== awardsH2 && prev !== awardsH2.nextElementSibling) {
+      const sourceEl = document.createElement('span');
+      sourceEl.className = 'awards-source';
+      sourceEl.textContent = prev.textContent.trim();
+      card.append(sourceEl);
+    }
+
+    // Capture next sibling BEFORE moving h3 (appending moves it out of container)
+    let next = h3.nextElementSibling;
+    card.append(h3);
+
+    // Collect following elements until next source+h3 pattern
+    while (next) {
+      const isSourceForNext = next.tagName === 'P' && !next.querySelector('a')
+        && !next.querySelector('img') && next.textContent.trim().length < 30
+        && next.nextElementSibling && next.nextElementSibling.tagName === 'H3';
+      if (next.tagName === 'H3' || isSourceForNext) break;
+      const nextSibling = next.nextElementSibling;
+      card.append(next);
+      next = nextSibling;
+    }
+
+    // Clean up duplicate link text (e.g., "Read about this award  Read about Product of the Year")
+    card.querySelectorAll('a').forEach((a) => {
+      const text = a.textContent.trim();
+      const parts = text.split(/\s{2,}/);
+      if (parts.length > 1) {
+        [a.textContent] = parts;
+      }
+    });
+
+    cards.push(card);
+  });
+
+  if (cards.length === 0) return;
+
+  // Build carousel
+  const carousel = document.createElement('div');
+  carousel.className = 'awards-carousel';
+  cards.forEach((card) => carousel.append(card));
+
+  // Build navigation
+  const nav = document.createElement('div');
+  nav.className = 'awards-nav';
+
+  const counter = document.createElement('span');
+  counter.className = 'awards-counter';
+  counter.textContent = `1/${cards.length}`;
+
+  const arrows = document.createElement('div');
+  arrows.className = 'awards-arrows';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.setAttribute('aria-label', 'Previous');
+  prevBtn.innerHTML = '&#8592;';
+  prevBtn.disabled = true;
+
+  const nextBtn = document.createElement('button');
+  nextBtn.setAttribute('aria-label', 'Next');
+  nextBtn.innerHTML = '&#8594;';
+  if (cards.length <= 1) nextBtn.disabled = true;
+
+  arrows.append(prevBtn, nextBtn);
+  nav.append(counter, arrows);
+
+  // Carousel scroll handling
+  let currentIndex = 0;
+  const updateNav = () => {
+    counter.textContent = `${currentIndex + 1}/${cards.length}`;
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex >= cards.length - 1;
+  };
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex -= 1;
+      carousel.children[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      updateNav();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < cards.length - 1) {
+      currentIndex += 1;
+      carousel.children[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      updateNav();
+    }
+  });
+
+  carousel.addEventListener('scrollend', () => {
+    const { scrollLeft } = carousel;
+    let closest = 0;
+    let minDist = Infinity;
+    [...carousel.children].forEach((card, idx) => {
+      const dist = Math.abs(card.offsetLeft - carousel.offsetLeft - scrollLeft);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = idx;
+      }
+    });
+    currentIndex = closest;
+    updateNav();
+  });
+
+  // Replace container content: keep h2, subtitle, add carousel + nav
+  awardsContainer.replaceChildren();
+  awardsContainer.append(awardsH2);
+  if (subtitleP) awardsContainer.append(subtitleP);
+  awardsContainer.append(carousel, nav);
 }
 
 function decoratePartnerTabs(block) {
@@ -552,6 +734,18 @@ export default async function decorate(block) {
     if (half > 3 && firstHalf === secondHalf) {
       label = label.substring(0, half).trim();
     }
+    // Strip section heading prefix from tab label
+    // (e.g., "Networking Resources Technical resources" -> "Technical resources")
+    const sectionEl = block.closest('.section');
+    if (sectionEl) {
+      const sectionH2 = sectionEl.querySelector(':scope > .default-content > h2');
+      if (sectionH2) {
+        const h2Text = sectionH2.textContent.trim();
+        if (label.startsWith(h2Text) && label.length > h2Text.length) {
+          label = label.substring(h2Text.length).trim();
+        }
+      }
+    }
     button.textContent = label;
     button.setAttribute('aria-controls', `tabpanel-${id}`);
     button.setAttribute('aria-selected', !i);
@@ -584,6 +778,9 @@ export default async function decorate(block) {
 
   // Structure AI Resources tabs (resource cards carousel)
   decorateResourceCards(block);
+
+  // Structure Awards and reviews section (sibling to tabs in same section)
+  decorateAwards(block);
 
   // Structure AI Partner Ecosystem tabs (logo grid + partner cards)
   decoratePartnerTabs(block);

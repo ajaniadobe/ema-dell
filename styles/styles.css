@@ -1016,6 +1016,208 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   cursor: default;
 }
 
+/* ===== Resource card category label (e.g., "WHITEPAPERS AND GUIDES") ===== */
+.tabs-resource-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: rgb(255 255 255 / 15%);
+  padding: 6px 14px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+/* ===== Dark section resource cards overrides ===== */
+.section.dark .tabs-resource-card {
+  background: #151f2a;
+  border-color: #2a3a4a;
+}
+
+.section.dark .tabs-resource-card h3 {
+  color: var(--color-white);
+}
+
+.section.dark .tabs-resource-card p {
+  color: #c5d4e3;
+  text-transform: none;
+  font-size: var(--body-font-size-m);
+  letter-spacing: normal;
+}
+
+.section.dark .tabs-resource-card a {
+  color: var(--color-dell-light-blue);
+}
+
+.section.dark .tabs-resource-counter {
+  color: #c5d4e3;
+  border-color: #2a3a4a;
+}
+
+.section.dark .tabs-resource-arrows button {
+  color: var(--color-white);
+  border-color: #2a3a4a;
+}
+
+.section.dark .tabs-resource-arrows button:hover {
+  border-color: var(--color-white);
+}
+
+/* ===== Networking Resources section heading ===== */
+.section.dark:has(#networking-resources) > .default-content:first-child {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section.dark:has(#networking-resources) > .default-content:first-child > h2 {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+/* ===== Awards and reviews section ===== */
+.section.dark:has(#awards-and-reviews) > .default-content:has(#awards-and-reviews) {
+  max-width: var(--grid-container-width);
+  margin: var(--spacing-xxl) auto 0;
+  padding-bottom: var(--spacing-xl);
+
+  > h2 {
+    font-size: 40px;
+    font-weight: 300;
+    margin-bottom: var(--spacing-s);
+  }
+
+  > h2 + p {
+    font-size: var(--body-font-size-m);
+    color: #c5d4e3;
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
+/* Awards carousel */
+.awards-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 24px;
+  padding: 0 0 24px;
+  scrollbar-width: none;
+}
+
+.awards-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.awards-card {
+  flex: 0 0 min(90%, 700px);
+  scroll-snap-align: start;
+  background: #151f2a;
+  border: 1px solid #2a3a4a;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+}
+
+.section.dark .awards-source {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8fa4b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.section.dark .awards-card h3 {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-white);
+  margin: 0 0 8px;
+}
+
+.section.dark .awards-card p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #8fa4b8;
+  margin: 0 0 12px;
+}
+
+.section.dark .awards-card p:has(img) {
+  margin: 16px auto 24px;
+  color: inherit;
+}
+
+.section.dark .awards-card img {
+  max-width: 280px;
+  max-height: 240px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.section.dark .awards-card p:has(a) {
+  margin-top: 16px;
+}
+
+.section.dark .awards-card a {
+  color: var(--color-dell-light-blue);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.section.dark .awards-card a:hover {
+  text-decoration: underline;
+}
+
+/* Awards navigation */
+.awards-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.awards-counter {
+  font-size: 14px;
+  color: #c5d4e3;
+  padding: 6px 16px;
+  border: 1px solid #2a3a4a;
+  border-radius: 20px;
+}
+
+.awards-arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.awards-arrows button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #2a3a4a;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 18px;
+  color: var(--color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+
+.awards-arrows button:hover {
+  border-color: var(--color-white);
+}
+
+.awards-arrows button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 /* ===== FAQs section ===== */
 .section:has(#faqs) > .default-content {
   text-align: center;
