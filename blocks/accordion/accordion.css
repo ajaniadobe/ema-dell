@@ -91,3 +91,60 @@
 .accordion details .accordion-item-body a {
   color: var(--color-dell-blue);
 }
+
+/* Dark section: single-item CTA card style (Test drive) */
+.section.dark .accordion:has(details:only-of-type) .accordion-controls {
+  display: none;
+}
+
+.section.dark .accordion details {
+  border: 2px solid #839db4;
+  border-radius: 0;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 30px 24px;
+}
+
+.section.dark .accordion details:last-child {
+  border-bottom: 2px solid #839db4;
+}
+
+.section.dark .accordion details summary {
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--color-white);
+  padding: 0;
+  cursor: default;
+  line-height: 1.2;
+}
+
+.section.dark .accordion details summary::after {
+  display: none;
+}
+
+.section.dark .accordion details summary:hover {
+  background: none;
+}
+
+.section.dark .accordion details .accordion-item-body {
+  padding: 16px 0 0;
+  color: #c5d4e3;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.section.dark .accordion details .accordion-item-body a {
+  color: #c5d4e3;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section.dark .accordion details .accordion-item-body a::after {
+  content: '\2192';
+}
+
+.section.dark .accordion details .accordion-item-body a:hover {
+  color: var(--color-white);
+}

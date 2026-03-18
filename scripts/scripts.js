@@ -44,15 +44,9 @@ function decorateSubnavs() {
 
     dc.classList.add('subnav');
 
-    // Collect scroll targets: content groups after the subnav + subsequent sections
+    // Collect scroll targets: subsequent main sections only (skip siblings in hero section)
     const section = dc.closest('.section');
     const targets = [];
-    let sibling = dc.nextElementSibling;
-    while (sibling) {
-      targets.push(sibling);
-      sibling = sibling.nextElementSibling;
-    }
-    // Add subsequent main sections as targets
     let nextSection = section.nextElementSibling;
     while (nextSection && nextSection.classList.contains('section')) {
       if (nextSection.offsetHeight > 0) targets.push(nextSection);
@@ -84,14 +78,29 @@ function decorateSubnavs() {
     // Map nav links to targets and assign anchor IDs
     const navLinks = [...middle.querySelectorAll('li a')];
     navLinks.forEach((link, i) => {
+      const id = link.textContent.trim().toLowerCase().replace(/\s+/g, '-');
       if (i < targets.length) {
-        const id = link.textContent.trim().toLowerCase().replace(/\s+/g, '-');
-        targets[i].id = id;
-        link.href = `#${id}`;
+        // Don't overwrite IDs set by block decorators (e.g. portfolio cards sets #solutions)
+        if (!targets[i].id) targets[i].id = id;
+        link.href = `#${targets[i].id}`;
         link.addEventListener('click', (e) => {
           e.preventDefault();
           targets[i].scrollIntoView({ behavior: 'smooth' });
         });
+      } else {
+        // More links than sections — look for a sub-element to scroll to
+        // e.g. "Reviews" link → #awards-and-reviews heading in last section
+        const lastTarget = targets[targets.length - 1];
+        if (lastTarget) {
+          const sub = lastTarget.querySelector(`[id*="${id}"]`)
+            || lastTarget.querySelector('h2[id]:last-of-type');
+          const scrollTarget = sub || lastTarget;
+          link.href = `#${scrollTarget.id || id}`;
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            scrollTarget.scrollIntoView({ behavior: 'smooth' });
+          });
+        }
       }
     });
 

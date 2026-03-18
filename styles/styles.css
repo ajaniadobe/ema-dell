@@ -1379,7 +1379,7 @@ aem-sidekick {
   gap: 0;
   padding: 0 20px;
   margin: 0 -20px;
-  border-bottom: 1px solid #e1e1e1;
+  box-shadow: 0 10px 10px rgb(0 0 0 / 10%);
   max-width: unset;
 
   &.subnav-fixed {
@@ -1417,17 +1417,17 @@ aem-sidekick {
 
       a {
         display: block;
-        padding: 12px 16px;
-        color: var(--color-dell-blue);
+        padding: 10px 16px;
+        color: #0e0e0e;
         text-decoration: none;
-        font-size: var(--body-font-size-s);
+        font-size: var(--body-font-size-m);
         font-weight: 400;
         white-space: nowrap;
         border-radius: 20px;
         transition: background-color 0.2s, color 0.2s;
 
         &:hover {
-          color: var(--color-dell-blue-hover);
+          color: var(--color-dell-blue);
         }
 
         &.active {
@@ -1445,13 +1445,13 @@ aem-sidekick {
     a {
       display: inline-flex;
       align-items: center;
-      padding: 8px 20px;
+      padding: 6px 16px;
       background-color: var(--color-dell-blue);
       color: var(--color-white);
       text-decoration: none;
-      font-size: var(--body-font-size-s);
-      font-weight: var(--button-font-weight);
-      border-radius: var(--button-border-radius);
+      font-size: 12px;
+      font-weight: 400;
+      border-radius: 3px;
       transition: background-color 0.2s;
 
       &:hover {
@@ -1506,6 +1506,133 @@ aem-sidekick {
 /* Hide empty cards blocks (block with no visible content) */
 .cards:not(:has(li:not([style*="display: none"]))) {
   display: none;
+}
+
+/* ===== Portfolio Cards (Explore networking solutions) ===== */
+
+/* Darker section background so cards contrast */
+.section.dark:has(.cards.portfolio) {
+  background-color: #141d28;
+}
+
+.section.dark > .default-content + .block-content > .cards.portfolio {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.section.dark .cards.portfolio .portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.section.dark .cards.portfolio .portfolio-card {
+  background: #1d2c3b;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.section.dark .cards.portfolio .portfolio-card-image {
+  background: #293b4d;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-image img {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content {
+  padding: 24px 28px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content h3 {
+  color: var(--color-white);
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-desc {
+  color: #a0b4c8;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+  font-weight: 300;
+}
+
+.section.dark .cards.portfolio .portfolio-card-bestfor {
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin: 0 0 12px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-cta {
+  margin-top: auto;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content ul {
+  list-style: disc;
+  margin: 0 0 32px;
+  padding-left: 20px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content li {
+  color: #a0b4c8;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.section.dark .cards.portfolio .portfolio-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  background: transparent;
+  border: 2px solid var(--color-white);
+  border-radius: 4px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.section.dark .cards.portfolio .portfolio-explore-btn::after {
+  content: '\2192';
+  font-size: 18px;
+}
+
+.section.dark .cards.portfolio .portfolio-explore-btn:hover {
+  background: var(--color-white);
+  color: var(--color-dell-near-black);
+}
+
+/* Portfolio section heading */
+.section.dark:has(.cards.portfolio) > .default-content > h2 {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 300;
+  margin-bottom: 48px;
+}
+
+@media (width < 768px) {
+  .section.dark .cards.portfolio .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== Product Portfolio Cards (Product Category pages) ===== */
