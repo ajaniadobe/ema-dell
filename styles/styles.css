@@ -278,6 +278,24 @@ main > .section.dark {
   }
 }
 
+/* Blue accent bar before select dark-section headings */
+#start-with-the-end-in-mind,
+#invest-in-ai-achieve-real-results {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#start-with-the-end-in-mind::before,
+#invest-in-ai-achieve-real-results::before {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 10px;
+  background-color: #1c83f8;
+  flex-shrink: 0;
+}
+
 /* CTA banner — default-content with h3 + h3 + h4 pattern */
 main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   background-color: #151f2a;
