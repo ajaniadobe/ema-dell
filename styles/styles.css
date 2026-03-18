@@ -278,16 +278,14 @@ main > .section.dark {
   }
 }
 
-/* Blue accent bar before select dark-section headings */
-#start-with-the-end-in-mind,
-#invest-in-ai-achieve-real-results {
+/* Blue accent bar before h2 headings in accent-bar sections */
+.section.accent-bar > .default-content > h2 {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-#start-with-the-end-in-mind::before,
-#invest-in-ai-achieve-real-results::before {
+.section.accent-bar > .default-content > h2::before {
   content: '';
   display: inline-block;
   width: 40px;
