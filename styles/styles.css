@@ -262,39 +262,18 @@ main > .section.dark {
     margin-bottom: var(--spacing-xl);
 
     h2 {
-      font-size: 48px;
+      font-size: 40px;
       font-weight: 300;
-      line-height: 1.15;
+      line-height: 1.2;
       margin-bottom: 24px;
 
-      &::before {
-        content: '';
-        display: inline-block;
-        width: 64px;
-        height: 16px;
-        background-color: #1c83f8;
-        margin-right: 20px;
-        vertical-align: middle;
-      }
     }
 
     p {
       font-size: 24px;
-      font-weight: 300;
-      line-height: 1.5;
-      color: var(--color-white);
-    }
-  }
-}
-
-@media (width >= 1200px) {
-  main > .section.dark > .default-content {
-    h2 {
-      font-size: 56px;
-    }
-
-    p {
-      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.33;
+      color: #c5d4e3;
     }
   }
 }
@@ -1420,8 +1399,10 @@ aem-sidekick {
 /* ===== Promo Banner Styling (top of product-category dark section) ===== */
 
 /* Hide duplicate promo banner content (appears twice in imported HTML) */
-.section.dark > .default-content > p:nth-child(4),
-.section.dark > .default-content > p:nth-child(5) {
+
+/* Only applies when default-content starts with a promo image (p > img) */
+.section.dark > .default-content:has(> p:first-child > img:only-child) > p:nth-child(4),
+.section.dark > .default-content:has(> p:first-child > img:only-child) > p:nth-child(5) {
   display: none;
 }
 
@@ -1433,6 +1414,29 @@ aem-sidekick {
     max-width: 200px;
     height: auto;
   }
+}
+
+/* ===== Dark section with h2 intro + video still image ===== */
+
+/* Pattern: h2 + p(desc) + p(caption) + p(img) — e.g. networking solutions section */
+.section.dark > .default-content > h2:first-child ~ p:has(> img:only-child) {
+  margin: 0 0 var(--spacing-xl);
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.section.dark > .default-content > h2:first-child + p + p:not(:last-child, :has(a), :has(img)) {
+  font-size: var(--body-font-size-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-s);
+  opacity: 0.7;
 }
 
 /* ===== Solutions Landing Page — Hero/Banner ===== */
