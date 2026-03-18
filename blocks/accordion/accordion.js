@@ -14,6 +14,15 @@ export default function decorate(block) {
     row.replaceWith(details);
   });
 
+  const allDetails = block.querySelectorAll('details');
+
+  // Single-item accordion in dark section: open by default, skip controls
+  const section = block.closest('.section');
+  if (allDetails.length === 1 && section?.classList.contains('dark')) {
+    allDetails[0].open = true;
+    return;
+  }
+
   // Add Expand All / Collapse All controls
   const controls = document.createElement('div');
   controls.className = 'accordion-controls';
@@ -21,7 +30,7 @@ export default function decorate(block) {
   const expandBtn = document.createElement('button');
   expandBtn.textContent = 'Expand All';
   expandBtn.addEventListener('click', () => {
-    block.querySelectorAll('details').forEach((d) => { d.open = true; });
+    allDetails.forEach((d) => { d.open = true; });
   });
 
   const separator = document.createElement('span');
@@ -30,7 +39,7 @@ export default function decorate(block) {
   const collapseBtn = document.createElement('button');
   collapseBtn.textContent = 'Collapse All';
   collapseBtn.addEventListener('click', () => {
-    block.querySelectorAll('details').forEach((d) => { d.open = false; });
+    allDetails.forEach((d) => { d.open = false; });
   });
 
   controls.append(expandBtn, separator, collapseBtn);

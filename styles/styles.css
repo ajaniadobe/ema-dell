@@ -262,39 +262,18 @@ main > .section.dark {
     margin-bottom: var(--spacing-xl);
 
     h2 {
-      font-size: 48px;
+      font-size: 40px;
       font-weight: 300;
-      line-height: 1.15;
+      line-height: 1.2;
       margin-bottom: 24px;
 
-      &::before {
-        content: '';
-        display: inline-block;
-        width: 64px;
-        height: 16px;
-        background-color: #1c83f8;
-        margin-right: 20px;
-        vertical-align: middle;
-      }
     }
 
     p {
       font-size: 24px;
-      font-weight: 300;
-      line-height: 1.5;
-      color: var(--color-white);
-    }
-  }
-}
-
-@media (width >= 1200px) {
-  main > .section.dark > .default-content {
-    h2 {
-      font-size: 56px;
-    }
-
-    p {
-      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.33;
+      color: #c5d4e3;
     }
   }
 }
@@ -1037,6 +1016,208 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   cursor: default;
 }
 
+/* ===== Resource card category label (e.g., "WHITEPAPERS AND GUIDES") ===== */
+.tabs-resource-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: rgb(255 255 255 / 15%);
+  padding: 6px 14px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+/* ===== Dark section resource cards overrides ===== */
+.section.dark .tabs-resource-card {
+  background: #151f2a;
+  border-color: #2a3a4a;
+}
+
+.section.dark .tabs-resource-card h3 {
+  color: var(--color-white);
+}
+
+.section.dark .tabs-resource-card p {
+  color: #c5d4e3;
+  text-transform: none;
+  font-size: var(--body-font-size-m);
+  letter-spacing: normal;
+}
+
+.section.dark .tabs-resource-card a {
+  color: var(--color-dell-light-blue);
+}
+
+.section.dark .tabs-resource-counter {
+  color: #c5d4e3;
+  border-color: #2a3a4a;
+}
+
+.section.dark .tabs-resource-arrows button {
+  color: var(--color-white);
+  border-color: #2a3a4a;
+}
+
+.section.dark .tabs-resource-arrows button:hover {
+  border-color: var(--color-white);
+}
+
+/* ===== Networking Resources section heading ===== */
+.section.dark:has(#networking-resources) > .default-content:first-child {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section.dark:has(#networking-resources) > .default-content:first-child > h2 {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+/* ===== Awards and reviews section ===== */
+.section.dark:has(#awards-and-reviews) > .default-content:has(#awards-and-reviews) {
+  max-width: var(--grid-container-width);
+  margin: var(--spacing-xxl) auto 0;
+  padding-bottom: var(--spacing-xl);
+
+  > h2 {
+    font-size: 40px;
+    font-weight: 300;
+    margin-bottom: var(--spacing-s);
+  }
+
+  > h2 + p {
+    font-size: var(--body-font-size-m);
+    color: #c5d4e3;
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
+/* Awards carousel */
+.awards-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 24px;
+  padding: 0 0 24px;
+  scrollbar-width: none;
+}
+
+.awards-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.awards-card {
+  flex: 0 0 min(90%, 700px);
+  scroll-snap-align: start;
+  background: #151f2a;
+  border: 1px solid #2a3a4a;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+}
+
+.section.dark .awards-source {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8fa4b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.section.dark .awards-card h3 {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-white);
+  margin: 0 0 8px;
+}
+
+.section.dark .awards-card p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #8fa4b8;
+  margin: 0 0 12px;
+}
+
+.section.dark .awards-card p:has(img) {
+  margin: 16px auto 24px;
+  color: inherit;
+}
+
+.section.dark .awards-card img {
+  max-width: 280px;
+  max-height: 240px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.section.dark .awards-card p:has(a) {
+  margin-top: 16px;
+}
+
+.section.dark .awards-card a {
+  color: var(--color-dell-light-blue);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.section.dark .awards-card a:hover {
+  text-decoration: underline;
+}
+
+/* Awards navigation */
+.awards-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.awards-counter {
+  font-size: 14px;
+  color: #c5d4e3;
+  padding: 6px 16px;
+  border: 1px solid #2a3a4a;
+  border-radius: 20px;
+}
+
+.awards-arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.awards-arrows button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #2a3a4a;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 18px;
+  color: var(--color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+
+.awards-arrows button:hover {
+  border-color: var(--color-white);
+}
+
+.awards-arrows button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 /* ===== FAQs section ===== */
 .section:has(#faqs) > .default-content {
   text-align: center;
@@ -1198,7 +1379,7 @@ aem-sidekick {
   gap: 0;
   padding: 0 20px;
   margin: 0 -20px;
-  border-bottom: 1px solid #e1e1e1;
+  box-shadow: 0 10px 10px rgb(0 0 0 / 10%);
   max-width: unset;
 
   &.subnav-fixed {
@@ -1236,17 +1417,17 @@ aem-sidekick {
 
       a {
         display: block;
-        padding: 12px 16px;
-        color: var(--color-dell-blue);
+        padding: 10px 16px;
+        color: #0e0e0e;
         text-decoration: none;
-        font-size: var(--body-font-size-s);
+        font-size: var(--body-font-size-m);
         font-weight: 400;
         white-space: nowrap;
         border-radius: 20px;
         transition: background-color 0.2s, color 0.2s;
 
         &:hover {
-          color: var(--color-dell-blue-hover);
+          color: var(--color-dell-blue);
         }
 
         &.active {
@@ -1264,13 +1445,13 @@ aem-sidekick {
     a {
       display: inline-flex;
       align-items: center;
-      padding: 8px 20px;
+      padding: 6px 16px;
       background-color: var(--color-dell-blue);
       color: var(--color-white);
       text-decoration: none;
-      font-size: var(--body-font-size-s);
-      font-weight: var(--button-font-weight);
-      border-radius: var(--button-border-radius);
+      font-size: 12px;
+      font-weight: 400;
+      border-radius: 3px;
       transition: background-color 0.2s;
 
       &:hover {
@@ -1325,6 +1506,133 @@ aem-sidekick {
 /* Hide empty cards blocks (block with no visible content) */
 .cards:not(:has(li:not([style*="display: none"]))) {
   display: none;
+}
+
+/* ===== Portfolio Cards (Explore networking solutions) ===== */
+
+/* Darker section background so cards contrast */
+.section.dark:has(.cards.portfolio) {
+  background-color: #141d28;
+}
+
+.section.dark > .default-content + .block-content > .cards.portfolio {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.section.dark .cards.portfolio .portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.section.dark .cards.portfolio .portfolio-card {
+  background: #1d2c3b;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.section.dark .cards.portfolio .portfolio-card-image {
+  background: #293b4d;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-image img {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content {
+  padding: 24px 28px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content h3 {
+  color: var(--color-white);
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-desc {
+  color: #a0b4c8;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+  font-weight: 300;
+}
+
+.section.dark .cards.portfolio .portfolio-card-bestfor {
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin: 0 0 12px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-cta {
+  margin-top: auto;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content ul {
+  list-style: disc;
+  margin: 0 0 32px;
+  padding-left: 20px;
+}
+
+.section.dark .cards.portfolio .portfolio-card-content li {
+  color: #a0b4c8;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.section.dark .cards.portfolio .portfolio-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  background: transparent;
+  border: 2px solid var(--color-white);
+  border-radius: 4px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.section.dark .cards.portfolio .portfolio-explore-btn::after {
+  content: '\2192';
+  font-size: 18px;
+}
+
+.section.dark .cards.portfolio .portfolio-explore-btn:hover {
+  background: var(--color-white);
+  color: var(--color-dell-near-black);
+}
+
+/* Portfolio section heading */
+.section.dark:has(.cards.portfolio) > .default-content > h2 {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 300;
+  margin-bottom: 48px;
+}
+
+@media (width < 768px) {
+  .section.dark .cards.portfolio .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== Product Portfolio Cards (Product Category pages) ===== */
@@ -1420,8 +1728,10 @@ aem-sidekick {
 /* ===== Promo Banner Styling (top of product-category dark section) ===== */
 
 /* Hide duplicate promo banner content (appears twice in imported HTML) */
-.section.dark > .default-content > p:nth-child(4),
-.section.dark > .default-content > p:nth-child(5) {
+
+/* Only applies when default-content starts with a promo image (p > img) */
+.section.dark > .default-content:has(> p:first-child > img:only-child) > p:nth-child(4),
+.section.dark > .default-content:has(> p:first-child > img:only-child) > p:nth-child(5) {
   display: none;
 }
 
@@ -1433,6 +1743,29 @@ aem-sidekick {
     max-width: 200px;
     height: auto;
   }
+}
+
+/* ===== Dark section with h2 intro + video still image ===== */
+
+/* Pattern: h2 + p(desc) + p(caption) + p(img) — e.g. networking solutions section */
+.section.dark > .default-content > h2:first-child ~ p:has(> img:only-child) {
+  margin: 0 0 var(--spacing-xl);
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.section.dark > .default-content > h2:first-child + p + p:not(:last-child, :has(a), :has(img)) {
+  font-size: var(--body-font-size-s);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-s);
+  opacity: 0.7;
 }
 
 /* ===== Solutions Landing Page — Hero/Banner ===== */
