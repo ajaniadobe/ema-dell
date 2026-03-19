@@ -16,8 +16,9 @@ footer {
     max-width: var(--grid-container-width);
     margin: 0 auto;
     padding: 48px var(--grid-gutter-width, 24px) 24px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.5;
+    color: #636363;
   }
 
   h3 {
@@ -83,9 +84,17 @@ footer {
 @media (width >= 900px) {
   footer {
     .section:first-child .default-content {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0 32px;
+      columns: 3;
+      column-gap: 32px;
+    }
+
+    .section:first-child .default-content h3 {
+      break-after: avoid;
+    }
+
+    .section:first-child .default-content ul {
+      break-before: avoid;
+      break-inside: avoid;
     }
 
     .section-legal {
@@ -102,6 +111,6 @@ footer {
 
 @media (width >= 1200px) {
   footer .section:first-child .default-content {
-    grid-template-columns: repeat(6, 1fr);
+    columns: 4;
   }
 }

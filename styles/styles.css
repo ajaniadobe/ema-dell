@@ -25,7 +25,7 @@
   --color-dell-blue-hover: #0563b0;
   --color-dell-blue-dark: #0063b8;
   --color-dell-navy: #002a58;
-  --color-dell-dark-teal: #1d2c3b;
+  --color-dell-dark-teal: #0a0e14;
   --color-dell-dark-bg: #0a0e14;
   --color-dell-near-black: #0e0e0e;
   --color-dell-light-gray: #f5f6f7;
@@ -781,12 +781,12 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Data for AI — hide icon image paragraph (icon is rendered via h2::before) */
-.section:not(.light, .dark, .accent):has(.cards) > .default-content > p:first-child:has(picture) {
+.section:not(.light, .dark, .accent):has(.cards):not(:has(.cards.apex-portfolio)) > .default-content > p:first-child:has(picture) {
   display: none;
 }
 
 /* Data for AI — section heading with icon */
-.section:not(.light, .dark, .accent):has(.cards) > .default-content > h2 {
+.section:not(.light, .dark, .accent):has(.cards):not(:has(.cards.apex-portfolio)) > .default-content > h2 {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -795,7 +795,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   line-height: 48px;
 }
 
-.section:not(.light, .dark, .accent):has(.cards) > .default-content > h2::before {
+.section:not(.light, .dark, .accent):has(.cards):not(:has(.cards.apex-portfolio)) > .default-content > h2::before {
   content: '';
   display: block;
   width: 64px;
@@ -805,11 +805,11 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Data for AI cards — gray product tile cards */
-.section:not(.light, .dark, .accent) .cards > ul {
+.section:not(.light, .dark, .accent, :has(.cards.apex-portfolio)) .cards > ul {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.section:not(.light, .dark, .accent) .cards > ul > li {
+.section:not(.light, .dark, .accent, :has(.cards.apex-portfolio)) .cards > ul > li {
   background-color: var(--color-dell-light-gray);
   padding: 40px;
   border-radius: 4px;
@@ -1388,8 +1388,10 @@ aem-sidekick {
 
 /* Pattern: default-content with p + ul + p (title + nav links + CTA) — JS adds .subnav class */
 .subnav {
+  position: relative;
   z-index: 100;
   background-color: var(--color-white);
+  color: var(--color-dell-near-black);
   display: flex;
   align-items: center;
   gap: 0;
@@ -1500,6 +1502,27 @@ aem-sidekick {
       padding: 0 80px;
     }
   }
+}
+
+/* Dark section: ensure subnav text is visible on white background */
+.section.dark .subnav {
+  color: var(--color-dell-near-black);
+}
+
+.section.dark .subnav > p:first-child a {
+  color: var(--color-dell-near-black);
+}
+
+.section.dark .subnav > ul li a {
+  color: #0e0e0e;
+}
+
+.section.dark .subnav > ul li a.active {
+  color: var(--color-white);
+}
+
+.section.dark .subnav > p:last-child a {
+  color: var(--color-white);
 }
 
 /* ===== Hide Empty Card Items ===== */
@@ -2127,4 +2150,62 @@ aem-sidekick {
 .cards > ul > li:not(:has(img)) .cards-card-body:has(h2):not(:has(a)) {
   padding: 16px;
   text-align: center;
+}
+
+/* APEX Stats section — centered heading in dark section */
+
+/* Use main > prefix to beat adjacent dark section specificity */
+main > .section.dark:has(.cards.stats) {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) > h2 {
+  font-size: 42px;
+  font-weight: 300;
+}
+
+.section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) > p {
+  font-size: 18px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* APEX Portfolio section — centered heading */
+.section:has(.cards.apex-portfolio) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section:has(.cards.apex-portfolio) > .default-content > h2 {
+  font-size: 42px;
+  font-weight: 300;
+}
+
+/* APEX Resources section — centered heading */
+.section.dark:has(#resources) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section.dark:has(#resources) > .default-content > h2 {
+  font-size: 42px;
+  font-weight: 300;
+}
+
+/* APEX FAQ section — centered heading */
+.section.dark:has(#faq) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section.dark:has(#faq) > .default-content > h2 {
+  font-size: 42px;
+  font-weight: 300;
 }

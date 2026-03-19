@@ -195,9 +195,10 @@
         transition: background-color 0.2s, color 0.2s;
       }
 
-      /* Primary CTA: first link in the foreground */
+      /* Secondary CTA: ghost/outlined button with white border */
       .fg-text > p:nth-last-child(2) a,
-      .fg-text > p:nth-last-child(1) a {
+      .fg-text > p:nth-last-child(1) a,
+      .hero-cta-group a {
         border: 2px solid var(--color-white);
         background: transparent;
         color: var(--color-white);
@@ -208,15 +209,16 @@
         }
       }
 
-      /* Primary button override: specifically the first CTA */
-      .fg-text > p:nth-last-child(2) a {
+      /* First CTA: outlined with blue border, white background */
+      .fg-text > p:nth-last-child(2) a,
+      .hero-cta-group a:first-child {
         border: 1px solid var(--color-dell-blue, #0672cb);
         background: var(--color-white);
-        color: var(--color-dell-blue, #0063b8);
+        color: var(--color-dell-near-black, #0e0e0e);
 
         &:hover {
-          background: var(--color-dell-blue, #0672cb);
-          color: var(--color-white);
+          background: var(--color-dell-light-gray, #f5f6f7);
+          color: var(--color-dell-near-black, #0e0e0e);
         }
       }
     }

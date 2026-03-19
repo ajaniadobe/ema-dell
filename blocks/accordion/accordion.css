@@ -1,7 +1,7 @@
 .accordion .accordion-controls {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   padding: 8px 24px;
   font-size: var(--body-font-size-s);
   color: var(--color-dell-medium-gray);
@@ -16,12 +16,18 @@
   padding: 0;
 }
 
-.accordion .accordion-controls button:hover {
+.accordion .accordion-controls button:hover:not(:disabled) {
   text-decoration: underline;
 }
 
+.accordion .accordion-controls button:disabled {
+  color: var(--color-dell-medium-gray);
+  cursor: default;
+  opacity: 0.6;
+}
+
 .accordion .accordion-controls span {
-  margin: 0 4px;
+  margin: 0 8px;
   color: var(--color-dell-medium-gray);
 }
 
@@ -97,7 +103,7 @@
   display: none;
 }
 
-.section.dark .accordion details {
+.section.dark .accordion:has(details:only-of-type) details {
   border: 2px solid #839db4;
   border-radius: 0;
   max-width: 620px;
@@ -105,11 +111,11 @@
   padding: 30px 24px;
 }
 
-.section.dark .accordion details:last-child {
+.section.dark .accordion:has(details:only-of-type) details:last-child {
   border-bottom: 2px solid #839db4;
 }
 
-.section.dark .accordion details summary {
+.section.dark .accordion:has(details:only-of-type) details summary {
   font-size: 40px;
   font-weight: 300;
   color: var(--color-white);
@@ -118,22 +124,22 @@
   line-height: 1.2;
 }
 
-.section.dark .accordion details summary::after {
+.section.dark .accordion:has(details:only-of-type) details summary::after {
   display: none;
 }
 
-.section.dark .accordion details summary:hover {
+.section.dark .accordion:has(details:only-of-type) details summary:hover {
   background: none;
 }
 
-.section.dark .accordion details .accordion-item-body {
+.section.dark .accordion:has(details:only-of-type) details .accordion-item-body {
   padding: 16px 0 0;
   color: #c5d4e3;
   font-size: 14px;
   line-height: 1.6;
 }
 
-.section.dark .accordion details .accordion-item-body a {
+.section.dark .accordion:has(details:only-of-type) details .accordion-item-body a {
   color: #c5d4e3;
   text-decoration: none;
   display: inline-flex;
@@ -141,10 +147,60 @@
   gap: 8px;
 }
 
-.section.dark .accordion details .accordion-item-body a::after {
+.section.dark .accordion:has(details:only-of-type) details .accordion-item-body a::after {
   content: '\2192';
 }
 
-.section.dark .accordion details .accordion-item-body a:hover {
+.section.dark .accordion:has(details:only-of-type) details .accordion-item-body a:hover {
   color: var(--color-white);
+}
+
+/* Dark section: multi-item FAQ accordion */
+.section.dark .accordion .accordion-controls {
+  color: #c5d4e3;
+  border-bottom: 1px solid rgb(255 255 255 / 15%);
+  padding-bottom: 12px;
+  margin-bottom: 0;
+}
+
+.section.dark .accordion .accordion-controls button {
+  color: #94dcf7;
+}
+
+.section.dark .accordion .accordion-controls button:disabled {
+  color: rgb(255 255 255 / 35%);
+  opacity: 1;
+}
+
+.section.dark .accordion .accordion-controls span {
+  color: rgb(255 255 255 / 35%);
+}
+
+.section.dark .accordion details {
+  border-color: rgb(255 255 255 / 15%);
+  background-color: transparent;
+}
+
+.section.dark .accordion details:last-child {
+  border-bottom-color: rgb(255 255 255 / 15%);
+}
+
+.section.dark .accordion details summary {
+  color: var(--color-white);
+}
+
+.section.dark .accordion details summary:hover {
+  background-color: rgb(255 255 255 / 5%);
+}
+
+.section.dark .accordion details summary::after {
+  border-color: #c5d4e3;
+}
+
+.section.dark .accordion details .accordion-item-body {
+  color: #c5d4e3;
+}
+
+.section.dark .accordion details .accordion-item-body a {
+  color: #94dcf7;
 }
