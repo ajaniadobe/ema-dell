@@ -429,6 +429,10 @@ header {
 
       .main-nav-link {
         line-height: var(--nav-bar-height);
+
+        &:hover {
+          color: var(--color-dell-blue, #0672cb);
+        }
       }
     }
 
