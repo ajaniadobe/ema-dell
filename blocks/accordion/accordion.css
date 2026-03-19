@@ -16,12 +16,18 @@
   padding: 0;
 }
 
-.accordion .accordion-controls button:hover {
+.accordion .accordion-controls button:hover:not(:disabled) {
   text-decoration: underline;
 }
 
+.accordion .accordion-controls button:disabled {
+  color: var(--color-dell-medium-gray);
+  cursor: default;
+  opacity: 0.6;
+}
+
 .accordion .accordion-controls span {
-  margin: 0 4px;
+  margin: 0 8px;
   color: var(--color-dell-medium-gray);
 }
 
@@ -152,27 +158,31 @@
 /* Dark section: multi-item FAQ accordion */
 .section.dark .accordion .accordion-controls {
   color: #c5d4e3;
+  border-bottom: 1px solid rgb(255 255 255 / 15%);
+  padding-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .section.dark .accordion .accordion-controls button {
   color: #94dcf7;
 }
 
+.section.dark .accordion .accordion-controls button:disabled {
+  color: rgb(255 255 255 / 35%);
+  opacity: 1;
+}
+
 .section.dark .accordion .accordion-controls span {
-  color: #c5d4e3;
+  color: rgb(255 255 255 / 35%);
 }
 
 .section.dark .accordion details {
-  border-color: transparent;
-  background-color: #1e3044;
-}
-
-.section.dark .accordion details:nth-child(odd) {
-  background-color: #243a50;
+  border-color: rgb(255 255 255 / 15%);
+  background-color: transparent;
 }
 
 .section.dark .accordion details:last-child {
-  border-bottom-color: transparent;
+  border-bottom-color: rgb(255 255 255 / 15%);
 }
 
 .section.dark .accordion details summary {
@@ -180,7 +190,7 @@
 }
 
 .section.dark .accordion details summary:hover {
-  background-color: rgb(255 255 255 / 8%);
+  background-color: rgb(255 255 255 / 5%);
 }
 
 .section.dark .accordion details summary::after {

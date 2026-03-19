@@ -1,3 +1,11 @@
+function updateControls(expandBtn, collapseBtn, allDetails) {
+  const allOpen = [...allDetails].every((d) => d.open);
+  const allClosed = [...allDetails].every((d) => !d.open);
+
+  expandBtn.disabled = allOpen;
+  collapseBtn.disabled = allClosed;
+}
+
 export default function decorate(block) {
   [...block.children].forEach((row) => {
     const label = row.children[0];
@@ -29,19 +37,33 @@ export default function decorate(block) {
 
   const expandBtn = document.createElement('button');
   expandBtn.textContent = 'Expand All';
-  expandBtn.addEventListener('click', () => {
-    allDetails.forEach((d) => { d.open = true; });
-  });
 
   const separator = document.createElement('span');
-  separator.textContent = ' / ';
+  separator.textContent = ' | ';
 
   const collapseBtn = document.createElement('button');
   collapseBtn.textContent = 'Collapse All';
+
+  expandBtn.addEventListener('click', () => {
+    allDetails.forEach((d) => { d.open = true; });
+    updateControls(expandBtn, collapseBtn, allDetails);
+  });
+
   collapseBtn.addEventListener('click', () => {
     allDetails.forEach((d) => { d.open = false; });
+    updateControls(expandBtn, collapseBtn, allDetails);
+  });
+
+  // Update states when individual items toggle
+  allDetails.forEach((d) => {
+    d.addEventListener('toggle', () => {
+      updateControls(expandBtn, collapseBtn, allDetails);
+    });
   });
 
   controls.append(expandBtn, separator, collapseBtn);
   block.prepend(controls);
+
+  // Set initial state (all collapsed → disable Collapse All)
+  updateControls(expandBtn, collapseBtn, allDetails);
 }

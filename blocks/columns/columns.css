@@ -82,6 +82,7 @@
 /* Dark section: resource card columns */
 .section.dark .columns .row {
   gap: 24px;
+  align-items: stretch;
 }
 
 .section.dark .columns .col {
