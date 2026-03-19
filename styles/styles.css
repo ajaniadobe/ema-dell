@@ -1774,6 +1774,14 @@ aem-sidekick {
   display: none;
 }
 
+/* Forrester banner: override the duplicate-hiding since all content is unique */
+
+/* Must match specificity of the :has() hiding rule above */
+.section.dark.forrester-banner > .default-content:has(> p:first-child > img:only-child) > p:nth-child(4),
+.section.dark.forrester-banner > .default-content:has(> p:first-child > img:only-child) > p:nth-child(5) {
+  display: block;
+}
+
 /* Promo banner image — constrain width */
 .section.dark > .default-content > p:first-child:has(> img:only-child) {
   margin-bottom: 8px;

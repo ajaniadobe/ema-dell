@@ -1,25 +1,8 @@
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -146,110 +129,96 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/cards.js
+  // tools/importer/parsers/cards-services.js
   function parse3(element, { document }) {
     const cells = [];
-    const floatingCards = Array.from(element.querySelectorAll(".desktopView .floating-card"));
-    const valuePillars = Array.from(element.querySelectorAll(".value-pillar-card, .value-pillar"));
-    const contentLayoutItems = Array.from(
+    const contentLayoutFour = Array.from(
       element.querySelectorAll(".rwp-contentlayout-item--columns-Four")
     );
-    const carouselSlides = Array.from(element.querySelectorAll(".rwp-ic-slide"));
-    if (floatingCards.length > 0) {
-      floatingCards.forEach((card) => {
-        const img = card.querySelector(".titleCards-icon img");
-        const title = card.querySelector(".titleCards");
-        const desc = card.querySelector(".descCards");
-        const link = card.querySelector(".floatingcardLinks");
+    const contentLayoutThree = Array.from(
+      element.querySelectorAll(".rwp-contentlayout-item--columns-Three")
+    );
+    const gridItems = Array.from(element.querySelectorAll(".grid .grid-item"));
+    const contentLayoutItems = contentLayoutFour.length > 0 ? contentLayoutFour : contentLayoutThree;
+    if (contentLayoutItems.length > 0) {
+      contentLayoutItems.forEach((card) => {
+        const img = card.querySelector(".rwp-contentlayout-item__visual-container img.rwp-image");
+        const svgIcon = card.querySelector(".rwp-contentlayout-item__visual-container svg");
+        const title = card.querySelector("h2, h3");
+        const desc = card.querySelector(".rwp-contentlayout-item__description");
+        const ctaLink = card.querySelector(".rwp-button__link, .rwp-webpart__links a");
         const imageCell = [];
-        if (img) imageCell.push(img);
+        if (img) {
+          const src = img.getAttribute("src") || "";
+          const newImg = document.createElement("img");
+          newImg.src = src.startsWith("//") ? `https:${src}` : src;
+          newImg.alt = img.alt || "";
+          imageCell.push(newImg);
+        } else if (svgIcon) {
+          const iconName = svgIcon.getAttribute("data-icon-name") || "icon";
+          const newImg = document.createElement("img");
+          newImg.src = `./icons/${iconName}.svg`;
+          newImg.alt = iconName;
+          imageCell.push(newImg);
+        }
         const contentCell = [];
         if (title) {
-          const strong = document.createElement("strong");
-          strong.textContent = title.textContent.trim();
-          const p = document.createElement("p");
-          p.appendChild(strong);
-          contentCell.push(p);
+          const h = document.createElement("h3");
+          h.textContent = title.textContent.trim();
+          contentCell.push(h);
         }
-        if (desc) contentCell.push(desc);
-        if (link) contentCell.push(link);
-        if (imageCell.length > 0) {
-          cells.push([imageCell, contentCell]);
-        } else {
-          cells.push(contentCell);
-        }
-      });
-    } else if (valuePillars.length > 0) {
-      valuePillars.forEach((card) => {
-        const icon = card.querySelector("img");
-        const title = card.querySelector('h3, h4, .value-pillar-title, [class*="title"]');
-        const desc = card.querySelector('p, .value-pillar-description, [class*="description"]');
-        const imageCell = [];
-        if (icon) imageCell.push(icon);
-        const contentCell = [];
-        if (title) contentCell.push(title);
-        if (desc) contentCell.push(desc);
-        if (imageCell.length > 0) {
-          cells.push([imageCell, contentCell]);
-        } else {
-          cells.push(contentCell);
-        }
-      });
-    } else if (contentLayoutItems.length > 0) {
-      contentLayoutItems.forEach((card) => {
-        const svgIcon = card.querySelector(".rwp-contentlayout-item__visual-container svg");
-        const desc = card.querySelector(".rwp-contentlayout-item__description");
-        const imageCell = [];
-        if (svgIcon) {
-          const iconName = svgIcon.getAttribute("data-icon-name") || "icon";
-          const img = document.createElement("img");
-          img.src = `./icons/${iconName}.svg`;
-          img.alt = iconName;
-          imageCell.push(img);
-        }
-        const contentCell = [];
         if (desc) {
           const p = document.createElement("p");
           p.innerHTML = desc.innerHTML.trim();
           contentCell.push(p);
         }
+        if (ctaLink) contentCell.push(ctaLink);
         if (imageCell.length > 0 && contentCell.length > 0) {
           cells.push([imageCell, contentCell]);
         } else if (contentCell.length > 0) {
           cells.push(contentCell);
         }
       });
-    } else if (carouselSlides.length > 0) {
-      carouselSlides.forEach((slide) => {
-        const title = slide.querySelector(".rwp-ic-slide__title, h3, h2");
-        const desc = slide.querySelector(".rwp-ic-slide__description");
-        const ctaLink = slide.querySelector(".rwp-button__link, .rwp-webpart__links a");
+    } else if (gridItems.length > 0) {
+      gridItems.forEach((tile) => {
+        const img = tile.querySelector("img");
+        const title = tile.querySelector("h3, h2");
+        const desc = tile.querySelector('[class*="description"]');
+        const link = tile.querySelector("a[href]");
+        const imageCell = [];
+        if (img) {
+          const src = img.getAttribute("src") || "";
+          const newImg = document.createElement("img");
+          newImg.src = src.startsWith("//") ? `https:${src}` : src;
+          newImg.alt = img.alt || "";
+          imageCell.push(newImg);
+        }
         const contentCell = [];
         if (title) {
-          const strong = document.createElement("strong");
-          strong.textContent = title.textContent.trim();
-          const p = document.createElement("p");
-          p.appendChild(strong);
-          contentCell.push(p);
+          const h = document.createElement("h3");
+          h.textContent = title.textContent.trim();
+          contentCell.push(h);
         }
         if (desc) {
           const p = document.createElement("p");
           p.textContent = desc.textContent.trim();
           contentCell.push(p);
         }
-        if (ctaLink) contentCell.push(ctaLink);
-        if (contentCell.length > 0) {
+        if (link) contentCell.push(link);
+        if (imageCell.length > 0 && contentCell.length > 0) {
+          cells.push([imageCell, contentCell]);
+        } else if (contentCell.length > 0) {
           cells.push(contentCell);
         }
       });
     } else {
       const cardItems = Array.from(
-        element.querySelectorAll('.cards-alignment, [class*="card"]')
+        element.querySelectorAll('.cards-alignment, [class*="card"], .rwp-contentlayout-item')
       );
       cardItems.forEach((card) => {
         const img = card.querySelector("img");
-        const title = card.querySelector('h2, h3, h4, strong, .titleCards, [class*="title"]');
-        const desc = card.querySelector('p, .descCards, [class*="desc"]');
+        const title = card.querySelector("h2, h3, h4, strong");
+        const desc = card.querySelector('p, [class*="desc"]');
         const link = card.querySelector("a");
         const imageCell = [];
         if (img) imageCell.push(img);
@@ -506,7 +475,7 @@ var CustomImportScript = (() => {
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
+    const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);

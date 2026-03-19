@@ -4,7 +4,7 @@
 // PARSER IMPORTS
 import heroParser from './parsers/hero.js';
 import columnsParser from './parsers/columns.js';
-import cardsParser from './parsers/cards.js';
+import cardsParser from './parsers/cards-services.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
