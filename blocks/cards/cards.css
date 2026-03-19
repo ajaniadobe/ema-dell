@@ -154,6 +154,27 @@
   margin-bottom: 4px;
 }
 
+/* Stats h3 numbers (services page pattern) */
+.cards.stats .cards-card-body h3 {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.section.dark .cards.stats .cards-card-body h3 {
+  color: var(--color-white);
+  font-size: 56px;
+}
+
+/* Stats icon sizing in dark sections */
+.section.dark .cards.stats .cards-card-image img {
+  width: 48px;
+  height: 48px;
+  border-radius: 0;
+  object-fit: contain;
+}
+
 /* APEX Portfolio variant: product cards with descriptions and CTAs */
 
 /* Use .section prefix to beat styles.css :not() rules (specificity 0,4,0+) */
@@ -261,10 +282,14 @@
   }
 
   .section.dark .cards.stats > ul {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .section.dark .cards.stats .cards-card-body p:nth-child(2) {
+    font-size: 64px;
+  }
+
+  .section.dark .cards.stats .cards-card-body h3 {
     font-size: 64px;
   }
 
