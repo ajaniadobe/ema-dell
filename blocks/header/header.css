@@ -333,7 +333,7 @@ header {
 
     .menu,
     .mega-menu {
-      background-color: var(--color-shaded);
+      background-color: var(--color-shaded, #f5f5f5);
       padding: var(--spacing-xl) 0;
       position: absolute;
       left: 0;
@@ -344,7 +344,7 @@ header {
         max-width: initial;
         margin: 0;
         width: 180px;
-        background-color: var(--color-shaded);
+        background-color: var(--color-shaded, #f5f5f5);
         padding: var(--spacing-xl);
         position: absolute;
         left: auto;
@@ -412,6 +412,7 @@ header {
       }
 
       .main-nav-item {
+        position: relative;
         border-bottom: initial;
 
         > * {

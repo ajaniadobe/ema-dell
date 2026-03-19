@@ -278,6 +278,22 @@ main > .section.dark {
   }
 }
 
+/* Blue accent bar before h2 headings in accent-bar sections */
+.section.accent-bar > .default-content > h2 {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.section.accent-bar > .default-content > h2::before {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 10px;
+  background-color: #1c83f8;
+  flex-shrink: 0;
+}
+
 /* CTA banner — default-content with h3 + h3 + h4 pattern */
 main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   background-color: #151f2a;
