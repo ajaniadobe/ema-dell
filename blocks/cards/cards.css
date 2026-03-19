@@ -147,6 +147,13 @@
   font-size: 14px;
 }
 
+/* Stats label (strong) — smaller, muted gray to match original */
+.section.dark .cards.stats .cards-card-body p strong {
+  font-size: 16px;
+  color: #c5d4e3;
+  margin-bottom: 4px;
+}
+
 /* APEX Portfolio variant: product cards with descriptions and CTAs */
 .cards.apex-portfolio > ul {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

@@ -25,7 +25,7 @@
   --color-dell-blue-hover: #0563b0;
   --color-dell-blue-dark: #0063b8;
   --color-dell-navy: #002a58;
-  --color-dell-dark-teal: #1d2c3b;
+  --color-dell-dark-teal: #0a0e14;
   --color-dell-dark-bg: #0a0e14;
   --color-dell-near-black: #0e0e0e;
   --color-dell-light-gray: #f5f6f7;
@@ -805,11 +805,11 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Data for AI cards — gray product tile cards */
-.section:not(.light, .dark, .accent):not(:has(.cards.apex-portfolio)) .cards > ul {
+.section:not(.light, .dark, .accent, :has(.cards.apex-portfolio)) .cards > ul {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.section:not(.light, .dark, .accent):not(:has(.cards.apex-portfolio)) .cards > ul > li {
+.section:not(.light, .dark, .accent, :has(.cards.apex-portfolio)) .cards > ul > li {
   background-color: var(--color-dell-light-gray);
   padding: 40px;
   border-radius: 4px;
@@ -2153,9 +2153,16 @@ aem-sidekick {
 }
 
 /* APEX Stats section — centered heading in dark section */
+
+/* Use main > prefix to beat adjacent dark section specificity */
+main > .section.dark:has(.cards.stats) {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
 .section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) {
   text-align: center;
-  margin-bottom: var(--spacing-l);
+  margin-bottom: 48px;
 }
 
 .section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) > h2 {
