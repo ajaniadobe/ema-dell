@@ -428,11 +428,26 @@ header {
       }
 
       .main-nav-link {
-        line-height: var(--nav-bar-height);
+        display: inline-flex;
+        align-items: center;
+        height: var(--nav-bar-height);
+        white-space: nowrap;
 
         &:hover {
           color: var(--color-dell-blue, #0672cb);
         }
+      }
+
+      .main-nav-item:has(.menu) > p > .main-nav-link::after {
+        content: '';
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-right: 1.5px solid currentcolor;
+        border-bottom: 1.5px solid currentcolor;
+        transform: rotate(45deg);
+        margin-left: 6px;
+        flex-shrink: 0;
       }
     }
 
