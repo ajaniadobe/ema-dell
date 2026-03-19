@@ -158,6 +158,7 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  overflow: visible;
 }
 
 .cards.apex-portfolio > ul > li:hover {
