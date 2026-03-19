@@ -163,11 +163,16 @@
 }
 
 .section.dark .accordion details {
-  border-color: #3a4f63;
+  border-color: transparent;
+  background-color: #1e3044;
+}
+
+.section.dark .accordion details:nth-child(odd) {
+  background-color: #243a50;
 }
 
 .section.dark .accordion details:last-child {
-  border-bottom-color: #3a4f63;
+  border-bottom-color: transparent;
 }
 
 .section.dark .accordion details summary {
@@ -175,7 +180,7 @@
 }
 
 .section.dark .accordion details summary:hover {
-  background-color: rgb(255 255 255 / 5%);
+  background-color: rgb(255 255 255 / 8%);
 }
 
 .section.dark .accordion details summary::after {

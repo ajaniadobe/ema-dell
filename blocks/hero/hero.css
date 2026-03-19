@@ -208,15 +208,15 @@
         }
       }
 
-      /* Primary button override: specifically the first CTA */
+      /* First CTA: solid blue fill */
       .fg-text > p:nth-last-child(2) a {
-        border: 1px solid var(--color-dell-blue, #0672cb);
-        background: var(--color-white);
-        color: var(--color-dell-blue, #0063b8);
+        border: 2px solid var(--color-white);
+        background: var(--color-dell-blue, #0672cb);
+        color: var(--color-white);
 
         &:hover {
-          background: var(--color-dell-blue, #0672cb);
-          color: var(--color-white);
+          background: var(--color-white);
+          color: var(--color-dell-navy, #002a58);
         }
       }
     }
