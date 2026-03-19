@@ -2128,3 +2128,36 @@ aem-sidekick {
   padding: 16px;
   text-align: center;
 }
+
+/* APEX Portfolio section — centered heading */
+.section:has(.cards.apex-portfolio) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section:has(.cards.apex-portfolio) > .default-content > h2 {
+  font-size: 42px;
+  font-weight: 300;
+}
+
+/* APEX Resources section — centered heading */
+.section.dark:has(#resources) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section.dark:has(#resources) > .default-content > h2 {
+  font-size: 42px;
+  font-weight: 300;
+}
+
+/* APEX FAQ section — centered heading */
+.section.dark:has(#faq) > .default-content {
+  text-align: center;
+  margin-bottom: var(--spacing-l);
+}
+
+.section.dark:has(#faq) > .default-content > h2 {
+  font-size: 42px;
+  font-weight: 300;
+}

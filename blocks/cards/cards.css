@@ -114,8 +114,134 @@
   color: #b8e8fa;
 }
 
+/* Stats variant: 4-column centered layout for stat numbers */
+.section .cards.stats > ul {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.cards.stats > ul > li {
+  text-align: center;
+}
+
+/* Stats in dark section: clean text layout without card boxes */
+.section.dark .cards.stats > ul > li {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.cards.stats .cards-card-body p:nth-child(2) {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: var(--spacing-xs);
+}
+
+.section.dark .cards.stats .cards-card-body p:nth-child(2) {
+  color: var(--color-white);
+  font-size: 56px;
+}
+
+.section.dark .cards.stats .cards-card-body p:nth-child(3) {
+  font-size: 14px;
+}
+
+/* APEX Portfolio variant: product cards with descriptions and CTAs */
+.cards.apex-portfolio > ul {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.cards.apex-portfolio > ul > li {
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards.apex-portfolio > ul > li:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+}
+
+.cards.apex-portfolio .cards-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cards.apex-portfolio .cards-card-body h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.cards.apex-portfolio .cards-card-body h3 a {
+  color: var(--color-dell-near-black);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.cards.apex-portfolio .cards-card-body h3 a:hover {
+  text-decoration: underline;
+}
+
+.cards.apex-portfolio .cards-card-body p strong {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-dell-medium-gray);
+  display: block;
+  margin: 16px 0 4px;
+}
+
+.cards.apex-portfolio .cards-card-body ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--color-dell-near-black);
+}
+
+.cards.apex-portfolio .cards-card-body ul li {
+  margin-bottom: 4px;
+}
+
+.cards.apex-portfolio .cards-card-body > p:last-child {
+  margin-top: auto;
+}
+
+.cards.apex-portfolio .cards-card-body > p:last-child a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--color-dell-blue);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cards.apex-portfolio .cards-card-body > p:last-child a:hover {
+  background-color: var(--color-dell-blue-hover);
+  color: var(--color-white);
+}
+
 @media (width >= 900px) {
   .cards > ul {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  .section.dark .cards.stats > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .section.dark .cards.stats .cards-card-body p:nth-child(2) {
+    font-size: 64px;
+  }
+
+  .section .cards.apex-portfolio > ul {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

@@ -79,6 +79,53 @@
   }
 }
 
+/* Dark section: resource card columns */
+.section.dark .columns .row {
+  gap: 24px;
+}
+
+.section.dark .columns .col {
+  background-color: #1a2a3a;
+  border-radius: 8px;
+  padding: 32px;
+}
+
+.section.dark .columns .col p:first-child {
+  display: inline-block;
+  background-color: rgb(255 255 255 / 10%);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #c5d4e3;
+  margin: 0 0 16px;
+}
+
+.section.dark .columns .col h3 {
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+
+.section.dark .columns .col p {
+  color: #c5d4e3;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.section.dark .columns .col p a {
+  color: #94dcf7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.section.dark .columns .col p a:hover {
+  color: #b8e8fa;
+}
+
 @media (width >= 900px) {
   .columns {
     .row {
