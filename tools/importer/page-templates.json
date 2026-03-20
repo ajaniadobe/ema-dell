@@ -831,6 +831,210 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "product-listing-page",
+      "urls": [
+        "https://www.dell.com/en-us/shop/scc/sc/laptops",
+        "https://www.dell.com/en-us/shop/dell-laptops/scr/laptops",
+        "https://www.dell.com/en-us/shop/desktop-computers/scr/desktops"
+      ],
+      "description": "Product listing/search results page with filterable product grid, sidebar navigation, pagination, and FAQ accordion. Uses Dell SCR framework with super-category-results-page layout.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".tnt-hero-section",
+            ".plp-scr-banner"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#showcase-banner-main-container"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "#scr-faq-content"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-tnt-hero",
+          "name": "TNT Video Hero",
+          "selector": ".tnt-hero-section",
+          "style": "dark",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-scr-banner",
+          "name": "Category Banner",
+          "selector": ".plp-scr-banner",
+          "style": "dark",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-showcase-banner",
+          "name": "Showcase Banners",
+          "selector": "#showcase-banner-main-container",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-faq",
+          "name": "FAQ",
+          "selector": "#scr-faq-content",
+          "style": null,
+          "blocks": ["accordion"],
+          "defaultContent": ["#scr-faq-content h2", "#scr-faq-content > .scr-show-more"]
+        }
+      ]
+    },
+    {
+      "name": "system-category-page",
+      "urls": [
+        "https://www.dell.com/en-us/shop/gaming-laptops-pcs-and-accessories/sc/game",
+        "https://www.dell.com/en-us/shop/dell-pro-max-pcs-and-workstations/sc/workstations"
+      ],
+      "description": "System category showcase page presenting sub-categories as franchise cards with alternating image-text layout, merchandising modules, and partner logos. Uses Dell sys-cat framework.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#cat-banner"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#cat-fran-rows",
+            "#merchandizing-module-v2"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Category Hero",
+          "selector": "#cat-banner",
+          "style": null,
+          "blocks": ["hero"],
+          "defaultContent": ["#cat-banner h1", "#cat-banner h2"]
+        },
+        {
+          "id": "section-franchise-cards",
+          "name": "Franchise Cards",
+          "selector": "#cat-fran-rows",
+          "style": null,
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-merchandising",
+          "name": "Merchandising",
+          "selector": "#merchandizing-module-v2",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "cp-landing-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dell-video-conferencing-room-solutions",
+        "https://www.dell.com/en-us/lp/thin-client-solutions"
+      ],
+      "description": "Solutions landing page built on Dell CP (Content Platform) framework with themed containers, tab-based section navigation, product shelves, carousels, and optional FAQ accordions.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".cp-container[id*='hero']",
+            ".cp-container:has(.rwp-contentlayout-item--bgImage)"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".cp-container:has(.rwp-webpart-TileLayout)",
+            ".cp-container:has(.rwp-contentlayout-item--columns-Three)",
+            ".cp-container:has(.rwp-contentlayout-item--columns-Four)"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".cp-container:has(.rwp-contentlayout-item--columns-Two)"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            ".cp-tabset"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            ".cp-container:has(.rwp-itemcarousel)"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            ".cp-container:has(.dds__accordion)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero Banner",
+          "selector": ".cp-container[id*='hero']",
+          "style": "navy-blue",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-tabset-1",
+          "name": "Product Overview Tabs",
+          "selector": ".cp-tabset:first-of-type",
+          "style": null,
+          "blocks": ["tabs", "cards", "columns", "carousel"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-content",
+          "name": "Content Sections",
+          "selector": "#webparts > .cp-container",
+          "style": null,
+          "blocks": ["columns", "hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-tabset-2",
+          "name": "Product Catalog Tabs",
+          "selector": ".cp-tabset:last-of-type",
+          "style": "navy-blue",
+          "blocks": ["tabs", "cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-cta",
+          "name": "CTA Banner",
+          "selector": "#webparts > .cp-container:last-of-type",
+          "style": "navy-blue",
+          "blocks": ["hero"],
+          "defaultContent": []
+        }
+      ]
     }
   ]
 }
