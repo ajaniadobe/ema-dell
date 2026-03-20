@@ -2217,3 +2217,340 @@ main > .section.dark:has(.cards.stats) {
   font-size: 42px;
   font-weight: 300;
 }
+
+/* =====================================================================
+   BATCH 3: System Category Pages (gaming, workstations)
+   Pages: shop sc game, shop sc workstations
+   ===================================================================== */
+
+/* --- Promo banner: hide duplicate text at top --- */
+.section:has(.hero) > .default-content:first-child {
+  display: none;
+}
+
+/* --- Hero: text-only H1 on white background --- */
+.hero:not(.split, .has-video) .hero-foreground {
+  background: transparent;
+  color: var(--color-text);
+  padding: 40px 0 20px;
+}
+
+.hero:not(.split, .has-video) .hero-foreground .hero-heading {
+  color: var(--color-text);
+  font-size: 32px;
+  font-weight: 400;
+}
+
+@media (width >= 900px) {
+  .hero:not(.split, .has-video) .hero-foreground .hero-heading {
+    font-size: 42px;
+  }
+}
+
+/* --- Franchise Cards: full-width stacked layout --- */
+
+/* Single-column layout for franchise cards */
+.section:has(.hero:not(.split, .has-video)) .cards > ul {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+/* Each visible card: full-width with bottom border */
+.section:has(.hero:not(.split, .has-video)) .cards > ul > li {
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 32px 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.section:has(.hero:not(.split, .has-video)) .cards > ul > li:last-child {
+  border-bottom: none;
+}
+
+/* Image cards: large centered product image */
+.section:has(.hero:not(.split, .has-video)) .cards > ul > li:has(.cards-card-image img) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section:has(.hero:not(.split, .has-video)) .cards .cards-card-image {
+  max-width: 800px;
+  width: 100%;
+}
+
+.section:has(.hero:not(.split, .has-video)) .cards .cards-card-image img {
+  width: 100%;
+  height: auto;
+  max-height: 620px;
+  object-fit: contain;
+}
+
+/* Text body cards: title + description + CTA link */
+.section:has(.hero:not(.split, .has-video)) .cards > ul > li:has(.cards-card-body a[href]) {
+  padding: 16px 0 32px;
+}
+
+.section:has(.hero:not(.split, .has-video)) .cards .cards-card-body > a:first-child {
+  display: block;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--color-text);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+/* CTA-only cards: style as button row */
+.section:has(.hero:not(.split, .has-video)) .cards > ul > li:has(.cards-card-body > a[title]:only-child) {
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 0 40px;
+}
+
+.section:has(.hero:not(.split, .has-video)) .cards .cards-card-body > a[title]:only-child {
+  display: inline-block;
+  padding: 10px 24px;
+  background: var(--color-dell-blue);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.section:has(.hero:not(.split, .has-video)) .cards .cards-card-body > a[title]:only-child:hover {
+  background: #0560a8;
+}
+
+/* Hide empty trailing cards block */
+.section .cards:not(:has(li img), :has(li a:not(:empty))) {
+  display: none;
+}
+
+/* =====================================================================
+   BATCH 3: Product Listing Pages (laptops scr, desktops scr, scc sc laptops)
+   ===================================================================== */
+
+/* Product listing hero: simple text-only header */
+.hero:not(.split, .has-video) {
+  min-height: auto;
+  background: transparent;
+}
+
+/* Hide dynamic catalog content that leaked through import */
+main > .section > .default-content:has(h6),
+main > .section > .default-content:has(h4#product-line),
+main > .section > .default-content:has(h4#ai-artificial-intelligence),
+main > .section > .default-content:has(h4#pc-screen-size),
+main > .section > .default-content:has(#filters),
+main > .section > .default-content:has(#sign-in-to-premier-for-business) {
+  display: none;
+}
+
+/* =====================================================================
+   BATCH 3: CP Landing Pages (video-conferencing, thin-client-solutions)
+   Pages: /lp/dell-video-conferencing-room-solutions, /lp/thin-client-solutions
+   ===================================================================== */
+
+/* --- Contact Sales banner: hide duplicate copies (keep the one with the link) --- */
+.section > .default-content > p:has(strong):not(:has(a)) + p:has(strong):not(:has(a)) {
+  display: none;
+}
+
+.section > .default-content > p:has(strong):not(:has(a)):first-child {
+  display: none;
+}
+
+/* Style the visible contact sales bar */
+.section > .default-content > p:has(a[href^="tel:"]) {
+  background: var(--color-dell-light-gray);
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+  border-radius: 4px;
+  margin-bottom: var(--spacing-l);
+}
+
+.section > .default-content > p:has(a[href^="tel:"]) strong {
+  font-weight: 700;
+}
+
+/* --- Hero in CP landing pages --- */
+.hero .hero-foreground .hero-heading {
+  font-weight: 400;
+}
+
+.hero .hero-foreground .hero-cta-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* --- Empty tabs blocks: hide --- */
+.tabs:not(:has([role="tab"])) {
+  display: none;
+}
+
+/* Actually hide tabs that only have one empty tab */
+.tabs:has([role="tablist"]:has([role="tab"]:only-child:empty)) {
+  display: none;
+}
+
+/* --- Tabs with industry content (thin client) --- */
+.tabs [role="tabpanel"] h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 24px;
+}
+
+.tabs [role="tabpanel"] img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.tabs [role="tabpanel"] p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Customer story labels in tabs */
+.tabs [role="tabpanel"] h3:nth-of-type(2) {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #555;
+  margin-top: 32px;
+}
+
+/* --- Columns block in CP landing pages --- */
+.columns h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.columns p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* --- Footnotes section (navy-blue) --- */
+.section.navy-blue {
+  background: var(--color-dell-navy);
+  color: var(--color-white);
+  padding: 40px 20px;
+}
+
+.section.navy-blue p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgb(255 255 255 / 80%);
+}
+
+.section.navy-blue a {
+  color: rgb(255 255 255 / 90%);
+  text-decoration: underline;
+}
+
+/* Hide loading.gif tracking pixels */
+img[alt="Loading MFE"] {
+  display: none;
+}
+
+/* Hide tracking pixel images that leaked through */
+img[src*="t.co/i/adsct"],
+img[src*="ads.linkedin.com"],
+img[src*="facebook.com/tr"],
+img[src*="everesttech.net"],
+img[src*="loading.gif"] {
+  display: none;
+}
+
+/* --- FAQ section on CP landing pages --- */
+.section.navy-blue h2 {
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--color-white);
+  margin-bottom: 24px;
+}
+
+.section.navy-blue h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.section.navy-blue > .default-content > p {
+  margin-bottom: 16px;
+}
+
+/* --- Carousel block styling --- */
+.carousel {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.carousel .carousel-slide {
+  min-height: 200px;
+}
+
+/* --- Product Listing Pages: force section visible despite block errors --- */
+
+/* The EDS framework hides sections with inline display:none during loading.
+   If a misinterpreted block crashes, the section stays hidden. Override this
+   for sections containing a hero so the H1 title remains visible. */
+main .section:has(.hero) {
+  display: block !important;
+}
+
+/* Hide catalog filter content that leaked into static import */
+
+/* These are dynamic filter facets (h4 headings + ordered lists) that should not render */
+main .section:has(.hero) .default-content h3#filters,
+main .section:has(.hero) .default-content h4,
+main .section:has(.hero) .default-content ol {
+  display: none;
+}
+
+/* Hide sort controls, chip descriptions, filter UI text */
+main .section:has(.hero) .default-content h6 {
+  display: none;
+}
+
+/* Hide "Sort by", "Relevance", "Clear All", "View More/Less", "Show N Results" text */
+main .section:has(.hero) .default-content p:has(+ ol),
+main .section:has(.hero) .default-content p:has(+ h4) {
+  display: none;
+}
+
+/* Hide errored blocks (misinterpreted filter lists) and their error text */
+main .section .cards.has-error,
+main .section .block-content:has(.has-error) {
+  display: none;
+}
+
+/* Hide remaining filter UI text in product listing pages */
+main .section:has(.hero) .default-content:has(h3#filters) {
+  display: none;
+}
+
+/* Hide promo text before hero (deals banners, Premier sign-in, breadcrumbs) */
+main .section:has(.hero) > .default-content:first-child:has(ol) {
+  display: none;
+}
+
+/* --- General: hide empty sections --- */
+.section:empty,
+.section:not(:has(*:not(.section-metadata))) {
+  display: none;
+}

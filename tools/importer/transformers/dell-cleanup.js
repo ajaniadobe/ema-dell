@@ -85,6 +85,53 @@ export default function transform(hookName, element, payload) {
     // Remove blob: URLs (invalid references from original browser session)
     const blobLinks = element.querySelectorAll('a[href^="blob:"]');
     blobLinks.forEach((a) => a.remove());
+
+    // --- Product Listing Page (SCR) cleanup ---
+    // Remove dynamic product grid, filters, sorting, pagination
+    WebImporter.DOMUtils.remove(element, [
+      '#super-cat-main-content',
+      '#sr-product-stacks',
+      '.anavmfe-container',
+      '#plp-filters-container',
+      '.plp-sort-bar',
+      '.plp-results-header',
+      '.plp-product-grid',
+      '.plp-pagination',
+      '#compare-drawer',
+      '.scr-compare-drawer',
+    ]);
+
+    // Remove "Sign in to Premier" promotional sidebar
+    WebImporter.DOMUtils.remove(element, [
+      '.premier-sign-in-container',
+      '.plp-premier-banner',
+    ]);
+
+    // --- System Category Page cleanup ---
+    // Remove merchandising footer disclaimers and partner badges
+    WebImporter.DOMUtils.remove(element, [
+      '#marketing-campaign-disclaimers',
+      '.mh-disclaimers-content',
+      '.disclaimers-container',
+      '.sys-cat-partner-row',
+    ]);
+
+    // --- CP Landing Page cleanup ---
+    WebImporter.DOMUtils.remove(element, [
+      '.cp-page-footer',
+      '.cp-page-breadcrumbs',
+      '.cp-sticky-nav',
+      'img[src*="loading.gif"]',
+    ]);
+
+    // Remove tracking pixel images (broader patterns for Batch 3 pages)
+    WebImporter.DOMUtils.remove(element, [
+      'img[src*="t.co/i/adsct"]',
+      'img[src*="ads.linkedin.com"]',
+      'img[src*="facebook.com/tr"]',
+      'img[src*="everesttech.net"]',
+      'img[alt="Loading MFE"]',
+    ]);
   }
 
   if (hookName === TransformHook.afterTransform) {

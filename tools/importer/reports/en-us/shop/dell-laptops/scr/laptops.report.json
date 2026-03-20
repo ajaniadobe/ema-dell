@@ -2,12 +2,10 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/shop/dell-laptops/scr/laptops",
   "path": "en-us/shop/dell-laptops/scr/laptops",
-  "timestamp": "2026-03-20T16:03:37.890Z",
+  "timestamp": "2026-03-20T17:12:46.418Z",
   "title": "Dell Laptops - Shop Work, Gaming & Student PCs | Dell USA",
   "template": "product-listing-page",
   "blocks": [
-    "hero",
-    "cards",
-    "accordion"
+    "hero"
   ]
 }
