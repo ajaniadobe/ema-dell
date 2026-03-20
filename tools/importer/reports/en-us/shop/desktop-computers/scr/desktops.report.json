@@ -2,12 +2,10 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/shop/desktop-computers/scr/desktops",
   "path": "en-us/shop/desktop-computers/scr/desktops",
-  "timestamp": "2026-03-20T16:03:48.925Z",
+  "timestamp": "2026-03-20T17:12:56.973Z",
   "title": "Dell Desktop Computer- Best Dell PCs & Personal Computers | Dell USA",
   "template": "product-listing-page",
   "blocks": [
-    "hero",
-    "cards",
-    "accordion"
+    "hero"
   ]
 }
