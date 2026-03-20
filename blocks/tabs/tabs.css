@@ -325,7 +325,7 @@
 .tabs-partner .tabs-panel h5 {
   font-size: var(--heading-font-size-l);
   font-weight: 400;
-  margin: var(--spacing-l) 0 var(--spacing-s);
+  margin: 0 0 var(--spacing-s);
   line-height: 1.3;
 }
 
@@ -336,10 +336,24 @@
   margin: 0 0 var(--spacing-l);
 }
 
-/* --- Ecosystem logo grid (2 columns) --- */
+/* Sidebar + logo grid row layout for Ecosystem tab */
+.tabs-partner .tabs-partner-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+  padding: var(--spacing-l) 0;
+}
+
+.tabs-partner .tabs-partner-header {
+  position: sticky;
+  top: var(--spacing-l);
+}
+
+/* --- Ecosystem logo grid (responsive columns) --- */
 .tabs-partner .tabs-partner-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-top: var(--spacing-m);
 }
@@ -351,14 +365,14 @@
   background-color: #f4f4f4;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
-  padding: 24px;
+  padding: 24px 20px;
   margin: 0;
-  min-height: 100px;
+  min-height: 90px;
 }
 
 .tabs-partner .tabs-partner-logo img {
-  max-width: 180px;
-  max-height: 60px;
+  max-width: 160px;
+  max-height: 56px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -464,8 +478,21 @@
     gap: var(--spacing-m);
   }
 
-  .tabs-partner .tabs-partner-grid,
+  .tabs-partner .tabs-partner-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs-partner .tabs-partner-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .tabs-partner .tabs-partner-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width < 600px) {
+  .tabs-partner .tabs-partner-grid {
     grid-template-columns: 1fr;
   }
 }

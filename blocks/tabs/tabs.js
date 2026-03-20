@@ -628,13 +628,25 @@ function decoratePartnerTabs(block) {
 
     // Logo-only grid (Ecosystem tab): many logos, no text between them
     if (imgPs.length > 5 && textAfterLogos === 0) {
+      // Wrap header elements (h5 + description) in a sidebar container
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'tabs-partner-header';
+      headerEls.forEach((el) => {
+        if (!el.classList.contains('tabs-partner-label')) headerDiv.append(el);
+      });
+
       const grid = document.createElement('div');
       grid.className = 'tabs-partner-grid';
       imgPs.forEach((p) => {
         p.classList.add('tabs-partner-logo');
         grid.append(p);
       });
-      content.append(grid);
+
+      // Create a row layout: header sidebar + logo grid
+      const row = document.createElement('div');
+      row.className = 'tabs-partner-row';
+      row.append(headerDiv, grid);
+      content.append(row);
     } else {
       // Card layout (AI Accelerator, Data, Models, Deploy tabs)
       structurePartnerCards(content, headerEls);
