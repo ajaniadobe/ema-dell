@@ -207,11 +207,20 @@ function buildBreadcrumbs() {
   nav.className = 'breadcrumbs';
   nav.setAttribute('aria-label', 'Breadcrumb');
   const ol = document.createElement('ol');
-  const items = [
-    { label: '', href: '/', isHome: true },
-    { label: 'USA', href: 'https://www.dell.com/en-us' },
-    { label: title },
-  ];
+  const items = [{ label: '', href: '/', isHome: true }];
+  // Use explicit metadata if available, otherwise derive from locale in URL path
+  let parentLabel = getMetadata('breadcrumb-parent');
+  let parentUrl = getMetadata('breadcrumb-parent-url');
+  if (!parentLabel) {
+    const localeMatch = window.location.pathname.match(/\/(?:content\/)?([a-z]{2})-([a-z]{2})\//);
+    if (localeMatch) {
+      const regionNames = new Intl.DisplayNames([localeMatch[1]], { type: 'region' });
+      try { parentLabel = regionNames.of(localeMatch[2].toUpperCase()); } catch { /* skip */ }
+      if (parentLabel) parentUrl = `https://www.dell.com/${localeMatch[1]}-${localeMatch[2]}`;
+    }
+  }
+  if (parentLabel) items.push({ label: parentLabel, href: parentUrl || '/' });
+  items.push({ label: title });
   items.forEach((item, i) => {
     const li = document.createElement('li');
     if (i < items.length - 1) {
