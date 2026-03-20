@@ -295,15 +295,8 @@ function structurePartnerCards(container, headerEls) {
 }
 
 function decorateResourceCards(block) {
-  // Only apply to tabs in resource sections (AI Resources, Networking Resources, etc.)
-  // Use heading ID rather than section class (which may not be set yet)
-  const section = block.closest('.section');
-  const hasResourceSection = section && (
-    section.querySelector('#ai-resources')
-    || section.querySelector('#networking-resources')
-    || section.querySelector('#server-resources')
-  );
-  if (!hasResourceSection) return;
+  // Only apply to tabs with the 'resource' variant class
+  if (!block.classList.contains('resource')) return;
 
   const panels = block.querySelectorAll('[role=tabpanel]');
   let hasResourceContent = false;

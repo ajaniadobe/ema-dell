@@ -12,9 +12,8 @@ export default function decorate(block) {
   block.textContent = '';
   block.append(ul);
 
-  // Professional Services: group flat items (icon, heading, desc) into step cards
-  const section = block.closest('.section');
-  if (section && section.querySelector('#professional-services-for-ai')) {
+  // Steps variant: group flat items (icon, heading, desc) into step cards
+  if (block.classList.contains('steps')) {
     const items = [...ul.children].filter((li) => {
       // Skip empty separator items (no images and no text content)
       const hasImg = li.querySelector('img');
