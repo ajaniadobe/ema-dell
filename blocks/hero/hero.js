@@ -26,20 +26,6 @@ async function getVideoSrc(bg) {
     if (src) return src;
   }
 
-  // Pattern 3: lookup from hero-videos.json config
-  try {
-    const pagePath = window.location.pathname
-      .replace(/\/content/, '')
-      .replace(/\/$/, '')
-      .replace(/\.html$/, '');
-    const resp = await fetch('/hero-videos.json');
-    if (resp.ok) {
-      const configs = await resp.json();
-      const match = configs.find((c) => pagePath.endsWith(c.path));
-      if (match) return match.video;
-    }
-  } catch (e) { /* config not available */ }
-
   return null;
 }
 

@@ -196,6 +196,19 @@
   box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
 }
 
+.section .cards.apex-portfolio .cards-card-image {
+  padding: 24px;
+  text-align: center;
+}
+
+.section .cards.apex-portfolio .cards-card-image img {
+  aspect-ratio: auto;
+  object-fit: contain;
+  max-height: 200px;
+  width: auto;
+  max-width: 100%;
+}
+
 .section .cards.apex-portfolio .cards-card-body {
   padding: 32px;
   display: flex;
