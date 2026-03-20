@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/shop/scc/sc/laptops",
+  "path": "en-us/shop/scc/sc/laptops",
+  "timestamp": "2026-03-20T16:03:27.524Z",
+  "title": "Dell Laptops - Shop Work, Gaming & Student PCs | Dell USA",
+  "template": "product-listing-page",
+  "blocks": [
+    "hero",
+    "cards",
+    "accordion"
+  ]
+}
