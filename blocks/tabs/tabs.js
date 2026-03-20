@@ -1,34 +1,3 @@
-/* eslint-disable max-len */
-const PARTNER_LOGOS = {
-  'AMD logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/amd-p-blk-691x451.png?fmt=png-alpha&wid=691&hei=451',
-  'Intel Corporate Logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/intel.png?fmt=png-alpha&wid=450&hei=300',
-  'Nvidia corporate logo/Blk-Green': '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/nvidia.png?fmt=png-alpha&wid=450&hei=300',
-  'Qualcomm Logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/dell-ai-solutions-logo-qualcomm.png?fmt=png-alpha&wid=878&hei=212',
-  'Broadcom logo': '//i.dell.com/is/image/DellContent/content/dam/web-resources/project-specific/artificial-intelligence/generative-ai/images/dell-ai-solutions-logo-broadcom-small.svg?fmt=png-alpha',
-  Cloudera: '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/cloudera.png?fmt=png-alpha&wid=450&hei=300',
-  'Cohere logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/cohere-logo-color-rgb-450x300.png?fmt=png-alpha&wid=450&hei=300',
-  Databricks: '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/databricks.png?fmt=png-alpha&wid=450&hei=300',
-  'Equinix Logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/equinix-logo.png?fmt=png-alpha&wid=960&hei=640',
-  'Glean logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/glean-wordmark-bl-450x300.png?fmt=png-alpha&wid=450&hei=300',
-  'Google Cloud logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/googlecloud-fullcolor-rgb-450x300.png?fmt=png-alpha&wid=450&hei=300',
-  'Hugging Face': '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/huggingface.png?fmt=png-alpha&wid=450&hei=300',
-  Meta: '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/meta.png?fmt=png-alpha&wid=450&hei=300',
-  'microsoft image dell for startups': '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/microsoft.jpg?fmt=jpg&wid=800&hei=451',
-  'Nutanix Logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/nutanix-logo-450x300.png?fmt=png-alpha&wid=450&hei=300',
-  'Red Hat': '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/red-hat.png?fmt=png-alpha&wid=450&hei=300',
-  'NVIDIA & Run:AI logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/nvidia-and-run-ai-partnership-lockup-v-on-light-og-450x300.png?fmt=png-alpha&wid=450&hei=300',
-  Snowflake: '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/snowflake.png?fmt=png-alpha&wid=450&hei=300',
-  'Starbust Logo': '//i.dell.com/is/image/DellContent/content/dam/web-resources/project-specific/artificial-intelligence/generative-ai/images/dell-ai-solutions-logo-starburst-691x451.png?fmt=png-alpha&wid=691&hei=451',
-  'Tabnine logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/tabnine-logo-450x300.png?fmt=png-alpha&wid=450&hei=300',
-  teradata: '//i.dell.com/is/image/DellContent/content/dam/web-resources/cross-project/images/lifestyle/teradata.png?fmt=png-alpha&wid=3876&hei=1374',
-  'Meta Llama logo': '//i.dell.com/is/image/DellContent/content/dam/web-resources/project-specific/artificial-intelligence/generative-ai/images/dell-ai-solutions-logo-meta-llama-691x451.png?fmt=png-alpha&wid=691&hei=451',
-  'Dell Technologies Logo': '//i.dell.com/is/image/DellContent/content/dam/images/logos/dell-technologies/horizontal/digital/delltech-logo-prm-blue-rgb.png?fmt=png-alpha&wid=4238&hei=550',
-  'AMD ROCm logo': '//i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/category-pages/ai/partners/amd-rocm-lockup-rgb-blk-691x451.png?fmt=png-alpha&wid=691&hei=451',
-  OpenVINO: '//i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partner-logos/openvino.png?fmt=png-alpha&wid=450&hei=300',
-  'run ai logo': '//i.dell.com/is/image/DellContent/content/dam/web-resources/project-specific/artificial-intelligence/generative-ai/images/dell-ai-solutions-logo-run-ai-691x451.png?fmt=png-alpha&wid=691&hei=451',
-};
-/* eslint-enable max-len */
-
 function toClassName(name) {
   return typeof name === 'string'
     ? name.toLowerCase().replace(/[^0-9a-z]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
@@ -248,19 +217,6 @@ function cleanTabPanel(container) {
   } else {
     container.append(story);
   }
-}
-
-function replacePartnerLogos(container) {
-  container.querySelectorAll('img').forEach((img) => {
-    const url = PARTNER_LOGOS[img.alt.trim()];
-    if (url) {
-      img.src = `https:${url}`;
-      const picture = img.closest('picture');
-      if (picture) {
-        picture.replaceWith(img);
-      }
-    }
-  });
 }
 
 function isImgParagraph(el) {
@@ -650,9 +606,6 @@ function decoratePartnerTabs(block) {
     const h5 = content.querySelector('h5');
     if (!h5 || content.querySelector('h3')) return;
     hasPartnerContent = true;
-
-    // Replace 1x1.gif logos with real URLs
-    replacePartnerLogos(content);
 
     // Hide duplicate tab label (first paragraph that matches tab name)
     const firstP = content.querySelector('p');
