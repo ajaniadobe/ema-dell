@@ -2554,3 +2554,57 @@ main .section:has(.hero) > .default-content:first-child:has(ol) {
 .section:not(:has(*:not(.section-metadata))) {
   display: none;
 }
+
+/* Hide empty carousels (no slides inside) */
+.carousel:not(:has(.carousel-slide)) {
+  display: none;
+}
+
+/* Hide empty cards blocks (no list items) */
+.cards:not(:has(li)) {
+  display: none;
+}
+
+/* Hide sections that only contain headings + empty cards/carousels (no real content) */
+.section:has(.cards > ul:empty):not(:has(.cards li), :has(img), :has(.hero), :has(.columns), :has(.tabs), :has(.accordion)) {
+  display: none;
+}
+
+/* Hide block-content wrappers around empty cards (cards with empty <ul>) */
+.block-content:has(.cards > ul:empty) {
+  display: none;
+}
+
+/* Hide block-content wrappers around empty carousels */
+.block-content:has(.carousel:empty) {
+  display: none;
+}
+
+/* Decorative section icon images (small colored squares before headings) —
+   constrain their size so they don't dominate the layout */
+.section > .default-content > p:first-child:has(img:only-child) {
+  line-height: 0;
+  margin-bottom: var(--spacing-xs);
+}
+
+.section > .default-content > p:first-child > img:only-child {
+  max-width: 48px;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+/* Constrain images in columns blocks to prevent oversized full-width images
+   when content was migrated as single-column entries */
+.columns:not(.image-cover) .col img {
+  max-height: 350px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* Standalone paragraph images in default content (logos, product images) —
+   constrain to prevent them from dominating the layout */
+.default-content > p:has(> img:only-child) img {
+  max-height: 300px;
+  object-fit: contain;
+}

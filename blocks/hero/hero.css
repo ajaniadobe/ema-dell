@@ -261,6 +261,11 @@
       text-align: center;
     }
   }
+
+  /* Text-only hero: solid navy background when no background image/video */
+  &:not(.split, .has-video, :has(.hero-background)) {
+    background: var(--color-dell-navy, #002a58);
+  }
 }
 
 @media (width >= 600px) {

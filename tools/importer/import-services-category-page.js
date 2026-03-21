@@ -35,6 +35,14 @@ const PAGE_TEMPLATE = {
       ]
     },
     {
+      name: 'cards',
+      instances: [
+        ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)",
+        ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Four)",
+        ".rwp-webpart-TileLayout"
+      ]
+    },
+    {
       name: 'carousel',
       instances: [
         ".rwp-itemcarousel"
@@ -43,14 +51,7 @@ const PAGE_TEMPLATE = {
     {
       name: 'columns',
       instances: [
-        "[id*='section1-wp'] .rwp-contentlayout"
-      ]
-    },
-    {
-      name: 'cards',
-      instances: [
-        "[id*='section4-wp'] .rwp-contentlayout",
-        "[id*='dt-awards'] .rwp-contentlayout"
+        ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Two)"
       ]
     }
   ],
@@ -58,58 +59,18 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-hero',
       name: 'Hero Banner',
-      selector: "[id*='hero-banner-wp']",
+      selector: ".cp-container:has([id*='hero-banner-wp'])",
       style: 'dark',
       blocks: ['hero'],
       defaultContent: []
     },
     {
-      id: 'section-outcomes-carousel',
-      name: 'Service Outcomes',
-      selector: "[id*='section2']",
+      id: 'section-content',
+      name: 'Content Sections',
+      selector: "#webparts > .cp-container",
       style: null,
-      blocks: ['carousel'],
+      blocks: ['cards', 'carousel', 'columns'],
       defaultContent: []
-    },
-    {
-      id: 'section-what-we-offer',
-      name: 'What We Offer',
-      selector: "[id*='section1-wp']",
-      style: null,
-      blocks: ['columns'],
-      defaultContent: []
-    },
-    {
-      id: 'section-it-potential',
-      name: 'IT Potential',
-      selector: "[id*='section3-wp']",
-      style: 'dark',
-      blocks: [],
-      defaultContent: ["[id*='section3-wp'] .rwp-contentlayout"]
-    },
-    {
-      id: 'section-service-phases',
-      name: 'Service Phases',
-      selector: "[id*='section4-wp']",
-      style: 'dark',
-      blocks: ['cards'],
-      defaultContent: []
-    },
-    {
-      id: 'section-customer-stories',
-      name: 'Customer Stories',
-      selector: "[id*='section']:has(.rwp-itemcarousel):not([id*='section2'])",
-      style: null,
-      blocks: ['carousel'],
-      defaultContent: []
-    },
-    {
-      id: 'section-awards',
-      name: 'Awards',
-      selector: "[id*='dt-awards']",
-      style: null,
-      blocks: ['cards'],
-      defaultContent: ["[id*='dt-awards'] h2"]
     }
   ]
 };
