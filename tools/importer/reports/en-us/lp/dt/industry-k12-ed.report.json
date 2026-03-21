@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/industry-k12-ed",
+  "path": "en-us/lp/dt/industry-k12-ed",
+  "timestamp": "2026-03-21T18:07:04.209Z",
+  "title": "K-12 IT Solutions | Dell USA",
+  "template": "industry-page",
+  "blocks": [
+    "hero",
+    "cards",
+    "cards"
+  ]
+}

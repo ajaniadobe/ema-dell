@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-zurich-insurance-group-pcaas",
+  "path": "en-us/lp/dt/customer-stories-zurich-insurance-group-pcaas",
+  "timestamp": "2026-03-21T17:59:56.192Z",
+  "title": "Zurich Insurance Group | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

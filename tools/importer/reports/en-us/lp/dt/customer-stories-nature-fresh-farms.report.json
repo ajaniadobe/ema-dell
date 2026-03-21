@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-nature-fresh-farms",
+  "path": "en-us/lp/dt/customer-stories-nature-fresh-farms",
+  "timestamp": "2026-03-21T18:01:46.608Z",
+  "title": "Nature Fresh Farms | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

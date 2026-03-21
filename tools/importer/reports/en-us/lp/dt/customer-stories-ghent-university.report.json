@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-ghent-university",
+  "path": "en-us/lp/dt/customer-stories-ghent-university",
+  "timestamp": "2026-03-21T17:59:06.287Z",
+  "title": "Ghent University | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

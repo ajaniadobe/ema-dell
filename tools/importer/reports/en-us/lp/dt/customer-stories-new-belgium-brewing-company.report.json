@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-new-belgium-brewing-company",
+  "path": "en-us/lp/dt/customer-stories-new-belgium-brewing-company",
+  "timestamp": "2026-03-21T18:00:20.277Z",
+  "title": "New Belgium Brewing Company | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

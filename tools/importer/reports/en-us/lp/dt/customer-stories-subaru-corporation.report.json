@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-subaru-corporation",
+  "path": "en-us/lp/dt/customer-stories-subaru-corporation",
+  "timestamp": "2026-03-21T17:53:36.208Z",
+  "title": "Subaru Corporation | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

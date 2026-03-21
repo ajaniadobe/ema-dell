@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-northwestern-medicine",
+  "path": "en-us/lp/dt/customer-stories-northwestern-medicine",
+  "timestamp": "2026-03-21T17:54:05.727Z",
+  "title": "Northwestern Medicine | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "cards"
+  ]
+}

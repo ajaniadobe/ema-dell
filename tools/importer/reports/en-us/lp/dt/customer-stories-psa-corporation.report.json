@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-psa-corporation",
+  "path": "en-us/lp/dt/customer-stories-psa-corporation",
+  "timestamp": "2026-03-21T18:01:05.496Z",
+  "title": "PSA Corporation | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-team-liquid",
+  "path": "en-us/lp/dt/customer-stories-team-liquid",
+  "timestamp": "2026-03-21T18:00:04.776Z",
+  "title": "Team Liquid | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

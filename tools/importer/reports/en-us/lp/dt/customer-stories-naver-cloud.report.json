@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-naver-cloud",
+  "path": "en-us/lp/dt/customer-stories-naver-cloud",
+  "timestamp": "2026-03-21T17:56:46.260Z",
+  "title": "NAVER Cloud | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "cards",
+    "cards"
+  ]
+}

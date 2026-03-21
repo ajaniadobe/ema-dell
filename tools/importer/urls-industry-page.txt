@@ -1,0 +1,13 @@
+https://www.dell.com/en-us/lp/dt/industry-healthcare
+https://www.dell.com/en-us/lp/dt/industry-energy
+https://www.dell.com/en-us/lp/dt/industry-federal-government-it
+https://www.dell.com/en-us/lp/dt/industry-financial-services
+https://www.dell.com/en-us/lp/dt/industry-higher-ed
+https://www.dell.com/en-us/lp/dt/industry-k12-ed
+https://www.dell.com/en-us/lp/dt/industry-life-sciences
+https://www.dell.com/en-us/lp/dt/industry-manufacturing
+https://www.dell.com/en-us/lp/dt/industry-retail
+https://www.dell.com/en-us/lp/dt/industry-safety-security
+https://www.dell.com/en-us/lp/dt/industry-smart-cities
+https://www.dell.com/en-us/lp/dt/industry-state-and-local-government
+https://www.dell.com/en-us/lp/dt/industry-telecom

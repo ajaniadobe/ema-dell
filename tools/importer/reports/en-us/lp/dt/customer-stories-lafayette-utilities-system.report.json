@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-lafayette-utilities-system",
+  "path": "en-us/lp/dt/customer-stories-lafayette-utilities-system",
+  "timestamp": "2026-03-21T17:58:11.119Z",
+  "title": "Lafayette Utilities System | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

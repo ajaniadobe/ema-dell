@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-the-avk-group",
+  "path": "en-us/lp/dt/customer-stories-the-avk-group",
+  "timestamp": "2026-03-21T17:59:24.676Z",
+  "title": "AVK Holding | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards"
+  ]
+}

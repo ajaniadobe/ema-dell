@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-elice",
+  "path": "en-us/lp/dt/customer-stories-elice",
+  "timestamp": "2026-03-21T17:57:31.032Z",
+  "title": "Elice | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

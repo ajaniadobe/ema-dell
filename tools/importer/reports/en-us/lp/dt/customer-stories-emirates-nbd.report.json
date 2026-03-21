@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-emirates-nbd",
+  "path": "en-us/lp/dt/customer-stories-emirates-nbd",
+  "timestamp": "2026-03-21T17:58:45.289Z",
+  "title": "Emirates NBD | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "cards"
+  ]
+}

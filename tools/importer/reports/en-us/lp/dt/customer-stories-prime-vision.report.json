@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-prime-vision",
+  "path": "en-us/lp/dt/customer-stories-prime-vision",
+  "timestamp": "2026-03-21T17:58:03.434Z",
+  "title": "Prime Vision | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

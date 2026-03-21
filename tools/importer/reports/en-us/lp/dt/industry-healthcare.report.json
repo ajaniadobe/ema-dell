@@ -1,0 +1,22 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/industry-healthcare",
+  "path": "en-us/lp/dt/industry-healthcare",
+  "timestamp": "2026-03-21T18:06:24.998Z",
+  "title": "Healthcare | Dell USA",
+  "template": "industry-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "carousel",
+    "carousel",
+    "carousel",
+    "carousel",
+    "cards",
+    "cards",
+    "cards",
+    "accordion"
+  ]
+}
