@@ -111,6 +111,7 @@ export default async function decorate(block) {
   let slideIndicators;
   if (!isSingleSlide) {
     const slideIndicatorsNav = document.createElement('nav');
+    slideIndicatorsNav.classList.add('carousel-slide-controls');
     slideIndicatorsNav.setAttribute('aria-label', 'Carousel Slide Controls');
     slideIndicators = document.createElement('ol');
     slideIndicators.classList.add('carousel-slide-indicators');

@@ -400,8 +400,8 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
     margin-bottom: 8px;
   }
 
-  /* Body text paragraph */
-  > p:has(a[href*="principled"], a[href*="economic"], a[href*="securing"]) {
+  /* Body text paragraph (first paragraph with links after the subheading) */
+  > h3 + p:has(a) {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -437,7 +437,7 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   }
 
   /* CTA buttons paragraph — horizontal row */
-  > p:last-child:has(a[href*="nvidia"]) {
+  > p:last-child:has(a) {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
@@ -573,13 +573,14 @@ main > .section.accent {
   }
 }
 
-/* Hide Dell 1x1.gif tracking pixels / spacer images */
-img[src*="1x1.gif"] {
+/* TODO: Remove once import scripts strip tracking pixels at import time */
+
+/* Hide 1x1 spacer/tracking images by size (src-agnostic) */
+img[width="1"][height="1"] {
   display: none;
 }
 
-/* Also hide paragraphs that only contain a hidden 1x1.gif */
-p:has(> img[src*="1x1.gif"]:only-child) {
+p:has(> img[width="1"][height="1"]:only-child) {
   display: none;
 }
 
@@ -619,7 +620,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   width: 64px;
   min-width: 64px;
   height: 64px;
-  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/infrastructure.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+  background: url('/img/icons/infrastructure.png') no-repeat center / contain;
 }
 
 /* AI Partner Ecosystem — heading icon */
@@ -629,7 +630,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   width: 64px;
   min-width: 64px;
   height: 64px;
-  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partners.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+  background: url('/img/icons/ai-partners.png') no-repeat center / contain;
 }
 
 .section:has(.block-content .carousel) > .default-content > h3,
@@ -743,7 +744,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Infrastructure carousel — hide dot indicators, use slide counter */
-.section:has(.block-content .carousel) .carousel nav[aria-label="Carousel Slide Controls"] {
+.section:has(.block-content .carousel) .carousel .carousel-slide-controls {
   display: none;
 }
 
@@ -759,25 +760,37 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   border-radius: 20px;
 }
 
-/* Infrastructure carousel slide images */
+/* Infrastructure carousel slide images
+ * NOTE: These images are content-specific and should ideally be authored in the
+ * content HTML. They are defined here as CSS custom properties for maintainability
+ * until the carousel content is updated with proper <img> tags.
+ */
+.section:has(.block-content .carousel) .carousel-slides {
+  --slide-1-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-02-0135-la9450t-poweredge-xe9680.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-2-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-monitor-0086-u4025qw-pr5690nt-km900.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-3-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0205-la9450t-powerscale.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-4-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0074-la9450t.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-5-bg: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
+}
+
 .section:has(.block-content .carousel) .carousel-slide:nth-child(1) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-02-0135-la9450t-poweredge-xe9680.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-1-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(2) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-monitor-0086-u4025qw-pr5690nt-km900.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-2-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(3) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0205-la9450t-powerscale.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-3-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(4) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0074-la9450t.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-4-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(5) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
+  background-image: var(--slide-5-bg);
 }
 
 /* Data for AI — hide icon image paragraph (icon is rendered via h2::before) */
@@ -801,7 +814,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
   width: 64px;
   min-width: 64px;
   height: 64px;
-  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/datastore-96.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+  background: url('/img/icons/datastore.png') no-repeat center / contain;
 }
 
 /* Data for AI cards — gray product tile cards */
@@ -840,25 +853,25 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Professional Services step cards — 2-column layout matching original */
-.section:has(#professional-services-for-ai) .cards > ul {
+.section:has(.cards.steps) .cards > ul {
   grid-template-columns: repeat(2, 1fr);
   gap: 48px 64px;
 }
 
 /* Step card wrappers — grouped icon + heading + description */
-.section:has(#professional-services-for-ai) .cards .cards-step {
+.section:has(.cards.steps) .cards .cards-step {
   background: transparent;
   border-radius: 0;
   overflow: visible;
   list-style: none;
 }
 
-.section:has(#professional-services-for-ai) .cards .cards-step:hover {
+.section:has(.cards.steps) .cards .cards-step:hover {
   box-shadow: none;
 }
 
 /* Step icon images — small icons */
-.section:has(#professional-services-for-ai) .cards .cards-step img {
+.section:has(.cards.steps) .cards .cards-step img {
   width: 64px;
   height: 64px;
   aspect-ratio: 1;
@@ -866,7 +879,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Step headings */
-.section:has(#professional-services-for-ai) .cards .cards-step h3 {
+.section:has(.cards.steps) .cards .cards-step h3 {
   font-size: 20px;
   font-weight: 400;
   line-height: 28px;
@@ -874,7 +887,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Step descriptions */
-.section:has(#professional-services-for-ai) .cards .cards-step .cards-card-body:last-child {
+.section:has(.cards.steps) .cards .cards-step .cards-card-body:last-child {
   font-size: 14px;
   line-height: 20px;
   color: var(--color-dell-medium-gray);
@@ -882,7 +895,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Professional Services CTA — centered button */
-.section:has(#professional-services-for-ai) > .default-content:has(.btn) {
+.section:has(.cards.steps) > .default-content:has(.btn) {
   text-align: center;
   margin-top: var(--spacing-xl);
 }
@@ -890,14 +903,14 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 /* ===== AI Resources section ===== */
 
 /* Blue accent bar before heading */
-.section.light:has(#ai-resources) > .default-content > h2 {
+.section.light:has(.tabs.resource) > .default-content > h2 {
   display: flex;
   align-items: center;
   gap: 20px;
   color: var(--color-dell-near-black);
 }
 
-.section.light:has(#ai-resources) > .default-content > h2::before {
+.section.light:has(.tabs.resource) > .default-content > h2::before {
   content: '';
   display: inline-block;
   width: 48px;
@@ -907,17 +920,17 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* Tab label overrides for light background */
-.section.light:has(#ai-resources) .tabs .tabs-list button {
+.section.light:has(.tabs.resource) .tabs .tabs-list button {
   color: var(--color-dell-medium-gray);
   font-weight: 400;
 }
 
-.section.light:has(#ai-resources) .tabs .tabs-list button[aria-selected='true'] {
+.section.light:has(.tabs.resource) .tabs .tabs-list button[aria-selected='true'] {
   color: var(--color-dell-blue);
   font-weight: 700;
 }
 
-.section.light:has(#ai-resources) .tabs .tabs-list button:hover {
+.section.light:has(.tabs.resource) .tabs .tabs-list button:hover {
   color: var(--color-dell-near-black);
 }
 
@@ -1082,19 +1095,19 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* ===== Networking Resources section heading ===== */
-.section.dark:has(#networking-resources) > .default-content:first-child {
+.section.dark:has(.tabs.resource) > .default-content:first-child {
   text-align: center;
   margin-bottom: var(--spacing-l);
 }
 
-.section.dark:has(#networking-resources) > .default-content:first-child > h2 {
+.section.dark:has(.tabs.resource) > .default-content:first-child > h2 {
   font-size: 48px;
   font-weight: 300;
   line-height: 1.2;
 }
 
 /* ===== Awards and reviews section ===== */
-.section.dark:has(#awards-and-reviews) > .default-content:has(#awards-and-reviews) {
+.section.dark .awards-content {
   max-width: var(--grid-container-width);
   margin: var(--spacing-xxl) auto 0;
   padding-bottom: var(--spacing-xl);
@@ -1235,12 +1248,12 @@ p:has(> img[src*="1x1.gif"]:only-child) {
 }
 
 /* ===== FAQs section ===== */
-.section:has(#faqs) > .default-content {
+.section:has(.accordion) > .default-content {
   text-align: center;
   margin-bottom: var(--spacing-l);
 }
 
-.section:has(#faqs) > .default-content > h2 {
+.section:has(.accordion) > .default-content > h2 {
   font-size: var(--heading-font-size-l);
   font-weight: 300;
 }
@@ -1250,7 +1263,7 @@ p:has(> img[src*="1x1.gif"]:only-child) {
     grid-template-columns: 1fr;
   }
 
-  .section:has(#professional-services-for-ai) .cards > ul {
+  .section:has(.cards.steps) .cards > ul {
     grid-template-columns: 1fr;
   }
 }
@@ -2025,40 +2038,38 @@ aem-sidekick {
 /* ===== Solutions Landing Page — FAQ as plain headings ===== */
 
 /* When FAQ section has h2 + h3 + p repeating (not in accordion block) */
-.section > .default-content:has(> h2#frequently-asked-questions + h3) {
-  > h2#frequently-asked-questions {
-    font-size: var(--heading-font-size-l);
-    font-weight: 300;
-    margin-bottom: var(--spacing-xl);
-    text-align: center;
-  }
+.section > .default-content:has(> h2:first-child + h3) > h2:first-child {
+  font-size: var(--heading-font-size-l);
+  font-weight: 300;
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
 
-  > h3 {
-    font-size: var(--body-font-size-l);
-    font-weight: 500;
-    padding: 16px 0;
-    margin-bottom: 0;
-    border-top: 1px solid #e1e1e1;
-    cursor: default;
-  }
+.section > .default-content:has(> h2:first-child + h3) > h3 {
+  font-size: var(--body-font-size-l);
+  font-weight: 500;
+  padding: 16px 0;
+  margin-bottom: 0;
+  border-top: 1px solid #e1e1e1;
+  cursor: default;
+}
 
-  > h3 + p {
-    font-size: var(--body-font-size-m);
-    line-height: 1.6;
-    color: var(--color-dell-medium-gray);
-    padding-bottom: 16px;
-    margin-top: 0;
-  }
+.section > .default-content:has(> h2:first-child + h3) > h3 + p {
+  font-size: var(--body-font-size-m);
+  line-height: 1.6;
+  color: var(--color-dell-medium-gray);
+  padding-bottom: 16px;
+  margin-top: 0;
+}
 
-  /* Legal footnote text at end */
-  > p:last-child {
-    font-size: var(--body-font-size-xs);
-    line-height: 1.5;
-    color: var(--color-dell-medium-gray);
-    border-top: 1px solid #e1e1e1;
-    padding-top: var(--spacing-l);
-    margin-top: var(--spacing-l);
-  }
+/* Legal footnote text at end */
+.section > .default-content:has(> h2:first-child + h3) > p:last-child {
+  font-size: var(--body-font-size-xs);
+  line-height: 1.5;
+  color: var(--color-dell-medium-gray);
+  border-top: 1px solid #e1e1e1;
+  padding-top: var(--spacing-l);
+  margin-top: var(--spacing-l);
 }
 
 /* ===== Tabs — hide orphan arrow text from pagination controls ===== */
@@ -2168,17 +2179,17 @@ main > .section.dark:has(.cards.stats) {
   padding-bottom: 80px;
 }
 
-.section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) {
+.section.dark:has(.cards.stats) > .default-content {
   text-align: center;
   margin-bottom: 48px;
 }
 
-.section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) > h2 {
+.section.dark:has(.cards.stats) > .default-content > h2 {
   font-size: 42px;
   font-weight: 300;
 }
 
-.section.dark:has(.cards.stats) > .default-content:has(#drive-it-operations) > p {
+.section.dark:has(.cards.stats) > .default-content > p {
   font-size: 18px;
   max-width: 700px;
   margin-left: auto;
@@ -2196,24 +2207,13 @@ main > .section.dark:has(.cards.stats) {
   font-weight: 300;
 }
 
-/* APEX Resources section — centered heading */
-.section.dark:has(#resources) > .default-content {
+/* APEX dark section centered headings (resources, FAQ, etc.) */
+.section.dark.centered-heading > .default-content {
   text-align: center;
   margin-bottom: var(--spacing-l);
 }
 
-.section.dark:has(#resources) > .default-content > h2 {
-  font-size: 42px;
-  font-weight: 300;
-}
-
-/* APEX FAQ section — centered heading */
-.section.dark:has(#faq) > .default-content {
-  text-align: center;
-  margin-bottom: var(--spacing-l);
-}
-
-.section.dark:has(#faq) > .default-content > h2 {
+.section.dark.centered-heading > .default-content > h2 {
   font-size: 42px;
   font-weight: 300;
 }
@@ -2340,12 +2340,7 @@ main > .section.dark:has(.cards.stats) {
 }
 
 /* Hide dynamic catalog content that leaked through import */
-main > .section > .default-content:has(h6),
-main > .section > .default-content:has(h4#product-line),
-main > .section > .default-content:has(h4#ai-artificial-intelligence),
-main > .section > .default-content:has(h4#pc-screen-size),
-main > .section > .default-content:has(#filters),
-main > .section > .default-content:has(#sign-in-to-premier-for-business) {
+main > .section > .default-content:has(h6) {
   display: none;
 }
 
@@ -2459,17 +2454,12 @@ main > .section > .default-content:has(#sign-in-to-premier-for-business) {
   text-decoration: underline;
 }
 
-/* Hide loading.gif tracking pixels */
-img[alt="Loading MFE"] {
-  display: none;
-}
+/* TODO: Remove once import scripts strip tracking pixels at import time */
 
-/* Hide tracking pixel images that leaked through */
-img[src*="t.co/i/adsct"],
-img[src*="ads.linkedin.com"],
-img[src*="facebook.com/tr"],
-img[src*="everesttech.net"],
-img[src*="loading.gif"] {
+/* Hide tracking pixel images — use size-based detection where possible */
+img[width="0"], img[height="0"],
+img[width="1"][height="1"],
+img[style*="display:none"], img[style*="display: none"] {
   display: none;
 }
 
@@ -2516,7 +2506,7 @@ main .section:has(.hero) {
 /* Hide catalog filter content that leaked into static import */
 
 /* These are dynamic filter facets (h4 headings + ordered lists) that should not render */
-main .section:has(.hero) .default-content h3#filters,
+main .section:has(.hero) .default-content h3,
 main .section:has(.hero) .default-content h4,
 main .section:has(.hero) .default-content ol {
   display: none;
@@ -2540,7 +2530,7 @@ main .section .block-content:has(.has-error) {
 }
 
 /* Hide remaining filter UI text in product listing pages */
-main .section:has(.hero) .default-content:has(h3#filters) {
+main .section:has(.hero) .default-content:has(h3):not(:has(h2)) {
   display: none;
 }
 

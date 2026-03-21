@@ -1,24 +1,32 @@
+// Size and length thresholds used across tab panel cleanup
+const ICON_MAX_SIZE = 96;
+const TRACKING_PIXEL_SIZE = 1;
+const MAX_JUNK_TEXT_LENGTH = 80;
+const MIN_CONTENT_TEXT_LENGTH = 3;
+const MAX_LABEL_LENGTH = 30;
+
 function toClassName(name) {
   return typeof name === 'string'
     ? name.toLowerCase().replace(/[^0-9a-z]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
     : '';
 }
 
-function isVideoJunk(text) {
-  const junkPatterns = [
-    /^Video Player/i, /^Play Video/i, /^Play$/i, /^PlaySkip/i, /^Unmute$/i,
-    /^Current Time/i, /^Duration/i, /^Loaded:/i, /^Stream Type/i, /^Seek to live/i,
-    /^Remaining Time/i, /^Playback Rate$/i, /^Chapters$/i, /^Descriptions$/i,
-    /^Captions$/i, /^Quality Levels$/i, /^Audio Track$/i, /^Fullscreen$/i,
-    /^This is a modal/i, /^Beginning of dialog/i, /^End of dialog/i,
-    /^Close Modal/i, /^Text$/i, /^Font/i, /^Caption Area/i, /^Text Background/i,
-    /^Text Edge/i, /^ResetDone$/i, /Color.*Opacity/i, /^Proportional/i,
-    /^None \(none\)$/i, /^Showing page/i, /^\d+\/\d+$/, /^\d+(\.\d+)?x$/,
-    /^\d+% \(/, /^\/$/,
-    /^descriptions off/i, /^captions settings/i, /^captions off/i,
-    /^Previous Slide/i,
-  ];
-  return junkPatterns.some((p) => p.test(text));
+/**
+ * Detect short non-content text (video player UI, pagination controls).
+ * Uses length + structural heuristics instead of brittle string matching.
+ */
+function isNonContentText(text) {
+  if (!text || text.length > MAX_JUNK_TEXT_LENGTH) return false;
+  // Pagination patterns (e.g. "1/2", "Previous Slide   Next Slide")
+  if (/^\d+\/\d+$/.test(text)) return true;
+  if (/^Previous\s+(Slide|Page)/i.test(text)) return true;
+  // Playback rate (e.g. "1x", "1.5x")
+  if (/^\d+(\.\d+)?x$/.test(text)) return true;
+  // Single slash or very short non-word text
+  if (text === '/') return true;
+  // Video player UI: short text with no spaces that looks like a control label
+  if (text.length <= MIN_CONTENT_TEXT_LENGTH && !/[a-z]{2,}/i.test(text)) return true;
+  return false;
 }
 
 function cleanTabPanel(container) {
@@ -33,34 +41,37 @@ function cleanTabPanel(container) {
   if (!h3 || !h4) {
     [...container.querySelectorAll('p')].forEach((p) => {
       const text = p.textContent.trim();
-      if (text && isVideoJunk(text)) p.remove();
+      if (text && isNonContentText(text)) p.remove();
     });
     return;
   }
 
   container.querySelectorAll('h3, h4').forEach((el) => keep.add(el));
 
-  // Keep use-case icon paragraphs (1x1.gif placeholder, 96x96 icons, or small images before text)
+  // Keep use-case icon paragraphs (small icons or placeholder images before text)
   const iconP = [...container.querySelectorAll('p')]
     .find((p) => {
       const img = p.querySelector('img');
       if (!img) return false;
-      if (img.src.includes('1x1.gif') || img.src.includes('icon-set-96x96')) return true;
-      // Detect small icons by their width/height attributes (e.g., 96x96 from DA)
-      const w = parseInt(img.getAttribute('width'), 10);
-      const h = parseInt(img.getAttribute('height'), 10);
-      return w > 0 && w <= 96 && h > 0 && h <= 96;
+      // Detect small icons by their dimensions
+      const w = parseInt(img.getAttribute('width'), 10) || img.naturalWidth || 0;
+      const h = parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 0;
+      return (w > 0 && w <= ICON_MAX_SIZE && h > 0 && h <= ICON_MAX_SIZE)
+        || (w === TRACKING_PIXEL_SIZE && h === TRACKING_PIXEL_SIZE);
     });
   if (iconP) {
     iconP.classList.add('tabs-icon');
     keep.add(iconP);
   }
 
-  // Detect Brightcove video links before cleanup
-  // They appear as separate <p><a href="brightcove...">...</a></p> paragraphs
-  let brightcoveUrl = null;
-  container.querySelectorAll('a[href*="players.brightcove.net"]').forEach((a) => {
-    if (!brightcoveUrl) brightcoveUrl = a.getAttribute('href');
+  // Detect embedded video links before cleanup (Brightcove, YouTube, Vimeo)
+  const videoProviders = ['players.brightcove.net', 'youtube.com/embed', 'vimeo.com'];
+  let videoUrl = null;
+  container.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    if (!videoUrl && videoProviders.some((v) => href.includes(v))) {
+      videoUrl = href;
+    }
   });
 
   const seenImgSrcs = new Set();
@@ -69,8 +80,11 @@ function cleanTabPanel(container) {
     const text = p.textContent.trim();
     const hasImg = p.querySelector('img');
     const hasLink = p.querySelector('a');
-    const isIconImg = hasImg && (hasImg.src.includes('1x1.gif') || hasImg.src.includes('icon-set-96x96')
-      || (parseInt(hasImg.getAttribute('width'), 10) <= 96 && parseInt(hasImg.getAttribute('height'), 10) <= 96));
+    const imgW = hasImg ? (parseInt(hasImg.getAttribute('width'), 10) || hasImg.naturalWidth || 0) : 0;
+    const imgH = hasImg ? (parseInt(hasImg.getAttribute('height'), 10) || hasImg.naturalHeight || 0) : 0;
+    const isSmall = imgW > 0 && imgW <= ICON_MAX_SIZE && imgH > 0 && imgH <= ICON_MAX_SIZE;
+    const isPixel = imgW === TRACKING_PIXEL_SIZE && imgH === TRACKING_PIXEL_SIZE;
+    const isIconImg = hasImg && (isSmall || isPixel);
     const isSrcImg = hasImg && !isIconImg;
     const linkHref = hasLink
       ? hasLink.getAttribute('href') : null;
@@ -86,7 +100,7 @@ function cleanTabPanel(container) {
     if (isEmptyLink) {
       // skip empty links without images
     } else if (
-      hasLink && linkHref && linkHref.includes('players.brightcove.net')
+      hasLink && linkHref && videoProviders.some((v) => linkHref.includes(v))
     ) {
       // skip Brightcove link paragraphs (URL already captured)
     } else if (
@@ -97,8 +111,8 @@ function cleanTabPanel(container) {
       p.replaceChildren(img);
       keep.add(p);
     } else if (
-      (text.length > 3 && !isVideoJunk(text))
-      || (hasLink && text.length > 3)
+      (text.length > MIN_CONTENT_TEXT_LENGTH && !isNonContentText(text))
+      || (hasLink && text.length > MIN_CONTENT_TEXT_LENGTH)
       || isSrcImg
     ) {
       keep.add(p);
@@ -148,8 +162,8 @@ function cleanTabPanel(container) {
       const img = el.querySelector(':scope > img, :scope > picture img, :scope > a > img, :scope > a > picture img');
       const imgW = parseInt(img?.getAttribute('width'), 10);
       const imgH = parseInt(img?.getAttribute('height'), 10);
-      const isSmallIcon = imgW > 0 && imgW <= 96 && imgH > 0 && imgH <= 96;
-      if (img && !img.src.includes('1x1.gif') && !img.src.includes('icon-set-96x96') && !isSmallIcon) {
+      const isSmallIcon = imgW > 0 && imgW <= ICON_MAX_SIZE && imgH > 0 && imgH <= ICON_MAX_SIZE;
+      if (img && !isSmallIcon) {
         videoP = el;
         storyEls.splice(i, 1);
         break;
@@ -190,8 +204,8 @@ function cleanTabPanel(container) {
   if (videoP) {
     videoP.className = 'tabs-panel-video';
     // Add click-to-play if a Brightcove video URL was found
-    if (brightcoveUrl) {
-      videoP.dataset.videoSrc = brightcoveUrl;
+    if (videoUrl) {
+      videoP.dataset.videoSrc = videoUrl;
       // Add play button overlay
       const playBtn = document.createElement('button');
       playBtn.className = 'tabs-video-play';
@@ -201,7 +215,7 @@ function cleanTabPanel(container) {
       // Click to play
       videoP.addEventListener('click', () => {
         const iframe = document.createElement('iframe');
-        iframe.src = `${brightcoveUrl}&autoplay=true`;
+        iframe.src = `${videoUrl}&autoplay=true`;
         iframe.allow = 'autoplay; encrypted-media; fullscreen';
         iframe.setAttribute('allowfullscreen', '');
         iframe.className = 'tabs-video-iframe';
@@ -250,15 +264,11 @@ function structurePartnerCards(container, headerEls) {
     const prevItem = lastGroup.items.length > 1
       ? lastGroup.items[lastGroup.items.length - 2] : null;
     if (prevItem && lastItem.querySelector('a:only-child') && prevItem.querySelector('a:only-child')) {
-      const text = lastItem.textContent.trim().toLowerCase();
-      // Collect partner keywords from logo alt texts to exclude partner-specific CTAs
-      const partnerWords = groups.flatMap((g) => {
-        const img = g.logo.querySelector('img');
-        if (!img) return [];
-        return img.alt.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/).filter((w) => w.length > 3);
-      });
-      const isPartnerSpecific = partnerWords.some((w) => text.includes(w));
-      if (text.startsWith('explore') && !isPartnerSpecific) {
+      // Detect section-level footer CTA: a standalone link after the last card
+      // that is NOT preceded by a partner logo (i.e., it's not inside a card group)
+      const lastGroupHasOnlyOneItem = lastGroup.items.length <= 2;
+      const isOrphanCTA = !lastGroupHasOnlyOneItem;
+      if (isOrphanCTA) {
         footerCTA = lastItem;
         lastGroup.items.pop();
       }
@@ -441,19 +451,30 @@ function decorateResourceCards(block) {
 }
 
 function decorateAwards(block) {
-  // Find sibling default-content with #awards-and-reviews in the same section
-  const section = block.closest('.section');
-  if (!section) return;
-  const awardsContainer = section.querySelector('.default-content:has(#awards-and-reviews)');
-  if (!awardsContainer) return;
-
-  const awardsH2 = awardsContainer.querySelector('#awards-and-reviews');
-  if (!awardsH2) return;
+  // Find the default-content sibling that follows the tabs block wrapper
+  const blockContent = block.closest('.block-content');
+  if (!blockContent) return;
+  let awardsContainer = null;
+  let awardsH2 = null;
+  let sibling = blockContent.nextElementSibling;
+  while (sibling) {
+    if (sibling.classList.contains('default-content')) {
+      const h2 = sibling.querySelector('h2');
+      if (h2) {
+        awardsContainer = sibling;
+        awardsH2 = h2;
+        break;
+      }
+    }
+    sibling = sibling.nextElementSibling;
+  }
+  if (!awardsContainer || !awardsH2) return;
+  awardsContainer.classList.add('awards-content');
 
   // Remove junk paragraphs (nav text, counters)
   [...awardsContainer.querySelectorAll('p')].forEach((p) => {
     const text = p.textContent.trim();
-    if (text && isVideoJunk(text)) p.remove();
+    if (text && isNonContentText(text)) p.remove();
   });
   // Remove counter patterns like "1/2", "1/4"
   [...awardsContainer.querySelectorAll('p')].forEach((p) => {
@@ -476,7 +497,7 @@ function decorateAwards(block) {
     // Look for source label (p before h3 with short text, no link/img)
     const prev = h3.previousElementSibling;
     if (prev && prev.tagName === 'P' && !prev.querySelector('a')
-      && !prev.querySelector('img') && prev.textContent.trim().length < 30
+      && !prev.querySelector('img') && prev.textContent.trim().length < MAX_LABEL_LENGTH
       && prev !== awardsH2 && prev !== awardsH2.nextElementSibling) {
       const sourceEl = document.createElement('span');
       sourceEl.className = 'awards-source';
@@ -602,7 +623,7 @@ function decoratePartnerTabs(block) {
 
     // Hide duplicate tab label (first paragraph that matches tab name)
     const firstP = content.querySelector('p');
-    if (firstP && !firstP.querySelector('img') && firstP.textContent.trim().length < 30) {
+    if (firstP && !firstP.querySelector('img') && firstP.textContent.trim().length < MAX_LABEL_LENGTH) {
       firstP.classList.add('tabs-partner-label');
     }
 
@@ -689,7 +710,7 @@ export default async function decorate(block) {
     const half = Math.floor(label.length / 2);
     const firstHalf = label.substring(0, half).toLowerCase();
     const secondHalf = label.substring(half).trim().toLowerCase();
-    if (half > 3 && firstHalf === secondHalf) {
+    if (half > MIN_CONTENT_TEXT_LENGTH && firstHalf === secondHalf) {
       label = label.substring(0, half).trim();
     }
     // Strip section heading prefix from tab label

@@ -5,11 +5,6 @@ import { setColorScheme } from '../section-metadata/section-metadata.js';
 const { locale, codeBase } = getConfig();
 
 const HEADER_PATH = '/fragments/nav/header';
-const HEADER_ACTIONS = [
-  '/tools/widgets/scheme',
-  '/tools/widgets/language',
-  '/tools/widgets/toggle',
-];
 
 function closeAllMenus() {
   const openMenus = document.body.querySelectorAll('header .is-open');
@@ -86,7 +81,13 @@ function decorateNavToggle(btn) {
   });
 }
 
-async function decorateAction(header, pattern) {
+const HEADER_ACTIONS = {
+  '/tools/widgets/scheme': decorateScheme,
+  '/tools/widgets/language': decorateLanguage,
+  '/tools/widgets/toggle': decorateNavToggle,
+};
+
+async function decorateAction(header, pattern, decorateFn) {
   const link = header.querySelector(`[href*="${pattern}"]`);
   if (!link) return;
 
@@ -106,9 +107,7 @@ async function decorateAction(header, pattern) {
   wrapper.append(btn);
   link.parentElement.parentElement.replaceChild(wrapper, link.parentElement);
 
-  if (pattern === '/tools/widgets/language') decorateLanguage(btn);
-  if (pattern === '/tools/widgets/scheme') decorateScheme(btn);
-  if (pattern === '/tools/widgets/toggle') decorateNavToggle(btn);
+  decorateFn(btn);
 }
 
 function decorateMenu(li) {
@@ -196,8 +195,8 @@ async function decorateHeader(fragment) {
   if (sections[1]) decorateNavSection(sections[1]);
   if (sections[2]) decorateActionSection(sections[2]);
 
-  for (const pattern of HEADER_ACTIONS) {
-    decorateAction(fragment, pattern);
+  for (const [pattern, decorateFn] of Object.entries(HEADER_ACTIONS)) {
+    decorateAction(fragment, pattern, decorateFn);
   }
 }
 
@@ -216,7 +215,7 @@ function buildBreadcrumbs() {
     if (localeMatch) {
       const regionNames = new Intl.DisplayNames([localeMatch[1]], { type: 'region' });
       try { parentLabel = regionNames.of(localeMatch[2].toUpperCase()); } catch { /* skip */ }
-      if (parentLabel) parentUrl = `https://www.dell.com/${localeMatch[1]}-${localeMatch[2]}`;
+      if (parentLabel) parentUrl = `${window.location.origin}/${localeMatch[1]}-${localeMatch[2]}`;
     }
   }
   if (parentLabel) items.push({ label: parentLabel, href: parentUrl || '/' });
