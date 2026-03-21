@@ -21,13 +21,21 @@ export default function parse(element, { document }) {
   // --- Pattern B: AI page - Value pillars (services section) ---
   const valuePillars = Array.from(element.querySelectorAll('.value-pillar-card, .value-pillar'));
 
-  // --- Pattern C: Customer story - ContentLayout items with icons (business results) ---
+  // --- Pattern C: Customer story - ContentLayout items with 4 columns (icons or images) ---
   const contentLayoutItems = Array.from(
     element.querySelectorAll('.rwp-contentlayout-item--columns-Four')
   );
 
   // --- Pattern D: Customer story - ItemCarousel slides (product cards) ---
   const carouselSlides = Array.from(element.querySelectorAll('.rwp-ic-slide'));
+
+  // --- Pattern E: Services/Solutions - ContentLayout items with 2 or 3 columns ---
+  const multiColItems = Array.from(
+    element.querySelectorAll('.rwp-contentlayout-item--columns-Two, .rwp-contentlayout-item--columns-Three')
+  );
+
+  // --- Pattern F: TileLayout grid items (stats, info tiles) ---
+  const gridItems = Array.from(element.querySelectorAll('.grid-item'));
 
   if (floatingCards.length > 0) {
     // Floating cards with image/logo + title + description + link
@@ -78,28 +86,56 @@ export default function parse(element, { document }) {
       }
     });
   } else if (contentLayoutItems.length > 0) {
-    // Customer story business results - 4-column icon+stat cards
+    // 4-column layout items: SVG icons, regular images, or text-only
     contentLayoutItems.forEach((card) => {
-      // SVG icons are in visual container
-      const svgIcon = card.querySelector('.rwp-contentlayout-item__visual-container svg');
-      const desc = card.querySelector('.rwp-contentlayout-item__description');
-
       const imageCell = [];
+
+      // Try SVG icon first (McLaren racing pattern)
+      const svgIcon = card.querySelector('.rwp-contentlayout-item__visual-container svg');
       if (svgIcon) {
-        // Convert SVG icon name to a placeholder image reference
         const iconName = svgIcon.getAttribute('data-icon-name') || 'icon';
         const img = document.createElement('img');
         img.src = `./icons/${iconName}.svg`;
         img.alt = iconName;
         imageCell.push(img);
+      } else {
+        // Try regular image (enterprise-upgrades, other pages)
+        const img = card.querySelector('img.rwp-image, img');
+        if (img) {
+          const src = img.getAttribute('src') || '';
+          const newImg = document.createElement('img');
+          newImg.src = src.startsWith('//') ? `https:${src}` : src;
+          newImg.alt = img.alt || '';
+          imageCell.push(newImg);
+        }
       }
 
       const contentCell = [];
+
+      // Title - check multiple patterns
+      const title = card.querySelector('.rwp-contentlayout-item__title, h3, h2');
+      if (title) {
+        const h3 = document.createElement('h3');
+        h3.textContent = title.textContent.trim();
+        contentCell.push(h3);
+      }
+
+      // Description
+      const desc = card.querySelector('.rwp-contentlayout-item__description');
       if (desc) {
         const p = document.createElement('p');
         p.innerHTML = desc.innerHTML.trim();
         contentCell.push(p);
       }
+
+      // CTA links
+      const links = Array.from(card.querySelectorAll('.rwp-button__link, .rwp-webpart__links a'));
+      links.forEach((link) => {
+        const a = document.createElement('a');
+        a.href = link.href || '';
+        a.textContent = link.textContent.trim();
+        contentCell.push(a);
+      });
 
       if (imageCell.length > 0 && contentCell.length > 0) {
         cells.push([imageCell, contentCell]);
@@ -130,6 +166,85 @@ export default function parse(element, { document }) {
       if (ctaLink) contentCell.push(ctaLink);
 
       if (contentCell.length > 0) {
+        cells.push(contentCell);
+      }
+    });
+  } else if (multiColItems.length > 0) {
+    // Services/Solutions page cards - 2 or 3 column layout items with image + title + desc + CTA
+    multiColItems.forEach((card) => {
+      const imageCell = [];
+
+      const img = card.querySelector('img.rwp-image, img');
+      if (img) {
+        const src = img.getAttribute('src') || '';
+        const newImg = document.createElement('img');
+        newImg.src = src.startsWith('//') ? `https:${src}` : src;
+        newImg.alt = img.alt || '';
+        imageCell.push(newImg);
+      }
+
+      const contentCell = [];
+
+      const title = card.querySelector('.rwp-contentlayout-item__title, h3, h2');
+      if (title) {
+        const h3 = document.createElement('h3');
+        h3.textContent = title.textContent.trim();
+        contentCell.push(h3);
+      }
+
+      const desc = card.querySelector('.rwp-contentlayout-item__description');
+      if (desc) {
+        const p = document.createElement('p');
+        p.innerHTML = desc.innerHTML.trim();
+        contentCell.push(p);
+      }
+
+      const links = Array.from(card.querySelectorAll('.rwp-button__link, .rwp-webpart__links a'));
+      links.forEach((link) => {
+        const a = document.createElement('a');
+        a.href = link.href || '';
+        a.textContent = link.textContent.trim();
+        contentCell.push(a);
+      });
+
+      if (imageCell.length > 0 && contentCell.length > 0) {
+        cells.push([imageCell, contentCell]);
+      } else if (contentCell.length > 0) {
+        cells.push(contentCell);
+      }
+    });
+  } else if (gridItems.length > 0) {
+    // TileLayout grid items (stats, info tiles)
+    gridItems.forEach((item) => {
+      const desc = item.querySelector('.description');
+      if (!desc) return;
+
+      const contentCell = [];
+
+      const heading = desc.querySelector('h2');
+      if (heading) {
+        const h3 = document.createElement('h3');
+        h3.textContent = heading.textContent.trim();
+        contentCell.push(h3);
+      }
+
+      const subtitle = desc.querySelector('h3');
+      if (subtitle) {
+        const p = document.createElement('p');
+        p.textContent = subtitle.textContent.trim();
+        contentCell.push(p);
+      }
+
+      const img = item.querySelector('img');
+      const imageCell = [];
+      if (img) imageCell.push(img);
+
+      const link = item.querySelector('a');
+      if (link) contentCell.push(link);
+
+      if (imageCell.length > 0 && contentCell.length > 0) {
+        cells.push([imageCell, contentCell]);
+      } else if (contentCell.length > 0) {
         cells.push(contentCell);
       }
     });

@@ -64,8 +64,8 @@ export default function parse(element, { document }) {
     contentCell.push(p);
   }
 
-  // Heading: h1, h2, or rwp-contentlayout title span
-  const heading = element.querySelector('h1, h2, .rwp-contentlayout-item__title');
+  // Heading: h1, h2, h3, or rwp-contentlayout title span
+  const heading = element.querySelector('h1, h2, h3, .rwp-contentlayout-item__title');
   if (heading) {
     // Wrap in h1 for hero block if it's a span
     if (heading.tagName === 'SPAN') {

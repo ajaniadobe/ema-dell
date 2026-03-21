@@ -5,6 +5,8 @@
 import heroParser from './parsers/hero.js';
 import columnsParser from './parsers/columns.js';
 import cardsParser from './parsers/cards.js';
+import carouselParser from './parsers/carousel.js';
+import accordionParser from './parsers/accordion.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
@@ -15,6 +17,8 @@ const parsers = {
   'hero': heroParser,
   'columns': columnsParser,
   'cards': cardsParser,
+  'carousel': carouselParser,
+  'accordion': accordionParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION
@@ -32,7 +36,9 @@ const PAGE_TEMPLATE = {
     {
       name: 'hero',
       instances: [
-        "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container"
+        "[id*='hero-wp']",
+        "[id*='hero-banner-wp']",
+        "#webparts > .cp-container:first-child:has(.rwp-contentlayout-item--columns-One)"
       ]
     },
     {
@@ -45,7 +51,20 @@ const PAGE_TEMPLATE = {
       name: 'cards',
       instances: [
         ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)",
+        ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Four)",
         ".rwp-webpart-TileLayout"
+      ]
+    },
+    {
+      name: 'carousel',
+      instances: [
+        ".rwp-itemcarousel"
+      ]
+    },
+    {
+      name: 'accordion',
+      instances: [
+        ".cp-container[id*='faq']"
       ]
     }
   ],
@@ -53,57 +72,25 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-hero',
       name: 'Hero',
-      selector: "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container",
+      selector: ["[id*='hero-wp']", "[id*='hero-banner-wp']", "#webparts > .cp-container:first-child"],
       style: 'dark',
       blocks: ['hero'],
       defaultContent: []
     },
     {
-      id: 'section-intro',
-      name: 'Introduction',
-      selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
-      style: 'dark',
-      blocks: [],
-      defaultContent: ["[id*='dellbuyercontentlayoutwebparts-1'] .rwp-contentlayout"]
-    },
-    {
-      id: 'section-features',
-      name: 'Features',
-      selector: "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
-      style: 'dark',
-      blocks: ['cards'],
+      id: 'section-content',
+      name: 'Content Sections',
+      selector: ["#webparts > .cp-tabset", "#webparts > .cp-container"],
+      style: null,
+      blocks: ['cards', 'columns', 'carousel'],
       defaultContent: []
     },
     {
-      id: 'section-benefits',
-      name: 'Benefits',
-      selector: "[id*='dellbuyertilelayoutwebparts-1'].cp-container",
-      style: 'dark',
-      blocks: ['cards'],
-      defaultContent: []
-    },
-    {
-      id: 'section-product-1',
-      name: 'Product Highlight 1',
-      selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
-      style: 'dark',
-      blocks: [],
-      defaultContent: ["[id*='dellbuyercontentlayoutwebparts-3'] .rwp-contentlayout"]
-    },
-    {
-      id: 'section-product-2',
-      name: 'Product Highlight 2',
-      selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
-      style: 'dark',
-      blocks: [],
-      defaultContent: ["[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout"]
-    },
-    {
-      id: 'section-resources',
-      name: 'Resources',
-      selector: "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
-      style: 'dark',
-      blocks: ['cards'],
+      id: 'section-faq',
+      name: 'FAQ',
+      selector: ".cp-container[id*='faq']",
+      style: null,
+      blocks: ['accordion'],
       defaultContent: []
     }
   ]

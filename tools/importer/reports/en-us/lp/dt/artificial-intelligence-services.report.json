@@ -2,12 +2,11 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/artificial-intelligence-services",
   "path": "en-us/lp/dt/artificial-intelligence-services",
-  "timestamp": "2026-03-16T17:06:31.146Z",
+  "timestamp": "2026-03-21T06:42:35.493Z",
   "title": "AI Services | Dell USA",
   "template": "services-detail-page",
   "blocks": [
     "hero",
-    "columns",
     "columns",
     "cards",
     "cards",

@@ -2,11 +2,12 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/support-services",
   "path": "en-us/lp/dt/support-services",
-  "timestamp": "2026-03-16T17:07:14.547Z",
+  "timestamp": "2026-03-21T06:42:13.426Z",
   "title": "Support Services | Dell USA",
   "template": "services-detail-page",
   "blocks": [
     "hero",
-    "hero"
+    "hero",
+    "columns"
   ]
 }

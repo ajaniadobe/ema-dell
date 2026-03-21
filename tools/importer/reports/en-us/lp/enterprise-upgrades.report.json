@@ -2,11 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/enterprise-upgrades",
   "path": "en-us/lp/enterprise-upgrades",
-  "timestamp": "2026-03-16T13:23:01.130Z",
+  "timestamp": "2026-03-21T06:41:41.570Z",
   "title": "Dell Technologies - Enterprise Upgrades For Your Server | Dell USA",
   "template": "solutions-landing-page",
   "blocks": [
+    "hero",
+    "hero",
+    "hero",
     "cards",
-    "cards"
+    "cards",
+    "cards",
+    "carousel"
   ]
 }

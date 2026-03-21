@@ -868,7 +868,9 @@
           "name": "TNT Video Hero",
           "selector": ".tnt-hero-section",
           "style": "dark",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -876,7 +878,9 @@
           "name": "Category Banner",
           "selector": ".plp-scr-banner",
           "style": "dark",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -884,7 +888,9 @@
           "name": "Showcase Banners",
           "selector": "#showcase-banner-main-container",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -892,8 +898,13 @@
           "name": "FAQ",
           "selector": "#scr-faq-content",
           "style": null,
-          "blocks": ["accordion"],
-          "defaultContent": ["#scr-faq-content h2", "#scr-faq-content > .scr-show-more"]
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": [
+            "#scr-faq-content h2",
+            "#scr-faq-content > .scr-show-more"
+          ]
         }
       ]
     },
@@ -925,15 +936,22 @@
           "name": "Category Hero",
           "selector": "#cat-banner",
           "style": null,
-          "blocks": ["hero"],
-          "defaultContent": ["#cat-banner h1", "#cat-banner h2"]
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": [
+            "#cat-banner h1",
+            "#cat-banner h2"
+          ]
         },
         {
           "id": "section-franchise-cards",
           "name": "Franchise Cards",
           "selector": "#cat-fran-rows",
           "style": null,
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -941,7 +959,9 @@
           "name": "Merchandising",
           "selector": "#merchandizing-module-v2",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         }
       ]
@@ -1001,7 +1021,9 @@
           "name": "Hero Banner",
           "selector": ".cp-container[id*='hero']",
           "style": "navy-blue",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -1009,7 +1031,12 @@
           "name": "Product Overview Tabs",
           "selector": ".cp-tabset:first-of-type",
           "style": null,
-          "blocks": ["tabs", "cards", "columns", "carousel"],
+          "blocks": [
+            "tabs",
+            "cards",
+            "columns",
+            "carousel"
+          ],
           "defaultContent": []
         },
         {
@@ -1017,7 +1044,10 @@
           "name": "Content Sections",
           "selector": "#webparts > .cp-container",
           "style": null,
-          "blocks": ["columns", "hero"],
+          "blocks": [
+            "columns",
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -1025,7 +1055,10 @@
           "name": "Product Catalog Tabs",
           "selector": ".cp-tabset:last-of-type",
           "style": "navy-blue",
-          "blocks": ["tabs", "cards"],
+          "blocks": [
+            "tabs",
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -1033,7 +1066,9 @@
           "name": "CTA Banner",
           "selector": "#webparts > .cp-container:last-of-type",
           "style": "navy-blue",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         }
       ]

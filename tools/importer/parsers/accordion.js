@@ -13,7 +13,7 @@
 export default function parse(element, { document }) {
   const cells = [];
 
-  // FAQ items are <details> elements with <summary> for question and .faq-answer for answer
+  // Pattern A: FAQ items as <details> elements with <summary> for question and .faq-answer for answer
   const faqItems = Array.from(element.querySelectorAll('details.faq-item, .faq-item'));
 
   if (faqItems.length > 0) {
@@ -29,16 +29,47 @@ export default function parse(element, { document }) {
       }
     });
   } else {
-    // Fallback: look for generic accordion patterns
+    // Pattern B: Generic accordion patterns (DDS accordion items, details elements)
     const items = Array.from(element.querySelectorAll('[class*="accordion-item"], details'));
-    items.forEach((item) => {
-      const title = item.querySelector('summary, [class*="title"], [class*="header"], h3, h4');
-      const content = item.querySelector('[class*="content"], [class*="body"], [class*="answer"]');
+    if (items.length > 0) {
+      items.forEach((item) => {
+        const title = item.querySelector('summary, [class*="title"], [class*="header"], h3, h4');
+        const content = item.querySelector('[class*="content"], [class*="body"], [class*="answer"]');
 
-      if (title && content) {
-        cells.push([title.textContent.trim(), content]);
-      }
-    });
+        if (title && content) {
+          cells.push([title.textContent.trim(), content]);
+        }
+      });
+    } else {
+      // Pattern C: Raw FAQ - h3 questions followed by p answers (no accordion markup)
+      // Common on Dell solutions/services pages where FAQ is a plain container
+      const headings = Array.from(element.querySelectorAll('h3'));
+      headings.forEach((h3) => {
+        const questionText = h3.textContent.trim();
+        // Skip section title headings (e.g., "Frequently Asked Questions", "FAQ's")
+        if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
+
+        // Collect all sibling p elements until the next h3 or h2
+        const answerParts = [];
+        let sibling = h3.nextElementSibling;
+        while (sibling && sibling.tagName !== 'H3' && sibling.tagName !== 'H2') {
+          if (sibling.tagName === 'P' && sibling.textContent.trim()) {
+            answerParts.push(sibling.textContent.trim());
+          }
+          sibling = sibling.nextElementSibling;
+        }
+
+        if (answerParts.length > 0) {
+          const answerDiv = document.createElement('div');
+          answerParts.forEach((text) => {
+            const p = document.createElement('p');
+            p.textContent = text;
+            answerDiv.appendChild(p);
+          });
+          cells.push([questionText, answerDiv]);
+        }
+      });
+    }
   }
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'accordion', cells });

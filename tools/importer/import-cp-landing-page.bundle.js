@@ -115,6 +115,10 @@ var CustomImportScript = (() => {
       element.querySelectorAll(".rwp-contentlayout-item--columns-Four")
     );
     const carouselSlides = Array.from(element.querySelectorAll(".rwp-ic-slide"));
+    const multiColItems = Array.from(
+      element.querySelectorAll(".rwp-contentlayout-item--columns-Two, .rwp-contentlayout-item--columns-Three")
+    );
+    const gridItems = Array.from(element.querySelectorAll(".grid-item"));
     if (floatingCards.length > 0) {
       floatingCards.forEach((card) => {
         const img = card.querySelector(".titleCards-icon img");
@@ -199,6 +203,71 @@ var CustomImportScript = (() => {
         }
         if (ctaLink) contentCell.push(ctaLink);
         if (contentCell.length > 0) {
+          cells.push(contentCell);
+        }
+      });
+    } else if (multiColItems.length > 0) {
+      multiColItems.forEach((card) => {
+        const imageCell = [];
+        const img = card.querySelector("img.rwp-image, img");
+        if (img) {
+          const src = img.getAttribute("src") || "";
+          const newImg = document.createElement("img");
+          newImg.src = src.startsWith("//") ? `https:${src}` : src;
+          newImg.alt = img.alt || "";
+          imageCell.push(newImg);
+        }
+        const contentCell = [];
+        const title = card.querySelector(".rwp-contentlayout-item__title, h3, h2");
+        if (title) {
+          const h3 = document.createElement("h3");
+          h3.textContent = title.textContent.trim();
+          contentCell.push(h3);
+        }
+        const desc = card.querySelector(".rwp-contentlayout-item__description");
+        if (desc) {
+          const p = document.createElement("p");
+          p.innerHTML = desc.innerHTML.trim();
+          contentCell.push(p);
+        }
+        const links = Array.from(card.querySelectorAll(".rwp-button__link, .rwp-webpart__links a"));
+        links.forEach((link) => {
+          const a = document.createElement("a");
+          a.href = link.href || "";
+          a.textContent = link.textContent.trim();
+          contentCell.push(a);
+        });
+        if (imageCell.length > 0 && contentCell.length > 0) {
+          cells.push([imageCell, contentCell]);
+        } else if (contentCell.length > 0) {
+          cells.push(contentCell);
+        }
+      });
+    } else if (gridItems.length > 0) {
+      gridItems.forEach((item) => {
+        const desc = item.querySelector(".description");
+        if (!desc) return;
+        const contentCell = [];
+        const heading = desc.querySelector("h2");
+        if (heading) {
+          const h3 = document.createElement("h3");
+          h3.textContent = heading.textContent.trim();
+          contentCell.push(h3);
+        }
+        const subtitle = desc.querySelector("h3");
+        if (subtitle) {
+          const p = document.createElement("p");
+          p.textContent = subtitle.textContent.trim();
+          contentCell.push(p);
+        }
+        const img = item.querySelector("img");
+        const imageCell = [];
+        if (img) imageCell.push(img);
+        const link = item.querySelector("a");
+        if (link) contentCell.push(link);
+        if (imageCell.length > 0 && contentCell.length > 0) {
+          cells.push([imageCell, contentCell]);
+        } else if (contentCell.length > 0) {
           cells.push(contentCell);
         }
       });
