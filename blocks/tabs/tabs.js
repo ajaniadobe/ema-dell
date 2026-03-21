@@ -1,3 +1,10 @@
+// Size and length thresholds used across tab panel cleanup
+const ICON_MAX_SIZE = 96;
+const TRACKING_PIXEL_SIZE = 1;
+const MAX_JUNK_TEXT_LENGTH = 80;
+const MIN_CONTENT_TEXT_LENGTH = 3;
+const MAX_LABEL_LENGTH = 30;
+
 function toClassName(name) {
   return typeof name === 'string'
     ? name.toLowerCase().replace(/[^0-9a-z]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
@@ -9,7 +16,7 @@ function toClassName(name) {
  * Uses length + structural heuristics instead of brittle string matching.
  */
 function isNonContentText(text) {
-  if (!text || text.length > 80) return false;
+  if (!text || text.length > MAX_JUNK_TEXT_LENGTH) return false;
   // Pagination patterns (e.g. "1/2", "Previous Slide   Next Slide")
   if (/^\d+\/\d+$/.test(text)) return true;
   if (/^Previous\s+(Slide|Page)/i.test(text)) return true;
@@ -18,7 +25,7 @@ function isNonContentText(text) {
   // Single slash or very short non-word text
   if (text === '/') return true;
   // Video player UI: short text with no spaces that looks like a control label
-  if (text.length <= 3 && !/[a-z]{2,}/i.test(text)) return true;
+  if (text.length <= MIN_CONTENT_TEXT_LENGTH && !/[a-z]{2,}/i.test(text)) return true;
   return false;
 }
 
@@ -49,8 +56,8 @@ function cleanTabPanel(container) {
       // Detect small icons by their dimensions
       const w = parseInt(img.getAttribute('width'), 10) || img.naturalWidth || 0;
       const h = parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 0;
-      return (w > 0 && w <= 96 && h > 0 && h <= 96)
-        || (w === 1 && h === 1);
+      return (w > 0 && w <= ICON_MAX_SIZE && h > 0 && h <= ICON_MAX_SIZE)
+        || (w === TRACKING_PIXEL_SIZE && h === TRACKING_PIXEL_SIZE);
     });
   if (iconP) {
     iconP.classList.add('tabs-icon');
@@ -75,8 +82,9 @@ function cleanTabPanel(container) {
     const hasLink = p.querySelector('a');
     const imgW = hasImg ? (parseInt(hasImg.getAttribute('width'), 10) || hasImg.naturalWidth || 0) : 0;
     const imgH = hasImg ? (parseInt(hasImg.getAttribute('height'), 10) || hasImg.naturalHeight || 0) : 0;
-    const isSmall = imgW > 0 && imgW <= 96 && imgH > 0 && imgH <= 96;
-    const isIconImg = hasImg && (isSmall || (imgW === 1 && imgH === 1));
+    const isSmall = imgW > 0 && imgW <= ICON_MAX_SIZE && imgH > 0 && imgH <= ICON_MAX_SIZE;
+    const isPixel = imgW === TRACKING_PIXEL_SIZE && imgH === TRACKING_PIXEL_SIZE;
+    const isIconImg = hasImg && (isSmall || isPixel);
     const isSrcImg = hasImg && !isIconImg;
     const linkHref = hasLink
       ? hasLink.getAttribute('href') : null;
@@ -103,8 +111,8 @@ function cleanTabPanel(container) {
       p.replaceChildren(img);
       keep.add(p);
     } else if (
-      (text.length > 3 && !isNonContentText(text))
-      || (hasLink && text.length > 3)
+      (text.length > MIN_CONTENT_TEXT_LENGTH && !isNonContentText(text))
+      || (hasLink && text.length > MIN_CONTENT_TEXT_LENGTH)
       || isSrcImg
     ) {
       keep.add(p);
@@ -154,7 +162,7 @@ function cleanTabPanel(container) {
       const img = el.querySelector(':scope > img, :scope > picture img, :scope > a > img, :scope > a > picture img');
       const imgW = parseInt(img?.getAttribute('width'), 10);
       const imgH = parseInt(img?.getAttribute('height'), 10);
-      const isSmallIcon = imgW > 0 && imgW <= 96 && imgH > 0 && imgH <= 96;
+      const isSmallIcon = imgW > 0 && imgW <= ICON_MAX_SIZE && imgH > 0 && imgH <= ICON_MAX_SIZE;
       if (img && !isSmallIcon) {
         videoP = el;
         storyEls.splice(i, 1);
@@ -443,20 +451,23 @@ function decorateResourceCards(block) {
 }
 
 function decorateAwards(block) {
-  // Find sibling default-content with awards heading in the same section
-  const section = block.closest('.section');
-  if (!section) return;
-  // Look for an h2 whose text matches "awards" (case-insensitive) in a default-content block
-  const allDC = section.querySelectorAll('.default-content');
+  // Find the default-content sibling that follows the tabs block wrapper
+  const blockContent = block.closest('.block-content');
+  if (!blockContent) return;
   let awardsContainer = null;
   let awardsH2 = null;
-  allDC.forEach((dc) => {
-    const h2 = dc.querySelector('h2');
-    if (h2 && /awards/i.test(h2.textContent)) {
-      awardsContainer = dc;
-      awardsH2 = h2;
+  let sibling = blockContent.nextElementSibling;
+  while (sibling) {
+    if (sibling.classList.contains('default-content')) {
+      const h2 = sibling.querySelector('h2');
+      if (h2) {
+        awardsContainer = sibling;
+        awardsH2 = h2;
+        break;
+      }
     }
-  });
+    sibling = sibling.nextElementSibling;
+  }
   if (!awardsContainer || !awardsH2) return;
   awardsContainer.classList.add('awards-content');
 
@@ -486,7 +497,7 @@ function decorateAwards(block) {
     // Look for source label (p before h3 with short text, no link/img)
     const prev = h3.previousElementSibling;
     if (prev && prev.tagName === 'P' && !prev.querySelector('a')
-      && !prev.querySelector('img') && prev.textContent.trim().length < 30
+      && !prev.querySelector('img') && prev.textContent.trim().length < MAX_LABEL_LENGTH
       && prev !== awardsH2 && prev !== awardsH2.nextElementSibling) {
       const sourceEl = document.createElement('span');
       sourceEl.className = 'awards-source';
@@ -612,7 +623,7 @@ function decoratePartnerTabs(block) {
 
     // Hide duplicate tab label (first paragraph that matches tab name)
     const firstP = content.querySelector('p');
-    if (firstP && !firstP.querySelector('img') && firstP.textContent.trim().length < 30) {
+    if (firstP && !firstP.querySelector('img') && firstP.textContent.trim().length < MAX_LABEL_LENGTH) {
       firstP.classList.add('tabs-partner-label');
     }
 
@@ -699,7 +710,7 @@ export default async function decorate(block) {
     const half = Math.floor(label.length / 2);
     const firstHalf = label.substring(0, half).toLowerCase();
     const secondHalf = label.substring(half).trim().toLowerCase();
-    if (half > 3 && firstHalf === secondHalf) {
+    if (half > MIN_CONTENT_TEXT_LENGTH && firstHalf === secondHalf) {
       label = label.substring(0, half).trim();
     }
     // Strip section heading prefix from tab label

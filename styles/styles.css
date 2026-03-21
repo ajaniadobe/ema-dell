@@ -400,8 +400,8 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
     margin-bottom: 8px;
   }
 
-  /* Body text paragraph */
-  > p:has(a[href*="principled"], a[href*="economic"], a[href*="securing"]) {
+  /* Body text paragraph (first paragraph with links after the subheading) */
+  > h3 + p:has(a) {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -437,7 +437,7 @@ main > .section.dark > .default-content:has(> h3 + h3 + h4) {
   }
 
   /* CTA buttons paragraph — horizontal row */
-  > p:last-child:has(a[href*="nvidia"]) {
+  > p:last-child:has(a) {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
@@ -620,7 +620,7 @@ p:has(> img[width="1"][height="1"]:only-child) {
   width: 64px;
   min-width: 64px;
   height: 64px;
-  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/infrastructure.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+  background: url('/img/icons/infrastructure.png') no-repeat center / contain;
 }
 
 /* AI Partner Ecosystem — heading icon */
@@ -630,7 +630,7 @@ p:has(> img[width="1"][height="1"]:only-child) {
   width: 64px;
   min-width: 64px;
   height: 64px;
-  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/ai-partners.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+  background: url('/img/icons/ai-partners.png') no-repeat center / contain;
 }
 
 .section:has(.block-content .carousel) > .default-content > h3,
@@ -760,25 +760,37 @@ p:has(> img[width="1"][height="1"]:only-child) {
   border-radius: 20px;
 }
 
-/* Infrastructure carousel slide images */
+/* Infrastructure carousel slide images
+ * NOTE: These images are content-specific and should ideally be authored in the
+ * content HTML. They are defined here as CSS custom properties for maintainability
+ * until the carousel content is updated with proper <img> tags.
+ */
+.section:has(.block-content .carousel) .carousel-slides {
+  --slide-1-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-02-0135-la9450t-poweredge-xe9680.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-2-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-monitor-0086-u4025qw-pr5690nt-km900.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-3-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0205-la9450t-powerscale.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-4-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0074-la9450t.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  --slide-5-bg: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
+}
+
 .section:has(.block-content .carousel) .carousel-slide:nth-child(1) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-02-0135-la9450t-poweredge-xe9680.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-1-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(2) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-monitor-0086-u4025qw-pr5690nt-km900.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-2-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(3) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0205-la9450t-powerscale.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-3-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(4) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0074-la9450t.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
+  background-image: var(--slide-4-bg);
 }
 
 .section:has(.block-content .carousel) .carousel-slide:nth-child(5) .carousel-slide-image {
-  background-image: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
+  background-image: var(--slide-5-bg);
 }
 
 /* Data for AI — hide icon image paragraph (icon is rendered via h2::before) */
@@ -802,7 +814,7 @@ p:has(> img[width="1"][height="1"]:only-child) {
   width: 64px;
   min-width: 64px;
   height: 64px;
-  background: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/non-product-images/icons/datastore-96.svg?fmt=png-alpha&wid=64&hei=64') no-repeat center / contain;
+  background: url('/img/icons/datastore.png') no-repeat center / contain;
 }
 
 /* Data for AI cards — gray product tile cards */
