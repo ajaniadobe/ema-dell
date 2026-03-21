@@ -151,6 +151,12 @@ export async function loadPage() {
     }
   });
 
+  // Hide broken images gracefully (e.g. external CDN images that 404)
+  document.querySelectorAll('main img').forEach((img) => {
+    if (img.complete && img.naturalWidth === 0) img.style.display = 'none';
+    img.addEventListener('error', () => { img.style.display = 'none'; });
+  });
+
   // Decorate sticky sub-navigation bars and add scroll-based highlighting
   decorateSubnavs();
 }
