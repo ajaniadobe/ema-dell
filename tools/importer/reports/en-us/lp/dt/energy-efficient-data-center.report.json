@@ -2,10 +2,13 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/energy-efficient-data-center",
   "path": "en-us/lp/dt/energy-efficient-data-center",
-  "timestamp": "2026-03-21T04:57:29.838Z",
+  "timestamp": "2026-03-21T06:41:47.233Z",
   "title": "Energy-Efficient Data Center | Dell USA",
   "template": "solutions-landing-page",
   "blocks": [
-    "cards"
+    "hero",
+    "cards",
+    "cards",
+    "carousel"
   ]
 }

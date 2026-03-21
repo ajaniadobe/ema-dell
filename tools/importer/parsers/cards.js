@@ -21,7 +21,7 @@ export default function parse(element, { document }) {
   // --- Pattern B: AI page - Value pillars (services section) ---
   const valuePillars = Array.from(element.querySelectorAll('.value-pillar-card, .value-pillar'));
 
-  // --- Pattern C: Customer story - ContentLayout items with icons (business results) ---
+  // --- Pattern C: Customer story - ContentLayout items with 4 columns (icons or images) ---
   const contentLayoutItems = Array.from(
     element.querySelectorAll('.rwp-contentlayout-item--columns-Four')
   );
@@ -86,28 +86,56 @@ export default function parse(element, { document }) {
       }
     });
   } else if (contentLayoutItems.length > 0) {
-    // Customer story business results - 4-column icon+stat cards
+    // 4-column layout items: SVG icons, regular images, or text-only
     contentLayoutItems.forEach((card) => {
-      // SVG icons are in visual container
-      const svgIcon = card.querySelector('.rwp-contentlayout-item__visual-container svg');
-      const desc = card.querySelector('.rwp-contentlayout-item__description');
-
       const imageCell = [];
+
+      // Try SVG icon first (McLaren racing pattern)
+      const svgIcon = card.querySelector('.rwp-contentlayout-item__visual-container svg');
       if (svgIcon) {
-        // Convert SVG icon name to a placeholder image reference
         const iconName = svgIcon.getAttribute('data-icon-name') || 'icon';
         const img = document.createElement('img');
         img.src = `./icons/${iconName}.svg`;
         img.alt = iconName;
         imageCell.push(img);
+      } else {
+        // Try regular image (enterprise-upgrades, other pages)
+        const img = card.querySelector('img.rwp-image, img');
+        if (img) {
+          const src = img.getAttribute('src') || '';
+          const newImg = document.createElement('img');
+          newImg.src = src.startsWith('//') ? `https:${src}` : src;
+          newImg.alt = img.alt || '';
+          imageCell.push(newImg);
+        }
       }
 
       const contentCell = [];
+
+      // Title - check multiple patterns
+      const title = card.querySelector('.rwp-contentlayout-item__title, h3, h2');
+      if (title) {
+        const h3 = document.createElement('h3');
+        h3.textContent = title.textContent.trim();
+        contentCell.push(h3);
+      }
+
+      // Description
+      const desc = card.querySelector('.rwp-contentlayout-item__description');
       if (desc) {
         const p = document.createElement('p');
         p.innerHTML = desc.innerHTML.trim();
         contentCell.push(p);
       }
+
+      // CTA links
+      const links = Array.from(card.querySelectorAll('.rwp-button__link, .rwp-webpart__links a'));
+      links.forEach((link) => {
+        const a = document.createElement('a');
+        a.href = link.href || '';
+        a.textContent = link.textContent.trim();
+        contentCell.push(a);
+      });
 
       if (imageCell.length > 0 && contentCell.length > 0) {
         cells.push([imageCell, contentCell]);

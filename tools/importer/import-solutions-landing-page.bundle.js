@@ -1,25 +1,8 @@
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -79,7 +62,7 @@ var CustomImportScript = (() => {
       p.textContent = eyebrow.textContent.trim();
       contentCell.push(p);
     }
-    const heading = element.querySelector("h1, h2, .rwp-contentlayout-item__title");
+    const heading = element.querySelector("h1, h2, h3, .rwp-contentlayout-item__title");
     if (heading) {
       if (heading.tagName === "SPAN") {
         const h1 = document.createElement("h1");
@@ -201,22 +184,44 @@ var CustomImportScript = (() => {
       });
     } else if (contentLayoutItems.length > 0) {
       contentLayoutItems.forEach((card) => {
-        const svgIcon = card.querySelector(".rwp-contentlayout-item__visual-container svg");
-        const desc = card.querySelector(".rwp-contentlayout-item__description");
         const imageCell = [];
+        const svgIcon = card.querySelector(".rwp-contentlayout-item__visual-container svg");
         if (svgIcon) {
           const iconName = svgIcon.getAttribute("data-icon-name") || "icon";
           const img = document.createElement("img");
           img.src = `./icons/${iconName}.svg`;
           img.alt = iconName;
           imageCell.push(img);
+        } else {
+          const img = card.querySelector("img.rwp-image, img");
+          if (img) {
+            const src = img.getAttribute("src") || "";
+            const newImg = document.createElement("img");
+            newImg.src = src.startsWith("//") ? `https:${src}` : src;
+            newImg.alt = img.alt || "";
+            imageCell.push(newImg);
+          }
         }
         const contentCell = [];
+        const title = card.querySelector(".rwp-contentlayout-item__title, h3, h2");
+        if (title) {
+          const h3 = document.createElement("h3");
+          h3.textContent = title.textContent.trim();
+          contentCell.push(h3);
+        }
+        const desc = card.querySelector(".rwp-contentlayout-item__description");
         if (desc) {
           const p = document.createElement("p");
           p.innerHTML = desc.innerHTML.trim();
           contentCell.push(p);
         }
+        const links = Array.from(card.querySelectorAll(".rwp-button__link, .rwp-webpart__links a"));
+        links.forEach((link) => {
+          const a = document.createElement("a");
+          a.href = link.href || "";
+          a.textContent = link.textContent.trim();
+          contentCell.push(a);
+        });
         if (imageCell.length > 0 && contentCell.length > 0) {
           cells.push([imageCell, contentCell]);
         } else if (contentCell.length > 0) {
@@ -334,6 +339,82 @@ var CustomImportScript = (() => {
       });
     }
     const block = WebImporter.Blocks.createBlock(document, { name: "cards", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/carousel.js
+  function parse4(element, { document }) {
+    const cells = [];
+    const slides = Array.from(element.querySelectorAll(".dds__carousel__item"));
+    slides.forEach((slide) => {
+      const img = slide.querySelector(".ai-infrastructure-carousel-img, img");
+      const imageCell = [];
+      if (img) imageCell.push(img);
+      const contentCell = [];
+      const heading = slide.querySelector('h2, h3, [class*="h2"]');
+      if (heading) contentCell.push(heading);
+      const desc = slide.querySelector(".dds__body-2, p");
+      if (desc) contentCell.push(desc);
+      const ctaLinks = Array.from(slide.querySelectorAll(".cta-link a, .ai-infra-link"));
+      ctaLinks.forEach((link) => contentCell.push(link));
+      if (imageCell.length > 0 || contentCell.length > 0) {
+        cells.push([imageCell, contentCell]);
+      }
+    });
+    const block = WebImporter.Blocks.createBlock(document, { name: "carousel", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/accordion.js
+  function parse5(element, { document }) {
+    const cells = [];
+    const faqItems = Array.from(element.querySelectorAll("details.faq-item, .faq-item"));
+    if (faqItems.length > 0) {
+      faqItems.forEach((item) => {
+        const questionEl = item.querySelector(".faq-question, summary p, summary");
+        const answerEl = item.querySelector(".faq-answer, .faq-answer-container");
+        const questionText = questionEl ? questionEl.textContent.trim() : "";
+        const answerContent = answerEl || "";
+        if (questionText) {
+          cells.push([questionText, answerContent]);
+        }
+      });
+    } else {
+      const items = Array.from(element.querySelectorAll('[class*="accordion-item"], details'));
+      if (items.length > 0) {
+        items.forEach((item) => {
+          const title = item.querySelector('summary, [class*="title"], [class*="header"], h3, h4');
+          const content = item.querySelector('[class*="content"], [class*="body"], [class*="answer"]');
+          if (title && content) {
+            cells.push([title.textContent.trim(), content]);
+          }
+        });
+      } else {
+        const headings = Array.from(element.querySelectorAll("h3"));
+        headings.forEach((h3) => {
+          const questionText = h3.textContent.trim();
+          if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
+          const answerParts = [];
+          let sibling = h3.nextElementSibling;
+          while (sibling && sibling.tagName !== "H3" && sibling.tagName !== "H2") {
+            if (sibling.tagName === "P" && sibling.textContent.trim()) {
+              answerParts.push(sibling.textContent.trim());
+            }
+            sibling = sibling.nextElementSibling;
+          }
+          if (answerParts.length > 0) {
+            const answerDiv = document.createElement("div");
+            answerParts.forEach((text) => {
+              const p = document.createElement("p");
+              p.textContent = text;
+              answerDiv.appendChild(p);
+            });
+            cells.push([questionText, answerDiv]);
+          }
+        });
+      }
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name: "accordion", cells });
     element.replaceWith(block);
   }
 
@@ -507,7 +588,9 @@ var CustomImportScript = (() => {
   var parsers = {
     "hero": parse,
     "columns": parse2,
-    "cards": parse3
+    "cards": parse3,
+    "carousel": parse4,
+    "accordion": parse5
   };
   var PAGE_TEMPLATE = {
     name: "solutions-landing-page",
@@ -523,7 +606,9 @@ var CustomImportScript = (() => {
       {
         name: "hero",
         instances: [
-          "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container"
+          "[id*='hero-wp']",
+          "[id*='hero-banner-wp']",
+          "#webparts > .cp-container:first-child:has(.rwp-contentlayout-item--columns-One)"
         ]
       },
       {
@@ -536,7 +621,20 @@ var CustomImportScript = (() => {
         name: "cards",
         instances: [
           ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)",
+          ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Four)",
           ".rwp-webpart-TileLayout"
+        ]
+      },
+      {
+        name: "carousel",
+        instances: [
+          ".rwp-itemcarousel"
+        ]
+      },
+      {
+        name: "accordion",
+        instances: [
+          ".cp-container[id*='faq']"
         ]
       }
     ],
@@ -544,57 +642,25 @@ var CustomImportScript = (() => {
       {
         id: "section-hero",
         name: "Hero",
-        selector: "[id*='dellbuyercontentlayoutwebparts-hero'].cp-container",
+        selector: ["[id*='hero-wp']", "[id*='hero-banner-wp']", "#webparts > .cp-container:first-child"],
         style: "dark",
         blocks: ["hero"],
         defaultContent: []
       },
       {
-        id: "section-intro",
-        name: "Introduction",
-        selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
-        style: "dark",
-        blocks: [],
-        defaultContent: ["[id*='dellbuyercontentlayoutwebparts-1'] .rwp-contentlayout"]
-      },
-      {
-        id: "section-features",
-        name: "Features",
-        selector: "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
-        style: "dark",
-        blocks: ["cards"],
+        id: "section-content",
+        name: "Content Sections",
+        selector: ["#webparts > .cp-tabset", "#webparts > .cp-container"],
+        style: null,
+        blocks: ["cards", "columns", "carousel"],
         defaultContent: []
       },
       {
-        id: "section-benefits",
-        name: "Benefits",
-        selector: "[id*='dellbuyertilelayoutwebparts-1'].cp-container",
-        style: "dark",
-        blocks: ["cards"],
-        defaultContent: []
-      },
-      {
-        id: "section-product-1",
-        name: "Product Highlight 1",
-        selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
-        style: "dark",
-        blocks: [],
-        defaultContent: ["[id*='dellbuyercontentlayoutwebparts-3'] .rwp-contentlayout"]
-      },
-      {
-        id: "section-product-2",
-        name: "Product Highlight 2",
-        selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
-        style: "dark",
-        blocks: [],
-        defaultContent: ["[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout"]
-      },
-      {
-        id: "section-resources",
-        name: "Resources",
-        selector: "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
-        style: "dark",
-        blocks: ["cards"],
+        id: "section-faq",
+        name: "FAQ",
+        selector: ".cp-container[id*='faq']",
+        style: null,
+        blocks: ["accordion"],
         defaultContent: []
       }
     ]
@@ -604,9 +670,10 @@ var CustomImportScript = (() => {
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), {
+    const enhancedPayload = {
+      ...payload,
       template: PAGE_TEMPLATE
-    });
+    };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);

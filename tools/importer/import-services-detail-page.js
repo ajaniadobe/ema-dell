@@ -6,6 +6,7 @@ import heroParser from './parsers/hero.js';
 import columnsParser from './parsers/columns.js';
 import cardsParser from './parsers/cards.js';
 import carouselParser from './parsers/carousel.js';
+import accordionParser from './parsers/accordion.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
@@ -17,6 +18,7 @@ const parsers = {
   'columns': columnsParser,
   'cards': cardsParser,
   'carousel': carouselParser,
+  'accordion': accordionParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION
@@ -41,13 +43,14 @@ const PAGE_TEMPLATE = {
       name: 'hero',
       instances: [
         "[id*='hero-banner-wp']",
+        "[id*='hero-wp']",
         "[id*='dellbuyerbannercarouselwp']"
       ]
     },
     {
       name: 'columns',
       instances: [
-        ".cp-container:has(.rwp-contentlayout-item--columns-One):has(img):has(h3)"
+        ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Two)"
       ]
     },
     {
@@ -63,39 +66,37 @@ const PAGE_TEMPLATE = {
       instances: [
         ".rwp-itemcarousel"
       ]
+    },
+    {
+      name: 'accordion',
+      instances: [
+        ".cp-container[id*='faq']"
+      ]
     }
   ],
   sections: [
     {
       id: 'section-hero',
       name: 'Hero Banner',
-      selector: ["[id*='hero-banner-wp']", "[id*='dellbuyerbannercarouselwp']"],
+      selector: ["[id*='hero-banner-wp']", "[id*='hero-wp']", "[id*='dellbuyerbannercarouselwp']"],
       style: 'dark',
       blocks: ['hero'],
       defaultContent: []
     },
     {
-      id: 'section-intro',
-      name: 'Introduction',
-      selector: "#webparts > .cp-container:nth-child(2)",
-      style: null,
-      blocks: [],
-      defaultContent: [".rwp-contentlayout-item--columns-One"]
-    },
-    {
       id: 'section-content',
       name: 'Content Sections',
-      selector: "#webparts > .cp-container",
+      selector: ["#webparts > .cp-tabset", "#webparts > .cp-container"],
       style: null,
-      blocks: ['columns', 'cards'],
+      blocks: ['columns', 'cards', 'carousel'],
       defaultContent: []
     },
     {
-      id: 'section-resource-carousel',
-      name: 'Resource Carousel',
-      selector: ".cp-container:has(.rwp-itemcarousel)",
-      style: 'dark',
-      blocks: ['carousel'],
+      id: 'section-faq',
+      name: 'FAQ',
+      selector: ".cp-container[id*='faq']",
+      style: null,
+      blocks: ['accordion'],
       defaultContent: []
     }
   ]

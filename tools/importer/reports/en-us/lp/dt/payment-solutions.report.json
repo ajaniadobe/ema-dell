@@ -2,14 +2,18 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/payment-solutions",
   "path": "en-us/lp/dt/payment-solutions",
-  "timestamp": "2026-03-21T04:57:48.320Z",
+  "timestamp": "2026-03-21T06:41:59.399Z",
   "title": "Payment Solutions | Dell USA",
   "template": "solutions-landing-page",
   "blocks": [
+    "hero",
     "columns",
     "columns",
     "columns",
     "cards",
-    "cards"
+    "cards",
+    "carousel",
+    "carousel",
+    "accordion"
   ]
 }

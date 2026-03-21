@@ -1,25 +1,8 @@
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -79,7 +62,7 @@ var CustomImportScript = (() => {
       p.textContent = eyebrow.textContent.trim();
       contentCell.push(p);
     }
-    const heading = element.querySelector("h1, h2, .rwp-contentlayout-item__title");
+    const heading = element.querySelector("h1, h2, h3, .rwp-contentlayout-item__title");
     if (heading) {
       if (heading.tagName === "SPAN") {
         const h1 = document.createElement("h1");
@@ -201,22 +184,44 @@ var CustomImportScript = (() => {
       });
     } else if (contentLayoutItems.length > 0) {
       contentLayoutItems.forEach((card) => {
-        const svgIcon = card.querySelector(".rwp-contentlayout-item__visual-container svg");
-        const desc = card.querySelector(".rwp-contentlayout-item__description");
         const imageCell = [];
+        const svgIcon = card.querySelector(".rwp-contentlayout-item__visual-container svg");
         if (svgIcon) {
           const iconName = svgIcon.getAttribute("data-icon-name") || "icon";
           const img = document.createElement("img");
           img.src = `./icons/${iconName}.svg`;
           img.alt = iconName;
           imageCell.push(img);
+        } else {
+          const img = card.querySelector("img.rwp-image, img");
+          if (img) {
+            const src = img.getAttribute("src") || "";
+            const newImg = document.createElement("img");
+            newImg.src = src.startsWith("//") ? `https:${src}` : src;
+            newImg.alt = img.alt || "";
+            imageCell.push(newImg);
+          }
         }
         const contentCell = [];
+        const title = card.querySelector(".rwp-contentlayout-item__title, h3, h2");
+        if (title) {
+          const h3 = document.createElement("h3");
+          h3.textContent = title.textContent.trim();
+          contentCell.push(h3);
+        }
+        const desc = card.querySelector(".rwp-contentlayout-item__description");
         if (desc) {
           const p = document.createElement("p");
           p.innerHTML = desc.innerHTML.trim();
           contentCell.push(p);
         }
+        const links = Array.from(card.querySelectorAll(".rwp-button__link, .rwp-webpart__links a"));
+        links.forEach((link) => {
+          const a = document.createElement("a");
+          a.href = link.href || "";
+          a.textContent = link.textContent.trim();
+          contentCell.push(a);
+        });
         if (imageCell.length > 0 && contentCell.length > 0) {
           cells.push([imageCell, contentCell]);
         } else if (contentCell.length > 0) {
@@ -357,6 +362,59 @@ var CustomImportScript = (() => {
       }
     });
     const block = WebImporter.Blocks.createBlock(document, { name: "carousel", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/accordion.js
+  function parse5(element, { document }) {
+    const cells = [];
+    const faqItems = Array.from(element.querySelectorAll("details.faq-item, .faq-item"));
+    if (faqItems.length > 0) {
+      faqItems.forEach((item) => {
+        const questionEl = item.querySelector(".faq-question, summary p, summary");
+        const answerEl = item.querySelector(".faq-answer, .faq-answer-container");
+        const questionText = questionEl ? questionEl.textContent.trim() : "";
+        const answerContent = answerEl || "";
+        if (questionText) {
+          cells.push([questionText, answerContent]);
+        }
+      });
+    } else {
+      const items = Array.from(element.querySelectorAll('[class*="accordion-item"], details'));
+      if (items.length > 0) {
+        items.forEach((item) => {
+          const title = item.querySelector('summary, [class*="title"], [class*="header"], h3, h4');
+          const content = item.querySelector('[class*="content"], [class*="body"], [class*="answer"]');
+          if (title && content) {
+            cells.push([title.textContent.trim(), content]);
+          }
+        });
+      } else {
+        const headings = Array.from(element.querySelectorAll("h3"));
+        headings.forEach((h3) => {
+          const questionText = h3.textContent.trim();
+          if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
+          const answerParts = [];
+          let sibling = h3.nextElementSibling;
+          while (sibling && sibling.tagName !== "H3" && sibling.tagName !== "H2") {
+            if (sibling.tagName === "P" && sibling.textContent.trim()) {
+              answerParts.push(sibling.textContent.trim());
+            }
+            sibling = sibling.nextElementSibling;
+          }
+          if (answerParts.length > 0) {
+            const answerDiv = document.createElement("div");
+            answerParts.forEach((text) => {
+              const p = document.createElement("p");
+              p.textContent = text;
+              answerDiv.appendChild(p);
+            });
+            cells.push([questionText, answerDiv]);
+          }
+        });
+      }
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name: "accordion", cells });
     element.replaceWith(block);
   }
 
@@ -531,7 +589,8 @@ var CustomImportScript = (() => {
     "hero": parse,
     "columns": parse2,
     "cards": parse3,
-    "carousel": parse4
+    "carousel": parse4,
+    "accordion": parse5
   };
   var PAGE_TEMPLATE = {
     name: "services-detail-page",
@@ -554,13 +613,14 @@ var CustomImportScript = (() => {
         name: "hero",
         instances: [
           "[id*='hero-banner-wp']",
+          "[id*='hero-wp']",
           "[id*='dellbuyerbannercarouselwp']"
         ]
       },
       {
         name: "columns",
         instances: [
-          ".cp-container:has(.rwp-contentlayout-item--columns-One):has(img):has(h3)"
+          ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Two)"
         ]
       },
       {
@@ -576,39 +636,37 @@ var CustomImportScript = (() => {
         instances: [
           ".rwp-itemcarousel"
         ]
+      },
+      {
+        name: "accordion",
+        instances: [
+          ".cp-container[id*='faq']"
+        ]
       }
     ],
     sections: [
       {
         id: "section-hero",
         name: "Hero Banner",
-        selector: ["[id*='hero-banner-wp']", "[id*='dellbuyerbannercarouselwp']"],
+        selector: ["[id*='hero-banner-wp']", "[id*='hero-wp']", "[id*='dellbuyerbannercarouselwp']"],
         style: "dark",
         blocks: ["hero"],
         defaultContent: []
       },
       {
-        id: "section-intro",
-        name: "Introduction",
-        selector: "#webparts > .cp-container:nth-child(2)",
-        style: null,
-        blocks: [],
-        defaultContent: [".rwp-contentlayout-item--columns-One"]
-      },
-      {
         id: "section-content",
         name: "Content Sections",
-        selector: "#webparts > .cp-container",
+        selector: ["#webparts > .cp-tabset", "#webparts > .cp-container"],
         style: null,
-        blocks: ["columns", "cards"],
+        blocks: ["columns", "cards", "carousel"],
         defaultContent: []
       },
       {
-        id: "section-resource-carousel",
-        name: "Resource Carousel",
-        selector: ".cp-container:has(.rwp-itemcarousel)",
-        style: "dark",
-        blocks: ["carousel"],
+        id: "section-faq",
+        name: "FAQ",
+        selector: ".cp-container[id*='faq']",
+        style: null,
+        blocks: ["accordion"],
         defaultContent: []
       }
     ]
@@ -618,7 +676,7 @@ var CustomImportScript = (() => {
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
+    const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);
