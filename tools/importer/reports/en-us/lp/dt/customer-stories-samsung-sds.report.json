@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-samsung-sds",
+  "path": "en-us/lp/dt/customer-stories-samsung-sds",
+  "timestamp": "2026-03-21T17:53:43.826Z",
+  "title": "Samsung SDS | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

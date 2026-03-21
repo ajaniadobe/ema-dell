@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/industry-federal-government-it",
+  "path": "en-us/lp/dt/industry-federal-government-it",
+  "timestamp": "2026-03-21T18:06:41.600Z",
+  "title": "Dell Technologies Federal​ | Dell USA",
+  "template": "industry-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "carousel"
+  ]
+}

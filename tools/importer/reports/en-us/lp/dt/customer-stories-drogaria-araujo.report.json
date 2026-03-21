@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-drogaria-araujo",
+  "path": "en-us/lp/dt/customer-stories-drogaria-araujo",
+  "timestamp": "2026-03-21T17:56:08.835Z",
+  "title": "Drogaria Araujo | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

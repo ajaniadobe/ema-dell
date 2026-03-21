@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-phonepe",
+  "path": "en-us/lp/dt/customer-stories-phonepe",
+  "timestamp": "2026-03-21T18:01:12.422Z",
+  "title": "PhonePe | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

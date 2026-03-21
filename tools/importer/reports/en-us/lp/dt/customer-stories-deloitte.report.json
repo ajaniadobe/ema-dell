@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-deloitte",
+  "path": "en-us/lp/dt/customer-stories-deloitte",
+  "timestamp": "2026-03-21T17:53:05.120Z",
+  "title": "Deloitte | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "cards"
+  ]
+}

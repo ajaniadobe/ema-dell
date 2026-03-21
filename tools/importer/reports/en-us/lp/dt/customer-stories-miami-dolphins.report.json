@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-miami-dolphins",
+  "path": "en-us/lp/dt/customer-stories-miami-dolphins",
+  "timestamp": "2026-03-21T17:53:12.877Z",
+  "title": "Miami Dolphins | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

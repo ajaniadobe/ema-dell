@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-norby",
+  "path": "en-us/lp/dt/customer-stories-norby",
+  "timestamp": "2026-03-21T17:58:39.091Z",
+  "title": "Norby | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

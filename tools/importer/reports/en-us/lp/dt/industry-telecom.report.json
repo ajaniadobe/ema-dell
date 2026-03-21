@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/industry-telecom",
+  "path": "en-us/lp/dt/industry-telecom",
+  "timestamp": "2026-03-21T18:07:57.086Z",
+  "title": "Telecom Solutions | Dell USA",
+  "template": "industry-page",
+  "blocks": [
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "columns",
+    "columns",
+    "columns"
+  ]
+}

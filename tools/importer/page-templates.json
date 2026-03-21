@@ -3,7 +3,74 @@
     {
       "name": "customer-story-page",
       "urls": [
-        "https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing"
+        "https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-taboola",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-deloitte",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-miami-dolphins",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-university-of-texas-athletics",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-northwestern-mutual",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-subaru-corporation",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-samsung-sds",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-purdue-university",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-lowes",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-northwestern-medicine",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-city-of-amarillo-genai",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-lightstormentertainment",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-macquarie-cloud-services",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-the-wellcome-sanger-institute",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-matrixspace",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-hopeworks",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-hopp-childrens-cancer-center-heidelberg-kitz",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-theguthrieclinic",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-drogaria-araujo",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-zoho-corporation",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-sandisk-corporation",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-dauntless-xr",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-naver-cloud",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-aumovio",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-f1soft-group",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-worley",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-smarsh",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-cosm",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-elice",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-websupport",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-prime-vision",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-lafayette-utilities-system",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-essen-university-hospital",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-iren",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-mark-iii-systems",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-norby",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-emirates-nbd",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-kennedy-miller-mitchell",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-maricopa-county-recorders-office",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-ghent-university",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-the-avk-group",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-algoma-steel",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-harbor-solutions",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-commonwealth-charter-academy",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-barkley",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-zurich-insurance-group-pcaas",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-team-liquid",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-rakutengroup",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-new-belgium-brewing-company",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-nuvance-health",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-zero",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-psa-corporation",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-phonepe",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-cegal",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-memorial-sloan-kettering-cancer-center",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-county-of-kauai",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-sns-network",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-nature-fresh-farms",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-eaton",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-palladium-hotel-group",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-airspeeder",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-instadeep",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-oregon-state-university",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-purehealth",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-hostinger",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-fulgent-technologies",
+        "https://www.dell.com/en-us/lp/dt/customer-stories-caliber-financial-services"
       ],
       "description": "Customer story landing page featuring a specific Dell customer case study with hero, video, testimonials, and product highlights",
       "blocks": [
@@ -1069,6 +1136,148 @@
           "blocks": [
             "hero"
           ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "industry-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/industry-healthcare",
+        "https://www.dell.com/en-us/lp/dt/industry-energy",
+        "https://www.dell.com/en-us/lp/dt/industry-federal-government-it",
+        "https://www.dell.com/en-us/lp/dt/industry-financial-services",
+        "https://www.dell.com/en-us/lp/dt/industry-higher-ed",
+        "https://www.dell.com/en-us/lp/dt/industry-k12-ed",
+        "https://www.dell.com/en-us/lp/dt/industry-life-sciences",
+        "https://www.dell.com/en-us/lp/dt/industry-manufacturing",
+        "https://www.dell.com/en-us/lp/dt/industry-retail",
+        "https://www.dell.com/en-us/lp/dt/industry-safety-security",
+        "https://www.dell.com/en-us/lp/dt/industry-smart-cities",
+        "https://www.dell.com/en-us/lp/dt/industry-state-and-local-government",
+        "https://www.dell.com/en-us/lp/dt/industry-telecom"
+      ],
+      "description": "Industry vertical page showcasing Dell solutions for a specific industry with video hero, stats carousels, industry trends cards, strategic goals, product portfolio, and FAQ",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            ".cp-container:has(.rwp-itemcarousel)"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".cp-container:has(.rwp-contentlayout-item--columns-Four)",
+            ".cp-container:has(.rwp-contentlayout-item--columns-Three)"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".cp-container:has(.rwp-contentlayout-item--columns-Two):has(video, .video-js)"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            ".cp-container[id*='faqwebparts']"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Video Hero",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+          "style": "dark",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-stats",
+          "name": "Stats Carousel",
+          "selector": "[id*='dellbuyeritemcarouselwebparts-2'].cp-container",
+          "style": null,
+          "blocks": ["carousel"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-trends",
+          "name": "Industry Trends",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
+          "style": "dark",
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-goals-video",
+          "name": "Strategic Goals",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
+          "style": null,
+          "blocks": ["columns"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-goals-detail-1",
+          "name": "Goals Detail 1",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
+          "style": null,
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-goals-detail-2",
+          "name": "Goals Detail 2",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
+          "style": null,
+          "blocks": ["cards"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-dell-advantage",
+          "name": "Dell Advantage",
+          "selector": "[id*='dellbuyeritemcarouselwebparts-7'].cp-container",
+          "style": "dark",
+          "blocks": ["carousel"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-innovate",
+          "name": "Innovate With Us",
+          "selector": "[id*='dellbuyeritemcarouselwebparts-8'].cp-container",
+          "style": "dark",
+          "blocks": ["carousel"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-portfolio",
+          "name": "Product Portfolio",
+          "selector": "[id*='dellbuyeritemcarouselwebparts-9'].cp-container",
+          "style": "dark",
+          "blocks": ["carousel"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-cta",
+          "name": "CTA",
+          "selector": "[id*='dellbuyercontentlayoutwebparts-10'].cp-container",
+          "style": "dark",
+          "blocks": ["hero"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-faq",
+          "name": "FAQ",
+          "selector": "[id*='dellbuyerfaqwebparts'].cp-container",
+          "style": null,
+          "blocks": ["accordion"],
           "defaultContent": []
         }
       ]

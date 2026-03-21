@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-lowes",
+  "path": "en-us/lp/dt/customer-stories-lowes",
+  "timestamp": "2026-03-21T17:53:57.718Z",
+  "title": "Lowe's | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "cards",
+    "cards"
+  ]
+}

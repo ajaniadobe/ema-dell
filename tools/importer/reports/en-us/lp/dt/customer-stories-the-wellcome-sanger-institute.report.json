@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-the-wellcome-sanger-institute",
+  "path": "en-us/lp/dt/customer-stories-the-wellcome-sanger-institute",
+  "timestamp": "2026-03-21T17:55:34.875Z",
+  "title": "The Wellcome Sanger Institute | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "cards"
+  ]
+}

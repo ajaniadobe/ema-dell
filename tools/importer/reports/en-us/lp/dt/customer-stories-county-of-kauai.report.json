@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-county-of-kauai",
+  "path": "en-us/lp/dt/customer-stories-county-of-kauai",
+  "timestamp": "2026-03-21T18:01:33.628Z",
+  "title": "County of Kaua’i | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

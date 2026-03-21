@@ -34,10 +34,10 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-customer-story-page.js
-  var import_customer_story_page_exports = {};
-  __export(import_customer_story_page_exports, {
-    default: () => import_customer_story_page_default
+  // tools/importer/import-industry-page.js
+  var import_industry_page_exports = {};
+  __export(import_industry_page_exports, {
+    default: () => import_industry_page_default
   });
 
   // tools/importer/parsers/hero.js
@@ -359,6 +359,82 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/carousel.js
+  function parse4(element, { document }) {
+    const cells = [];
+    const slides = Array.from(element.querySelectorAll(".dds__carousel__item"));
+    slides.forEach((slide) => {
+      const img = slide.querySelector(".ai-infrastructure-carousel-img, img");
+      const imageCell = [];
+      if (img) imageCell.push(img);
+      const contentCell = [];
+      const heading = slide.querySelector('h2, h3, [class*="h2"]');
+      if (heading) contentCell.push(heading);
+      const desc = slide.querySelector(".dds__body-2, p");
+      if (desc) contentCell.push(desc);
+      const ctaLinks = Array.from(slide.querySelectorAll(".cta-link a, .ai-infra-link"));
+      ctaLinks.forEach((link) => contentCell.push(link));
+      if (imageCell.length > 0 || contentCell.length > 0) {
+        cells.push([imageCell, contentCell]);
+      }
+    });
+    const block = WebImporter.Blocks.createBlock(document, { name: "carousel", cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/accordion.js
+  function parse5(element, { document }) {
+    const cells = [];
+    const faqItems = Array.from(element.querySelectorAll("details.faq-item, .faq-item"));
+    if (faqItems.length > 0) {
+      faqItems.forEach((item) => {
+        const questionEl = item.querySelector(".faq-question, summary p, summary");
+        const answerEl = item.querySelector(".faq-answer, .faq-answer-container");
+        const questionText = questionEl ? questionEl.textContent.trim() : "";
+        const answerContent = answerEl || "";
+        if (questionText) {
+          cells.push([questionText, answerContent]);
+        }
+      });
+    } else {
+      const items = Array.from(element.querySelectorAll('[class*="accordion-item"], details'));
+      if (items.length > 0) {
+        items.forEach((item) => {
+          const title = item.querySelector('summary, [class*="title"], [class*="header"], h3, h4');
+          const content = item.querySelector('[class*="content"], [class*="body"], [class*="answer"]');
+          if (title && content) {
+            cells.push([title.textContent.trim(), content]);
+          }
+        });
+      } else {
+        const headings = Array.from(element.querySelectorAll("h3"));
+        headings.forEach((h3) => {
+          const questionText = h3.textContent.trim();
+          if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
+          const answerParts = [];
+          let sibling = h3.nextElementSibling;
+          while (sibling && sibling.tagName !== "H3" && sibling.tagName !== "H2") {
+            if (sibling.tagName === "P" && sibling.textContent.trim()) {
+              answerParts.push(sibling.textContent.trim());
+            }
+            sibling = sibling.nextElementSibling;
+          }
+          if (answerParts.length > 0) {
+            const answerDiv = document.createElement("div");
+            answerParts.forEach((text) => {
+              const p = document.createElement("p");
+              p.textContent = text;
+              answerDiv.appendChild(p);
+            });
+            cells.push([questionText, answerDiv]);
+          }
+        });
+      }
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name: "accordion", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/dell-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -525,96 +601,75 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-customer-story-page.js
+  // tools/importer/import-industry-page.js
   var parsers = {
     "hero": parse,
     "columns": parse2,
-    "cards": parse3
+    "cards": parse3,
+    "carousel": parse4,
+    "accordion": parse5
   };
   var PAGE_TEMPLATE = {
-    name: "customer-story-page",
-    description: "Customer story landing page featuring a specific Dell customer case study with hero, video, testimonials, and product highlights",
-    urls: [
-      "https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing"
-    ],
+    name: "industry-page",
+    description: "Industry vertical page showcasing Dell solutions for a specific industry with video hero, stats carousels, industry trends cards, strategic goals, product portfolio, and FAQ",
     blocks: [
       {
         name: "hero",
         instances: [
-          "[id*='dellbuyercontentlayoutwebparts-1'].cp-container"
+          "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+          ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)"
         ]
       },
       {
-        name: "columns",
+        name: "carousel",
         instances: [
-          "[id*='dellbuyercontentlayoutwebparts-2'] .rwp-contentlayout"
+          ".rwp-itemcarousel"
         ]
       },
       {
         name: "cards",
         instances: [
-          "[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout",
-          ".rwp-itemcarousel"
+          ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Four)",
+          ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)"
+        ]
+      },
+      {
+        name: "columns",
+        instances: [
+          ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Two)"
+        ]
+      },
+      {
+        name: "accordion",
+        instances: [
+          ".cp-container[id*='faq']"
         ]
       }
     ],
     sections: [
       {
         id: "section-hero",
-        name: "Hero",
+        name: "Video Hero",
         selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
         style: "dark",
         blocks: ["hero"],
         defaultContent: []
       },
       {
-        id: "section-customer-overview",
-        name: "Customer Overview",
-        selector: "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+        id: "section-content",
+        name: "Content Sections",
+        selector: ["#webparts > .cp-container"],
         style: null,
-        blocks: ["columns"],
+        blocks: ["carousel", "cards", "columns", "hero"],
         defaultContent: []
       },
       {
-        id: "section-quote-video",
-        name: "Quote & Video",
-        selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
-        style: "dark",
-        blocks: [],
-        defaultContent: [
-          "[data-iid*='dellbuyercontentlayoutitems-6']",
-          "[data-iid*='dellbuyercontentlayoutitems-7']"
-        ]
-      },
-      {
-        id: "section-business-results",
-        name: "Business Results",
-        selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
+        id: "section-faq",
+        name: "FAQ",
+        selector: ".cp-container[id*='faq']",
         style: null,
-        blocks: ["cards"],
-        defaultContent: [
-          "[id*='dellbuyercontentlayoutwebparts-4'] h2"
-        ]
-      },
-      {
-        id: "section-products",
-        name: "Products",
-        selector: "[id*='dellbuyeritemcarouselwebparts-1'].cp-container",
-        style: "dark",
-        blocks: ["cards"],
-        defaultContent: [
-          ".rwp-webpart__subtitle"
-        ]
-      },
-      {
-        id: "section-cta",
-        name: "CTA",
-        selector: "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
-        style: "dark",
-        blocks: [],
-        defaultContent: [
-          "[data-iid*='dellbuyercontentlayoutitems-13']"
-        ]
+        blocks: ["accordion"],
+        defaultContent: []
       }
     ]
   };
@@ -623,9 +678,7 @@ var CustomImportScript = (() => {
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = __spreadProps(__spreadValues({}, payload), {
-      template: PAGE_TEMPLATE
-    });
+    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);
@@ -643,19 +696,14 @@ var CustomImportScript = (() => {
           console.warn(`Block "${blockDef.name}" selector not found: ${selector}`);
         }
         elements.forEach((element) => {
-          pageBlocks.push({
-            name: blockDef.name,
-            selector,
-            element,
-            section: blockDef.section || null
-          });
+          pageBlocks.push({ name: blockDef.name, selector, element, section: blockDef.section || null });
         });
       });
     });
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
-  var import_customer_story_page_default = {
+  var import_industry_page_default = {
     transform: (payload) => {
       const { document, url, html, params } = payload;
       const main = document.body;
@@ -682,16 +730,8 @@ var CustomImportScript = (() => {
       const path = WebImporter.FileUtils.sanitizePath(
         new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html$/, "")
       );
-      return [{
-        element: main,
-        path,
-        report: {
-          title: document.title,
-          template: PAGE_TEMPLATE.name,
-          blocks: pageBlocks.map((b) => b.name)
-        }
-      }];
+      return [{ element: main, path, report: { title: document.title, template: PAGE_TEMPLATE.name, blocks: pageBlocks.map((b) => b.name) } }];
     }
   };
-  return __toCommonJS(import_customer_story_page_exports);
+  return __toCommonJS(import_industry_page_exports);
 })();

@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-smarsh",
+  "path": "en-us/lp/dt/customer-stories-smarsh",
+  "timestamp": "2026-03-21T17:57:15.573Z",
+  "title": "Smarsh | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

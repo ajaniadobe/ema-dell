@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/customer-stories-aumovio",
+  "path": "en-us/lp/dt/customer-stories-aumovio",
+  "timestamp": "2026-03-21T17:56:54.169Z",
+  "title": "AUMOVIO | Dell USA",
+  "template": "customer-story-page",
+  "blocks": [
+    "hero",
+    "columns",
+    "cards",
+    "cards"
+  ]
+}

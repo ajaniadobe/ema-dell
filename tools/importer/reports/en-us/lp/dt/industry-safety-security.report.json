@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dt/industry-safety-security",
+  "path": "en-us/lp/dt/industry-safety-security",
+  "timestamp": "2026-03-21T18:07:35.394Z",
+  "title": "Safety & Security Solutions - Video Storage Analytics | Dell USA",
+  "template": "industry-page",
+  "blocks": [
+    "cards",
+    "cards",
+    "cards",
+    "columns",
+    "columns",
+    "columns"
+  ]
+}
