@@ -354,6 +354,41 @@ var CustomImportScript = (() => {
       });
       const blobLinks = element.querySelectorAll('a[href^="blob:"]');
       blobLinks.forEach((a) => a.remove());
+      WebImporter.DOMUtils.remove(element, [
+        "#super-cat-main-content",
+        "#sr-product-stacks",
+        ".anavmfe-container",
+        "#plp-filters-container",
+        ".plp-sort-bar",
+        ".plp-results-header",
+        ".plp-product-grid",
+        ".plp-pagination",
+        "#compare-drawer",
+        ".scr-compare-drawer"
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        ".premier-sign-in-container",
+        ".plp-premier-banner"
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        "#marketing-campaign-disclaimers",
+        ".mh-disclaimers-content",
+        ".disclaimers-container",
+        ".sys-cat-partner-row"
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        ".cp-page-footer",
+        ".cp-page-breadcrumbs",
+        ".cp-sticky-nav",
+        'img[src*="loading.gif"]'
+      ]);
+      WebImporter.DOMUtils.remove(element, [
+        'img[src*="t.co/i/adsct"]',
+        'img[src*="ads.linkedin.com"]',
+        'img[src*="facebook.com/tr"]',
+        'img[src*="everesttech.net"]',
+        'img[alt="Loading MFE"]'
+      ]);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
@@ -442,7 +477,8 @@ var CustomImportScript = (() => {
       "https://www.dell.com/en-us/lp/dt/deployment-services",
       "https://www.dell.com/en-us/lp/dt/managed-services",
       "https://www.dell.com/en-us/lp/dt/support-services",
-      "https://www.dell.com/en-us/lp/dt/recovery-recycling-services"
+      "https://www.dell.com/en-us/lp/dt/recovery-recycling-services",
+      "https://www.dell.com/en-us/lp/dt/automation-platform"
     ],
     blocks: [
       {
