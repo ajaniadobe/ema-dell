@@ -92,7 +92,9 @@ function decorateSubnavs() {
         // e.g. "Reviews" link → #awards-and-reviews heading in last section
         const lastTarget = targets[targets.length - 1];
         if (lastTarget) {
-          const sub = lastTarget.querySelector(`[id*="${id}"]`)
+          const escapedId = CSS.escape(id);
+          const sub = lastTarget.querySelector(`#${escapedId}`)
+            || lastTarget.querySelector(`[id*="${escapedId}"]`)
             || lastTarget.querySelector('h2[id]:last-of-type');
           const scrollTarget = sub || lastTarget;
           link.href = `#${scrollTarget.id || id}`;
@@ -135,9 +137,10 @@ export async function loadPage() {
   await loadArea();
 
   // Remove leftover pagination text artifacts from imported content
-  const paginationPatterns = /^(Previous Page\s+Next Page|Previous Slide\s+Next Slide|\d+\/\d+)$/;
+  // TODO: Strip these during import so this runtime cleanup is not needed
   document.querySelectorAll('main .default-content p').forEach((p) => {
-    if (paginationPatterns.test(p.textContent.trim())) p.remove();
+    const text = p.textContent.trim();
+    if (/^Previous\s+(Page|Slide)\s+Next\s+(Page|Slide)$/.test(text)) p.remove();
   });
 
   // Hide sections with empty accordion blocks (no FAQ items imported)
