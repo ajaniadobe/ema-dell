@@ -33,7 +33,8 @@ const PAGE_TEMPLATE = {
     'https://www.dell.com/en-us/lp/dt/deployment-services',
     'https://www.dell.com/en-us/lp/dt/managed-services',
     'https://www.dell.com/en-us/lp/dt/support-services',
-    'https://www.dell.com/en-us/lp/dt/recovery-recycling-services'
+    'https://www.dell.com/en-us/lp/dt/recovery-recycling-services',
+    'https://www.dell.com/en-us/lp/dt/automation-platform'
   ],
   blocks: [
     {

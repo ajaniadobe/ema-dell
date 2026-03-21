@@ -753,7 +753,8 @@
         "https://www.dell.com/en-us/lp/dt/deployment-services",
         "https://www.dell.com/en-us/lp/dt/managed-services",
         "https://www.dell.com/en-us/lp/dt/support-services",
-        "https://www.dell.com/en-us/lp/dt/recovery-recycling-services"
+        "https://www.dell.com/en-us/lp/dt/recovery-recycling-services",
+        "https://www.dell.com/en-us/lp/dt/automation-platform"
       ],
       "description": "Specific service offering page with hero banner, alternating image-text content layouts, feature sections, and resource carousel",
       "blocks": [
@@ -949,7 +950,8 @@
       "name": "cp-landing-page",
       "urls": [
         "https://www.dell.com/en-us/lp/dell-video-conferencing-room-solutions",
-        "https://www.dell.com/en-us/lp/thin-client-solutions"
+        "https://www.dell.com/en-us/lp/thin-client-solutions",
+        "https://www.dell.com/en-us/lp/dell-experience"
       ],
       "description": "Solutions landing page built on Dell CP (Content Platform) framework with themed containers, tab-based section navigation, product shelves, carousels, and optional FAQ accordions.",
       "blocks": [

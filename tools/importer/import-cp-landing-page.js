@@ -29,7 +29,8 @@ const PAGE_TEMPLATE = {
   description: 'Solutions landing page built on Dell CP framework with themed containers and tab-based navigation',
   urls: [
     'https://www.dell.com/en-us/lp/dell-video-conferencing-room-solutions',
-    'https://www.dell.com/en-us/lp/thin-client-solutions'
+    'https://www.dell.com/en-us/lp/thin-client-solutions',
+    'https://www.dell.com/en-us/lp/dell-experience'
   ],
   blocks: [
     {
