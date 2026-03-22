@@ -38,7 +38,9 @@ async function decorateBackground(el, bg) {
 
   const vidSrc = await getVideoSrc(bg);
   if (!vidSrc) {
-    el.classList.add('split');
+    if (!el.classList.contains('overlay')) {
+      el.classList.add('split');
+    }
     return;
   }
 
@@ -106,6 +108,17 @@ function decorateForeground(fg) {
   }
 }
 
+function detectPartnerLogo(el) {
+  const desc = document.querySelector('meta[name="description"]')?.content?.toLowerCase() || '';
+  const partners = ['intel', 'nvidia'];
+  for (const partner of partners) {
+    if (desc.includes(partner)) {
+      el.classList.add(partner);
+      break;
+    }
+  }
+}
+
 export default async function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   const fg = rows.pop();
@@ -116,4 +129,12 @@ export default async function init(el) {
     bg.classList.add('hero-background');
     await decorateBackground(el, bg);
   }
+  // Overlay variant: wrap all foreground children in a single content box
+  if (el.classList.contains('overlay')) {
+    const contentBox = document.createElement('div');
+    contentBox.classList.add('hero-overlay-box');
+    [...fg.children].forEach((child) => contentBox.append(child));
+    fg.append(contentBox);
+  }
+  detectPartnerLogo(el);
 }

@@ -9,13 +9,17 @@ function decorate(el) {
 }
 
 export default function init(a) {
+  const params = new URLSearchParams(a.search);
+  const id = params.get('v');
+  const isEmbed = a.pathname.startsWith('/embed/');
+  // Only convert actual video URLs (?v= or /embed/), not channel/user/playlist links
+  if (!id && !isEmbed) return;
+  const videoId = id || a.pathname.split('/').pop();
   const div = document.createElement('div');
   div.className = 'video';
-  const params = new URLSearchParams(a.search);
-  const id = params.get('v') || a.pathname.split('/').pop();
   params.append('rel', '0');
   params.delete('v');
-  div.dataset.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${params.toString()}`;
+  div.dataset.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
   a.parentElement.replaceChild(div, a);
   observe(div, decorate);
 }
