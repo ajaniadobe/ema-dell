@@ -262,6 +262,92 @@
     }
   }
 
+  /* --- Overlay layout: full-width bg image with contained text box --- */
+  &.overlay {
+    .hero-foreground {
+      background: unset;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: var(--spacing-m);
+    }
+
+    .hero-overlay-box {
+      background: var(--color-dell-navy, #002a58);
+      padding: 30px;
+      max-width: 100%;
+
+      .hero-detail {
+        font-size: var(--body-font-size-m);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0 0 8px;
+      }
+
+      .hero-heading {
+        font-size: 32px;
+        font-weight: 300;
+        line-height: 1.2;
+        margin: 0 0 16px;
+      }
+
+      .fg-text {
+        width: auto;
+        margin: 0;
+      }
+
+      p {
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.5;
+        margin: 0 0 12px;
+        color: rgb(255 255 255 / 85%);
+      }
+
+      > *:last-child {
+        margin-bottom: 0;
+      }
+
+      .hero-cta-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+
+        a {
+          display: inline-block;
+          padding: 10px 20px;
+          border-radius: 2px;
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          transition: background-color 0.2s, color 0.2s;
+        }
+
+        a:first-child {
+          border: 1px solid var(--color-dell-blue, #0672cb);
+          background: var(--color-white);
+          color: var(--color-dell-near-black, #0e0e0e);
+
+          &:hover {
+            background: var(--color-dell-light-gray, #f5f6f7);
+          }
+        }
+
+        a:not(:first-child) {
+          border: 2px solid var(--color-white);
+          background: transparent;
+          color: var(--color-white);
+
+          &:hover {
+            background: var(--color-white);
+            color: var(--color-dell-navy, #002a58);
+          }
+        }
+      }
+    }
+  }
+
   /* Text-only hero: solid navy background when no background image/video */
   &:not(.split, .has-video, :has(.hero-background)) {
     background: var(--color-dell-navy, #002a58);
@@ -357,6 +443,29 @@
         }
       }
     }
+
+    /* Overlay: keep flex layout, don't switch to grid */
+    &.overlay {
+      .hero-foreground {
+        display: flex;
+        max-width: unset;
+        margin: 0;
+        padding: 40px;
+        grid-template-columns: unset;
+      }
+
+      .hero-overlay-box {
+        max-width: 520px;
+
+        .hero-heading {
+          font-size: 40px;
+        }
+
+        p {
+          font-size: 17px;
+        }
+      }
+    }
   }
 }
 
@@ -408,6 +517,35 @@
         }
       }
     }
+
+    /* Overlay at desktop: full-width bg, text box at bottom-left */
+    &.overlay {
+      display: block;
+
+      .hero-foreground {
+        min-height: 560px;
+        padding: 60px;
+      }
+
+      .hero-overlay-box {
+        max-width: 540px;
+        padding: 40px;
+
+        .hero-heading {
+          font-size: 48px;
+          line-height: 1.15;
+        }
+
+        p {
+          font-size: 18px;
+        }
+
+        .hero-cta-group a {
+          padding: 12px 24px;
+          font-size: 16px;
+        }
+      }
+    }
   }
 }
 
@@ -434,6 +572,17 @@
         p {
           font-size: 24px;
         }
+      }
+    }
+
+    &.overlay {
+      .hero-foreground {
+        min-height: 600px;
+        padding: 60px 80px;
+      }
+
+      .hero-overlay-box {
+        max-width: 560px;
       }
     }
   }
