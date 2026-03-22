@@ -2,16 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/automation-platform",
   "path": "en-us/lp/dt/automation-platform",
-  "timestamp": "2026-03-21T07:53:44.902Z",
+  "timestamp": "2026-03-22T08:40:23.237Z",
   "title": "Dell Automation Platform | Dell USA",
-  "template": "services-detail-page",
+  "template": "cp-landing-page",
   "blocks": [
     "hero",
-    "hero",
     "cards",
     "cards",
     "cards",
     "cards",
+    "tabs",
     "carousel"
   ]
 }
