@@ -28,20 +28,27 @@ const PAGE_TEMPLATE = {
     {
       name: 'hero',
       instances: [
-        "[id*='dellbuyercontentlayoutwebparts-1'].cp-container"
+        "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+        "[id*='hero-banner'].cp-container",
+        "[data-cs-section='hero']"
       ]
     },
     {
       name: 'columns',
       instances: [
-        "[id*='dellbuyercontentlayoutwebparts-2'] .rwp-contentlayout"
+        "[id*='dellbuyercontentlayoutwebparts-2'] .rwp-contentlayout",
+        "[data-cs-section='columns'] .rwp-contentlayout",
+        "[data-cs-section='columns']"
       ]
     },
     {
       name: 'cards',
       instances: [
         "[id*='dellbuyercontentlayoutwebparts-4'] .rwp-contentlayout",
-        ".rwp-itemcarousel"
+        ".rwp-itemcarousel",
+        "[data-cs-section='cards'] .rwp-contentlayout",
+        "[data-cs-section='cards']",
+        "[data-cs-section='carousel']"
       ]
     }
   ],
@@ -49,7 +56,11 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-hero',
       name: 'Hero',
-      selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+      selector: [
+        "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
+        "[id*='hero-banner'].cp-container",
+        "[data-cs-section='hero']"
+      ],
       style: 'dark',
       blocks: ['hero'],
       defaultContent: []
@@ -57,7 +68,10 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-customer-overview',
       name: 'Customer Overview',
-      selector: "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+      selector: [
+        "[id*='dellbuyercontentlayoutwebparts-2'].cp-container",
+        "[data-cs-section='columns']"
+      ],
       style: null,
       blocks: ['columns'],
       defaultContent: []
@@ -65,7 +79,11 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-quote-video',
       name: 'Quote & Video',
-      selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
+      selector: [
+        "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
+        "[id*='quote'].cp-container",
+        "[data-cs-section='quote']"
+      ],
       style: 'dark',
       blocks: [],
       defaultContent: [
@@ -76,17 +94,26 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-business-results',
       name: 'Business Results',
-      selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
+      selector: [
+        "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
+        "[id*='icons'].cp-container",
+        "[data-cs-section='cards']"
+      ],
       style: null,
       blocks: ['cards'],
       defaultContent: [
-        "[id*='dellbuyercontentlayoutwebparts-4'] h2"
+        "[id*='dellbuyercontentlayoutwebparts-4'] h2",
+        "[data-cs-section='cards'] h2"
       ]
     },
     {
       id: 'section-products',
       name: 'Products',
-      selector: "[id*='dellbuyeritemcarouselwebparts-1'].cp-container",
+      selector: [
+        "[id*='dellbuyeritemcarouselwebparts-1'].cp-container",
+        "[id*='item-carousel'].cp-container",
+        "[data-cs-section='carousel']"
+      ],
       style: 'dark',
       blocks: ['cards'],
       defaultContent: [
@@ -96,7 +123,11 @@ const PAGE_TEMPLATE = {
     {
       id: 'section-cta',
       name: 'CTA',
-      selector: "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
+      selector: [
+        "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
+        "[id*='explore-cta'].cp-container",
+        "[data-cs-section='cta']"
+      ],
       style: 'dark',
       blocks: [],
       defaultContent: [
@@ -126,6 +157,52 @@ function executeTransformers(hookName, element, payload) {
       transformerFn.call(null, hookName, element, enhancedPayload);
     } catch (e) {
       console.error(`Transformer failed at ${hookName}:`, e);
+    }
+  });
+}
+
+/**
+ * Annotate cp-container sections with data-cs-section attributes
+ * for positional matching when standard ID selectors don't match.
+ * All customer story pages follow the same 6-section structure:
+ *   1. Hero (1-col, dark) 2. Columns (4-col, light) 3. Quote (1-col, dark)
+ *   4. Cards/Business Results (4-col, light) 5. Carousel (dark) 6. CTA (1-col, dark)
+ */
+function annotateSections(document) {
+  const cpContainers = Array.from(document.querySelectorAll('.cp-container'));
+  if (cpContainers.length === 0) return;
+
+  // Check if standard selectors would already work
+  const hasStandard = document.querySelector("[id*='dellbuyercontentlayoutwebparts-1'].cp-container");
+  if (hasStandard) {
+    console.log('Standard ID selectors match - skipping positional annotation');
+    return;
+  }
+
+  console.log(`Annotating ${cpContainers.length} sections via positional analysis`);
+
+  let fourColCount = 0;
+
+  cpContainers.forEach((container, index) => {
+    const hasCarousel = container.querySelector('.rwp-itemcarousel, .rwp-ic-slide');
+    const has4Col = container.querySelector('.rwp-contentlayout-item--columns-Four');
+
+    if (index === 0) {
+      container.setAttribute('data-cs-section', 'hero');
+    } else if (has4Col) {
+      fourColCount++;
+      if (fourColCount === 1) {
+        container.setAttribute('data-cs-section', 'columns');
+      } else {
+        container.setAttribute('data-cs-section', 'cards');
+      }
+    } else if (hasCarousel) {
+      container.setAttribute('data-cs-section', 'carousel');
+    } else if (index === cpContainers.length - 1) {
+      container.setAttribute('data-cs-section', 'cta');
+    } else if (!container.getAttribute('data-cs-section')) {
+      // Remaining 1-col dark sections are quote/video
+      container.setAttribute('data-cs-section', 'quote');
     }
   });
 }
@@ -164,6 +241,9 @@ export default {
 
     // 1. Execute beforeTransform transformers (initial cleanup)
     executeTransformers('beforeTransform', main, payload);
+
+    // 1.5 Annotate sections for positional matching (handles non-standard IDs)
+    annotateSections(document);
 
     // 2. Find blocks on page using embedded template
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);

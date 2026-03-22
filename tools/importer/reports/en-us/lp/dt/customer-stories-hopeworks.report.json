@@ -2,10 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/customer-stories-hopeworks",
   "path": "en-us/lp/dt/customer-stories-hopeworks",
-  "timestamp": "2026-03-21T17:55:49.146Z",
+  "timestamp": "2026-03-22T03:14:53.746Z",
   "title": "Hopeworks | Dell USA",
   "template": "customer-story-page",
   "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
     "cards"
   ]
 }

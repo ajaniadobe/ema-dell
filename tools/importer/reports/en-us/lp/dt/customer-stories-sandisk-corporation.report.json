@@ -2,10 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/customer-stories-sandisk-corporation",
   "path": "en-us/lp/dt/customer-stories-sandisk-corporation",
-  "timestamp": "2026-03-21T17:56:32.134Z",
+  "timestamp": "2026-03-22T03:15:52.400Z",
   "title": "Sandisk Corporation | Dell USA",
   "template": "customer-story-page",
   "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
     "cards",
     "cards"
   ]

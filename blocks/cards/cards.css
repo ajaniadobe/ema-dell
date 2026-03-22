@@ -57,6 +57,14 @@
   object-fit: cover;
 }
 
+/* Icon images in cards (SVG icons used as stat/result indicators) */
+.cards .cards-card-image img[src*=".svg"] {
+  width: 48px;
+  height: 48px;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 /* Dark section cards: 2-column layout */
 .section.dark .cards > ul {
   grid-template-columns: repeat(2, 1fr);

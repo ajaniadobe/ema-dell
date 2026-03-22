@@ -2,10 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/customer-stories-city-of-amarillo-genai",
   "path": "en-us/lp/dt/customer-stories-city-of-amarillo-genai",
-  "timestamp": "2026-03-21T17:55:10.576Z",
+  "timestamp": "2026-03-22T03:15:21.992Z",
   "title": "City of Amarillo​ | Dell USA",
   "template": "customer-story-page",
   "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
     "cards",
     "cards"
   ]

@@ -2285,6 +2285,7 @@ main > .section.dark:has(.cards.stats) {
 .section:has(.hero:not(.split, .has-video)) .cards .cards-card-image img {
   width: 100%;
   height: auto;
+  aspect-ratio: auto;
   max-height: 620px;
   object-fit: contain;
 }
@@ -2590,6 +2591,17 @@ main .section:has(.hero) > .default-content:first-child:has(ol) {
   object-fit: cover;
   width: 100%;
   border-radius: 4px;
+}
+
+/* Logo images in columns: first paragraph containing only an image.
+   These are typically company logos that should not stretch to full width. */
+.columns:not(.image-cover) .col > p:first-child:has(> img:only-child) img,
+.columns:not(.image-cover) .col > p:first-child:has(> picture:only-child) img {
+  width: auto;
+  max-width: 200px;
+  max-height: 100px;
+  object-fit: contain;
+  border-radius: 0;
 }
 
 /* Standalone paragraph images in default content (logos, product images) —
