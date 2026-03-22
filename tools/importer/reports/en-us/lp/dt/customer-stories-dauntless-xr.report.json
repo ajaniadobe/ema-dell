@@ -2,10 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/customer-stories-dauntless-xr",
   "path": "en-us/lp/dt/customer-stories-dauntless-xr",
-  "timestamp": "2026-03-21T17:56:39.022Z",
+  "timestamp": "2026-03-22T03:15:29.733Z",
   "title": "Dauntless XR | Dell USA",
   "template": "customer-story-page",
   "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
     "cards",
     "cards"
   ]

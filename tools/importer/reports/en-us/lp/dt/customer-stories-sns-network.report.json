@@ -2,10 +2,16 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/customer-stories-sns-network",
   "path": "en-us/lp/dt/customer-stories-sns-network",
-  "timestamp": "2026-03-21T18:01:39.263Z",
+  "timestamp": "2026-03-22T03:15:58.105Z",
   "title": "SNS Network | Dell USA",
   "template": "customer-story-page",
   "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
     "cards",
     "cards"
   ]

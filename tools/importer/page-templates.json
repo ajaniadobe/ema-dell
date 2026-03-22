@@ -1197,7 +1197,9 @@
           "name": "Video Hero",
           "selector": "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
           "style": "dark",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -1205,7 +1207,9 @@
           "name": "Stats Carousel",
           "selector": "[id*='dellbuyeritemcarouselwebparts-2'].cp-container",
           "style": null,
-          "blocks": ["carousel"],
+          "blocks": [
+            "carousel"
+          ],
           "defaultContent": []
         },
         {
@@ -1213,7 +1217,9 @@
           "name": "Industry Trends",
           "selector": "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
           "style": "dark",
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -1221,7 +1227,9 @@
           "name": "Strategic Goals",
           "selector": "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
           "style": null,
-          "blocks": ["columns"],
+          "blocks": [
+            "columns"
+          ],
           "defaultContent": []
         },
         {
@@ -1229,7 +1237,9 @@
           "name": "Goals Detail 1",
           "selector": "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
           "style": null,
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -1237,7 +1247,9 @@
           "name": "Goals Detail 2",
           "selector": "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
           "style": null,
-          "blocks": ["cards"],
+          "blocks": [
+            "cards"
+          ],
           "defaultContent": []
         },
         {
@@ -1245,7 +1257,9 @@
           "name": "Dell Advantage",
           "selector": "[id*='dellbuyeritemcarouselwebparts-7'].cp-container",
           "style": "dark",
-          "blocks": ["carousel"],
+          "blocks": [
+            "carousel"
+          ],
           "defaultContent": []
         },
         {
@@ -1253,7 +1267,9 @@
           "name": "Innovate With Us",
           "selector": "[id*='dellbuyeritemcarouselwebparts-8'].cp-container",
           "style": "dark",
-          "blocks": ["carousel"],
+          "blocks": [
+            "carousel"
+          ],
           "defaultContent": []
         },
         {
@@ -1261,7 +1277,9 @@
           "name": "Product Portfolio",
           "selector": "[id*='dellbuyeritemcarouselwebparts-9'].cp-container",
           "style": "dark",
-          "blocks": ["carousel"],
+          "blocks": [
+            "carousel"
+          ],
           "defaultContent": []
         },
         {
@@ -1269,7 +1287,9 @@
           "name": "CTA",
           "selector": "[id*='dellbuyercontentlayoutwebparts-10'].cp-container",
           "style": "dark",
-          "blocks": ["hero"],
+          "blocks": [
+            "hero"
+          ],
           "defaultContent": []
         },
         {
@@ -1277,7 +1297,9 @@
           "name": "FAQ",
           "selector": "[id*='dellbuyerfaqwebparts'].cp-container",
           "style": null,
-          "blocks": ["accordion"],
+          "blocks": [
+            "accordion"
+          ],
           "defaultContent": []
         }
       ]
