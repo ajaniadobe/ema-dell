@@ -219,6 +219,19 @@ function buildBreadcrumbs() {
     }
   }
   if (parentLabel) items.push({ label: parentLabel, href: parentUrl || '/' });
+  // Derive section parent from URL path (e.g., customer-stories-*, industry-*)
+  const slug = window.location.pathname.split('/').pop();
+  const sectionMap = {
+    'customer-stories': 'Customer Stories',
+    industry: 'Industries',
+  };
+  for (const [prefix, label] of Object.entries(sectionMap)) {
+    if (slug.startsWith(`${prefix}-`)) {
+      const sectionUrl = window.location.pathname.replace(slug, prefix);
+      items.push({ label, href: sectionUrl });
+      break;
+    }
+  }
   items.push({ label: title });
   items.forEach((item, i) => {
     const li = document.createElement('li');

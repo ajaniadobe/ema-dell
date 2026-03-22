@@ -106,6 +106,17 @@ function decorateForeground(fg) {
   }
 }
 
+function detectPartnerLogo(el) {
+  const desc = document.querySelector('meta[name="description"]')?.content?.toLowerCase() || '';
+  const partners = ['intel', 'nvidia'];
+  for (const partner of partners) {
+    if (desc.includes(partner)) {
+      el.classList.add(partner);
+      break;
+    }
+  }
+}
+
 export default async function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   const fg = rows.pop();
@@ -116,4 +127,5 @@ export default async function init(el) {
     bg.classList.add('hero-background');
     await decorateBackground(el, bg);
   }
+  detectPartnerLogo(el);
 }
