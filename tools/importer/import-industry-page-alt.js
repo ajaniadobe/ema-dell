@@ -7,11 +7,9 @@ import columnsParser from './parsers/columns.js';
 import cardsParser from './parsers/cards.js';
 import carouselParser from './parsers/carousel.js';
 import accordionParser from './parsers/accordion.js';
-import tabsParser from './parsers/tabs.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
-import dellSectionsTransformer from './transformers/dell-sections.js';
 
 // PARSER REGISTRY
 const parsers = {
@@ -20,24 +18,22 @@ const parsers = {
   'cards': cardsParser,
   'carousel': carouselParser,
   'accordion': accordionParser,
-  'tabs': tabsParser,
 };
 
 // PAGE TEMPLATE CONFIGURATION
-// Industry vertical pages follow a consistent structure:
-//   Hero (video bg) → Stats carousel → Trends cards → Goals video → Goals detail cards (x2)
-//   → Dell Advantage carousel → Innovate With Us carousel → Product Portfolio carousel
-//   → CTA → FAQ
-// Container IDs follow the pattern: *-dellbuyer{type}webparts-{N}
+// Alternative industry pages (Smart Cities, State & Local Government, Federal Government IT)
+// use diverse container types: hotspots, tile grids, tab-nested content, dual FAQs.
+// Unlike standard industry pages, container IDs vary across pages, so sections
+// are detected dynamically from each .cp-container[id*='dellbuyer'] element.
 const PAGE_TEMPLATE = {
-  name: 'industry-page',
-  description: 'Industry vertical page showcasing Dell solutions for a specific industry with video hero, stats carousels, industry trends cards, strategic goals, product portfolio, and FAQ',
+  name: 'industry-page-alt',
+  description: 'Alternative industry page layout with diverse container types and dynamic section detection',
   blocks: [
     {
       name: 'hero',
       instances: [
-        "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
-        ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)"
+        ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)",
+        ".cp-container[class*='bg-video-True']:has(.rwp-contentlayout)"
       ]
     },
     {
@@ -60,115 +56,28 @@ const PAGE_TEMPLATE = {
       ]
     },
     {
-      name: 'tabs',
-      instances: [
-        ".cp-tabset",
-        "[role='tablist']"
-      ]
-    },
-    {
       name: 'accordion',
       instances: [
         ".cp-container[id*='faqwebparts']"
       ]
     }
   ],
-  sections: [
-    {
-      id: 'section-hero',
-      name: 'Video Hero',
-      selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
-      style: 'dark',
-      blocks: ['hero'],
-      defaultContent: []
-    },
-    {
-      id: 'section-stats',
-      name: 'Stats Carousel',
-      selector: "[id*='dellbuyeritemcarouselwebparts-2'].cp-container",
-      style: null,
-      blocks: ['carousel'],
-      defaultContent: []
-    },
-    {
-      id: 'section-trends',
-      name: 'Industry Trends',
-      selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
-      style: 'dark',
-      blocks: ['cards'],
-      defaultContent: []
-    },
-    {
-      id: 'section-goals-video',
-      name: 'Strategic Goals',
-      selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
-      style: null,
-      blocks: ['columns'],
-      defaultContent: []
-    },
-    {
-      id: 'section-goals-detail-1',
-      name: 'Goals Detail 1',
-      selector: "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
-      style: null,
-      blocks: ['cards'],
-      defaultContent: []
-    },
-    {
-      id: 'section-goals-detail-2',
-      name: 'Goals Detail 2',
-      selector: "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
-      style: null,
-      blocks: ['cards'],
-      defaultContent: []
-    },
-    {
-      id: 'section-dell-advantage',
-      name: 'Dell Advantage',
-      selector: "[id*='dellbuyeritemcarouselwebparts-7'].cp-container",
-      style: 'dark',
-      blocks: ['carousel'],
-      defaultContent: []
-    },
-    {
-      id: 'section-innovate',
-      name: 'Innovate With Us',
-      selector: "[id*='dellbuyeritemcarouselwebparts-8'].cp-container",
-      style: 'dark',
-      blocks: ['carousel'],
-      defaultContent: []
-    },
-    {
-      id: 'section-portfolio',
-      name: 'Product Portfolio',
-      selector: "[id*='dellbuyeritemcarouselwebparts-9'].cp-container",
-      style: 'dark',
-      blocks: ['carousel'],
-      defaultContent: []
-    },
-    {
-      id: 'section-cta',
-      name: 'CTA',
-      selector: "[id*='dellbuyercontentlayoutwebparts-10'].cp-container",
-      style: 'dark',
-      blocks: ['hero'],
-      defaultContent: []
-    },
-    {
-      id: 'section-faq',
-      name: 'FAQ',
-      selector: "[id*='dellbuyerfaqwebparts'].cp-container",
-      style: null,
-      blocks: ['accordion'],
-      defaultContent: []
-    }
-  ]
+  sections: []
 };
 
-// TRANSFORMER REGISTRY
+// THEME-TO-STYLE MAPPING for dynamic section detection
+// Maps Dell CP container themes to EDS section styles
+const THEME_STYLE_MAP = {
+  'JetBlack': 'dark',
+  'NavyBlue': 'dark',
+  'DarkGray': 'dark',
+  'StandardWhite': null,
+  'QuartzGray': null,
+};
+
+// TRANSFORMER REGISTRY (no dell-sections - sections handled dynamically)
 const transformers = [
   dellCleanupTransformer,
-  ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [dellSectionsTransformer] : []),
 ];
 
 function executeTransformers(hookName, element, payload) {
@@ -199,6 +108,44 @@ function findBlocksOnPage(document, template) {
   return pageBlocks;
 }
 
+/**
+ * Dynamic section handler for pages with variable container structures.
+ * Finds all .cp-container[id*='dellbuyer'] elements and inserts section breaks
+ * and Section Metadata blocks based on the container's theme class.
+ */
+function insertDynamicSections(element, document) {
+  const containers = element.querySelectorAll('.cp-container[id*="dellbuyer"]');
+  if (containers.length < 2) return;
+
+  console.log(`Dynamic sections: found ${containers.length} cp-containers`);
+
+  // Process in reverse order to avoid index shifts
+  const containerArray = Array.from(containers);
+  for (let i = containerArray.length - 1; i >= 0; i--) {
+    const container = containerArray[i];
+
+    // Determine style from theme class
+    const themeMatch = container.className.match(/cp-container-d--theme-(\w+)/);
+    const theme = themeMatch ? themeMatch[1] : null;
+    const style = theme ? (THEME_STYLE_MAP[theme] || null) : null;
+
+    // Add Section Metadata block if section has a dark style
+    if (style) {
+      const sectionMetadata = WebImporter.Blocks.createBlock(document, {
+        name: 'Section Metadata',
+        cells: { style },
+      });
+      container.after(sectionMetadata);
+    }
+
+    // Add <hr> before container (except the first one)
+    if (i > 0) {
+      const hr = document.createElement('hr');
+      container.before(hr);
+    }
+  }
+}
+
 export default {
   transform: (payload) => {
     const { document, url, html, params } = payload;
@@ -213,6 +160,10 @@ export default {
       } else { console.warn(`No parser found for block: ${block.name}`); }
     });
     executeTransformers('afterTransform', main, payload);
+
+    // Dynamic section breaks (replaces dell-sections transformer)
+    insertDynamicSections(main, document);
+
     const hr = document.createElement('hr');
     main.appendChild(hr);
     WebImporter.rules.createMetadata(main, document);

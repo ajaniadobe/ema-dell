@@ -41,34 +41,49 @@ export default function parse(element, { document }) {
         }
       });
     } else {
-      // Pattern C: Raw FAQ - h3 questions followed by p answers (no accordion markup)
-      // Common on Dell solutions/services pages where FAQ is a plain container
-      const headings = Array.from(element.querySelectorAll('h3'));
-      headings.forEach((h3) => {
-        const questionText = h3.textContent.trim();
-        // Skip section title headings (e.g., "Frequently Asked Questions", "FAQ's")
-        if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
-
-        // Collect all sibling p elements until the next h3 or h2
-        const answerParts = [];
-        let sibling = h3.nextElementSibling;
-        while (sibling && sibling.tagName !== 'H3' && sibling.tagName !== 'H2') {
-          if (sibling.tagName === 'P' && sibling.textContent.trim()) {
-            answerParts.push(sibling.textContent.trim());
+      // Pattern C: Button-based FAQ (industry pages: button[id*='button'] + div[id*='answer'])
+      const faqButtons = Array.from(element.querySelectorAll('button[id*="button"]'));
+      const faqAnswers = Array.from(element.querySelectorAll('div[id*="answer"]'));
+      if (faqButtons.length > 0 && faqAnswers.length > 0) {
+        faqButtons.forEach((btn, idx) => {
+          const questionText = btn.textContent.trim();
+          if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
+          const answerEl = faqAnswers[idx];
+          if (answerEl) {
+            const answerCopy = answerEl.querySelector('.rwp-faq-item__answer--copy') || answerEl;
+            cells.push([questionText, answerCopy]);
           }
-          sibling = sibling.nextElementSibling;
-        }
+        });
+      } else {
+        // Pattern D: Raw FAQ - h3 questions followed by p answers (no accordion markup)
+        // Common on Dell solutions/services pages where FAQ is a plain container
+        const headings = Array.from(element.querySelectorAll('h3'));
+        headings.forEach((h3) => {
+          const questionText = h3.textContent.trim();
+          // Skip section title headings (e.g., "Frequently Asked Questions", "FAQ's")
+          if (!questionText || /^faq/i.test(questionText) || /frequently asked/i.test(questionText)) return;
 
-        if (answerParts.length > 0) {
-          const answerDiv = document.createElement('div');
-          answerParts.forEach((text) => {
-            const p = document.createElement('p');
-            p.textContent = text;
-            answerDiv.appendChild(p);
-          });
-          cells.push([questionText, answerDiv]);
-        }
-      });
+          // Collect all sibling p elements until the next h3 or h2
+          const answerParts = [];
+          let sibling = h3.nextElementSibling;
+          while (sibling && sibling.tagName !== 'H3' && sibling.tagName !== 'H2') {
+            if (sibling.tagName === 'P' && sibling.textContent.trim()) {
+              answerParts.push(sibling.textContent.trim());
+            }
+            sibling = sibling.nextElementSibling;
+          }
+
+          if (answerParts.length > 0) {
+            const answerDiv = document.createElement('div');
+            answerParts.forEach((text) => {
+              const p = document.createElement('p');
+              p.textContent = text;
+              answerDiv.appendChild(p);
+            });
+            cells.push([questionText, answerDiv]);
+          }
+        });
+      }
     }
   }
 

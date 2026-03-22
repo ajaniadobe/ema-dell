@@ -1145,7 +1145,6 @@
       "urls": [
         "https://www.dell.com/en-us/lp/dt/industry-healthcare",
         "https://www.dell.com/en-us/lp/dt/industry-energy",
-        "https://www.dell.com/en-us/lp/dt/industry-federal-government-it",
         "https://www.dell.com/en-us/lp/dt/industry-financial-services",
         "https://www.dell.com/en-us/lp/dt/industry-higher-ed",
         "https://www.dell.com/en-us/lp/dt/industry-k12-ed",
@@ -1153,8 +1152,6 @@
         "https://www.dell.com/en-us/lp/dt/industry-manufacturing",
         "https://www.dell.com/en-us/lp/dt/industry-retail",
         "https://www.dell.com/en-us/lp/dt/industry-safety-security",
-        "https://www.dell.com/en-us/lp/dt/industry-smart-cities",
-        "https://www.dell.com/en-us/lp/dt/industry-state-and-local-government",
         "https://www.dell.com/en-us/lp/dt/industry-telecom"
       ],
       "description": "Industry vertical page showcasing Dell solutions for a specific industry with video hero, stats carousels, industry trends cards, strategic goals, product portfolio, and FAQ",
@@ -1182,6 +1179,13 @@
           "name": "columns",
           "instances": [
             ".cp-container:has(.rwp-contentlayout-item--columns-Two):has(video, .video-js)"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            ".cp-tabset",
+            "[role='tablist']"
           ]
         },
         {
@@ -1303,6 +1307,50 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "industry-page-alt",
+      "urls": [
+        "https://www.dell.com/en-us/lp/dt/industry-smart-cities",
+        "https://www.dell.com/en-us/lp/dt/industry-state-and-local-government",
+        "https://www.dell.com/en-us/lp/dt/industry-federal-government-it"
+      ],
+      "description": "Alternative industry page layout with diverse container types (hotspots, tile grids, tab-nested content). Uses dynamic section detection instead of fixed container IDs.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)",
+            ".cp-container[class*='bg-video-True']:has(.rwp-contentlayout)"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            ".rwp-itemcarousel"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Four)",
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Three)"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".rwp-contentlayout:has(.rwp-contentlayout-item--columns-Two)"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            ".cp-container[id*='faqwebparts']"
+          ]
+        }
+      ],
+      "sections": []
     }
   ]
 }

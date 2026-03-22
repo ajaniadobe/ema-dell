@@ -34,10 +34,10 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-industry-page.js
-  var import_industry_page_exports = {};
-  __export(import_industry_page_exports, {
-    default: () => import_industry_page_default
+  // tools/importer/import-industry-page-alt.js
+  var import_industry_page_alt_exports = {};
+  __export(import_industry_page_alt_exports, {
+    default: () => import_industry_page_alt_default
   });
 
   // tools/importer/parsers/hero.js
@@ -484,36 +484,6 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/tabs.js
-  function parse6(element, { document }) {
-    const cells = [];
-    const tabButtons = Array.from(element.querySelectorAll('[role="tab"], .dds__tabs__tab'));
-    const tabPanes = Array.from(element.querySelectorAll('[role="tabpanel"], .dds__tabs__pane'));
-    if (tabButtons.length > 0 && tabPanes.length > 0) {
-      tabButtons.forEach((tab, index) => {
-        const label = tab.textContent.trim();
-        const pane = tabPanes[index];
-        if (label && pane) {
-          cells.push([label, pane]);
-        }
-      });
-    } else {
-      const tabItems = Array.from(element.querySelectorAll(".dds__tabs__tab"));
-      const paneItems = Array.from(element.querySelectorAll(".dds__tabs__pane"));
-      if (tabItems.length > 0) {
-        tabItems.forEach((tab, index) => {
-          const label = tab.textContent.trim();
-          const pane = paneItems[index];
-          if (label && pane) {
-            cells.push([label, pane]);
-          }
-        });
-      }
-    }
-    const block = WebImporter.Blocks.createBlock(document, { name: "tabs", cells });
-    element.replaceWith(block);
-  }
-
   // tools/importer/transformers/dell-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -648,56 +618,23 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/transformers/dell-sections.js
-  var TransformHook2 = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
-  function transform2(hookName, element, payload) {
-    if (hookName === TransformHook2.afterTransform) {
-      const document = element.ownerDocument;
-      const template = payload.template;
-      if (!template || !template.sections || template.sections.length < 2) return;
-      const sections = template.sections;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        const selector = Array.isArray(section.selector) ? section.selector : [section.selector];
-        let sectionEl = null;
-        for (const sel of selector) {
-          sectionEl = element.querySelector(sel);
-          if (sectionEl) break;
-        }
-        if (!sectionEl) continue;
-        if (section.style) {
-          const sectionMetadata = WebImporter.Blocks.createBlock(document, {
-            name: "Section Metadata",
-            cells: { style: section.style }
-          });
-          sectionEl.after(sectionMetadata);
-        }
-        if (i > 0) {
-          const hr = document.createElement("hr");
-          sectionEl.before(hr);
-        }
-      }
-    }
-  }
-
-  // tools/importer/import-industry-page.js
+  // tools/importer/import-industry-page-alt.js
   var parsers = {
     "hero": parse,
     "columns": parse2,
     "cards": parse3,
     "carousel": parse4,
-    "accordion": parse5,
-    "tabs": parse6
+    "accordion": parse5
   };
   var PAGE_TEMPLATE = {
-    name: "industry-page",
-    description: "Industry vertical page showcasing Dell solutions for a specific industry with video hero, stats carousels, industry trends cards, strategic goals, product portfolio, and FAQ",
+    name: "industry-page-alt",
+    description: "Alternative industry page layout with diverse container types and dynamic section detection",
     blocks: [
       {
         name: "hero",
         instances: [
-          "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
-          ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)"
+          ".cp-container:has(.cp-container-bgvideo):has(.rwp-contentlayout)",
+          ".cp-container[class*='bg-video-True']:has(.rwp-contentlayout)"
         ]
       },
       {
@@ -720,113 +657,23 @@ var CustomImportScript = (() => {
         ]
       },
       {
-        name: "tabs",
-        instances: [
-          ".cp-tabset",
-          "[role='tablist']"
-        ]
-      },
-      {
         name: "accordion",
         instances: [
           ".cp-container[id*='faqwebparts']"
         ]
       }
     ],
-    sections: [
-      {
-        id: "section-hero",
-        name: "Video Hero",
-        selector: "[id*='dellbuyercontentlayoutwebparts-1'].cp-container",
-        style: "dark",
-        blocks: ["hero"],
-        defaultContent: []
-      },
-      {
-        id: "section-stats",
-        name: "Stats Carousel",
-        selector: "[id*='dellbuyeritemcarouselwebparts-2'].cp-container",
-        style: null,
-        blocks: ["carousel"],
-        defaultContent: []
-      },
-      {
-        id: "section-trends",
-        name: "Industry Trends",
-        selector: "[id*='dellbuyercontentlayoutwebparts-3'].cp-container",
-        style: "dark",
-        blocks: ["cards"],
-        defaultContent: []
-      },
-      {
-        id: "section-goals-video",
-        name: "Strategic Goals",
-        selector: "[id*='dellbuyercontentlayoutwebparts-4'].cp-container",
-        style: null,
-        blocks: ["columns"],
-        defaultContent: []
-      },
-      {
-        id: "section-goals-detail-1",
-        name: "Goals Detail 1",
-        selector: "[id*='dellbuyercontentlayoutwebparts-5'].cp-container",
-        style: null,
-        blocks: ["cards"],
-        defaultContent: []
-      },
-      {
-        id: "section-goals-detail-2",
-        name: "Goals Detail 2",
-        selector: "[id*='dellbuyercontentlayoutwebparts-6'].cp-container",
-        style: null,
-        blocks: ["cards"],
-        defaultContent: []
-      },
-      {
-        id: "section-dell-advantage",
-        name: "Dell Advantage",
-        selector: "[id*='dellbuyeritemcarouselwebparts-7'].cp-container",
-        style: "dark",
-        blocks: ["carousel"],
-        defaultContent: []
-      },
-      {
-        id: "section-innovate",
-        name: "Innovate With Us",
-        selector: "[id*='dellbuyeritemcarouselwebparts-8'].cp-container",
-        style: "dark",
-        blocks: ["carousel"],
-        defaultContent: []
-      },
-      {
-        id: "section-portfolio",
-        name: "Product Portfolio",
-        selector: "[id*='dellbuyeritemcarouselwebparts-9'].cp-container",
-        style: "dark",
-        blocks: ["carousel"],
-        defaultContent: []
-      },
-      {
-        id: "section-cta",
-        name: "CTA",
-        selector: "[id*='dellbuyercontentlayoutwebparts-10'].cp-container",
-        style: "dark",
-        blocks: ["hero"],
-        defaultContent: []
-      },
-      {
-        id: "section-faq",
-        name: "FAQ",
-        selector: "[id*='dellbuyerfaqwebparts'].cp-container",
-        style: null,
-        blocks: ["accordion"],
-        defaultContent: []
-      }
-    ]
+    sections: []
+  };
+  var THEME_STYLE_MAP = {
+    "JetBlack": "dark",
+    "NavyBlue": "dark",
+    "DarkGray": "dark",
+    "StandardWhite": null,
+    "QuartzGray": null
   };
   var transformers = [
-    transform,
-    ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
+    transform
   ];
   function executeTransformers(hookName, element, payload) {
     const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
@@ -854,7 +701,30 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
-  var import_industry_page_default = {
+  function insertDynamicSections(element, document) {
+    const containers = element.querySelectorAll('.cp-container[id*="dellbuyer"]');
+    if (containers.length < 2) return;
+    console.log(`Dynamic sections: found ${containers.length} cp-containers`);
+    const containerArray = Array.from(containers);
+    for (let i = containerArray.length - 1; i >= 0; i--) {
+      const container = containerArray[i];
+      const themeMatch = container.className.match(/cp-container-d--theme-(\w+)/);
+      const theme = themeMatch ? themeMatch[1] : null;
+      const style = theme ? THEME_STYLE_MAP[theme] || null : null;
+      if (style) {
+        const sectionMetadata = WebImporter.Blocks.createBlock(document, {
+          name: "Section Metadata",
+          cells: { style }
+        });
+        container.after(sectionMetadata);
+      }
+      if (i > 0) {
+        const hr = document.createElement("hr");
+        container.before(hr);
+      }
+    }
+  }
+  var import_industry_page_alt_default = {
     transform: (payload) => {
       const { document, url, html, params } = payload;
       const main = document.body;
@@ -873,6 +743,7 @@ var CustomImportScript = (() => {
         }
       });
       executeTransformers("afterTransform", main, payload);
+      insertDynamicSections(main, document);
       const hr = document.createElement("hr");
       main.appendChild(hr);
       WebImporter.rules.createMetadata(main, document);
@@ -884,5 +755,5 @@ var CustomImportScript = (() => {
       return [{ element: main, path, report: { title: document.title, template: PAGE_TEMPLATE.name, blocks: pageBlocks.map((b) => b.name) } }];
     }
   };
-  return __toCommonJS(import_industry_page_exports);
+  return __toCommonJS(import_industry_page_alt_exports);
 })();

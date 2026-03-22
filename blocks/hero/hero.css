@@ -263,9 +263,13 @@
   }
 
   /* --- Overlay layout: full-width bg image with contained text box --- */
+
+  /* Mobile/tablet: no navy box, text over gradient-darkened image (matches original) */
+
+  /* Desktop (900px+): navy box restored at bottom-left */
   &.overlay {
     .hero-foreground {
-      background: unset;
+      background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 20%) 100%);
       display: flex;
       align-items: flex-end;
       justify-content: flex-start;
@@ -273,7 +277,7 @@
     }
 
     .hero-overlay-box {
-      background: var(--color-dell-navy, #002a58);
+      background: transparent;
       padding: 30px;
       max-width: 100%;
 
@@ -455,7 +459,7 @@
       }
 
       .hero-overlay-box {
-        max-width: 520px;
+        max-width: 100%;
 
         .hero-heading {
           font-size: 40px;
@@ -523,11 +527,13 @@
       display: block;
 
       .hero-foreground {
+        background: unset;
         min-height: 560px;
         padding: 60px;
       }
 
       .hero-overlay-box {
+        background: var(--color-dell-navy, #002a58);
         max-width: 540px;
         padding: 40px;
 

@@ -2,11 +2,10 @@
   "status": "success",
   "url": "https://www.dell.com/en-us/lp/dt/industry-state-and-local-government",
   "path": "en-us/lp/dt/industry-state-and-local-government",
-  "timestamp": "2026-03-21T18:07:50.845Z",
+  "timestamp": "2026-03-22T21:16:04.802Z",
   "title": "State and Local Government | Dell USA",
-  "template": "industry-page",
+  "template": "industry-page-alt",
   "blocks": [
-    "hero",
     "hero",
     "hero",
     "carousel",
