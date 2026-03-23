@@ -499,6 +499,23 @@ var CustomImportScript = (() => {
                 heroEl.prepend(v);
               }
             }
+            if (!heroEl.querySelector("h1")) {
+              const heading = heroEl.querySelector("h2, h3");
+              if (heading) {
+                const h1 = document.createElement("h1");
+                h1.innerHTML = heading.innerHTML;
+                if (heading.id) h1.id = heading.id;
+                heading.replaceWith(h1);
+              }
+            }
+            const desc = heroEl.querySelector(".rwp-contentlayout-item__description, .dds_Hero-ai-content");
+            if (desc && !desc.querySelector("p")) {
+              const p = document.createElement("p");
+              while (desc.firstChild) {
+                p.appendChild(desc.firstChild);
+              }
+              desc.appendChild(p);
+            }
           });
         });
       }

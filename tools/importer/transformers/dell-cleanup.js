@@ -59,6 +59,29 @@ export default function transform(hookName, element, payload) {
               heroEl.prepend(v);
             }
           }
+
+          // 3. Promote first H2/H3 to H1 (hero should always have an H1)
+          if (!heroEl.querySelector('h1')) {
+            const heading = heroEl.querySelector('h2, h3');
+            if (heading) {
+              const h1 = document.createElement('h1');
+              h1.innerHTML = heading.innerHTML;
+              if (heading.id) h1.id = heading.id;
+              heading.replaceWith(h1);
+            }
+          }
+
+          // 4. Wrap loose text+inline content in description divs into a <p>
+          //    Prevents WebImporter from splitting "Intel Inside<sup>®</sup>." into
+          //    separate paragraphs during HTML serialization
+          const desc = heroEl.querySelector('.rwp-contentlayout-item__description, .dds_Hero-ai-content');
+          if (desc && !desc.querySelector('p')) {
+            const p = document.createElement('p');
+            while (desc.firstChild) {
+              p.appendChild(desc.firstChild);
+            }
+            desc.appendChild(p);
+          }
         });
       });
     }
