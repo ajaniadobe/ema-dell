@@ -241,7 +241,7 @@ header {
     }
 
     > .block-content {
-      border-bottom: 1px solid light-dark(var(--color-gray-200), var(--color-gray-600));
+      border-bottom: 1px solid var(--color-border-light);
     }
 
     .action-wrapper {
@@ -252,9 +252,97 @@ header {
       }
     }
 
+    /* Contact Us link in actions */
+    > .default-content > p:last-child {
+      display: none;
+    }
+
     &.is-open {
       overflow: scroll;
       max-height: 100%;
+    }
+  }
+
+  /* Search form — hidden on mobile, shown on desktop */
+  .action-wrapper.search {
+    display: none;
+  }
+
+  .search-form {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin: 0;
+    border: 1px solid var(--color-gray-300, #b6b6b6);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--color-white, #fff);
+
+    input[type="search"] {
+      border: none;
+      outline: none;
+      padding: 5px 12px 5px 16px;
+      font-size: var(--body-font-size-s, 14px);
+      width: 0;
+      flex: 1;
+      background: transparent;
+      color: var(--color-dell-near-black, #0e0e0e);
+
+      &::placeholder {
+        color: var(--color-gray-500, #6e6e6e);
+      }
+    }
+
+    button[type="submit"] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      padding: 0 12px;
+      cursor: pointer;
+      color: var(--color-gray-500, #6e6e6e);
+      height: 100%;
+
+      &:hover {
+        color: var(--color-dell-blue, #0672cb);
+      }
+    }
+  }
+
+  /* User and cart icon links */
+  .action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--header-height);
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 100%;
+      color: var(--color-dell-near-black, #0e0e0e);
+
+      &:hover {
+        color: var(--color-dell-blue, #0672cb);
+      }
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
     }
   }
 
@@ -267,7 +355,7 @@ header {
     }
 
     .main-nav-item {
-      border-bottom: 1px solid light-dark(var(--color-gray-200), var(--color-gray-600));
+      border-bottom: 1px solid var(--color-border-light);
 
       > * {
         max-width: var(--grid-container-width);
@@ -287,7 +375,7 @@ header {
 
     .is-open {
       .main-nav-link {
-        border-bottom: 1px solid light-dark(var(--color-gray-200), var(--color-gray-600));
+        border-bottom: 1px solid var(--color-border-light);
       }
 
       .menu,
@@ -310,7 +398,7 @@ header {
     }
 
     .brand-section {
-      border-bottom: 1px solid light-dark(var(--color-gray-200), var(--color-gray-600));
+      border-bottom: 1px solid var(--color-border-light);
     }
   }
 }
@@ -459,7 +547,7 @@ header {
         max-width: initial;
         margin: 0;
         height: var(--header-height);
-        gap: var(--spacing-l);
+        gap: 8px;
 
         a {
           font-size: var(--body-font-size-s, 14px);
@@ -468,8 +556,55 @@ header {
         }
       }
 
+      /* Show Contact Us as text link on desktop */
+      > .default-content > p:last-child {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;
+        }
+      }
+
+      /* Move Cart after Contact Us to match original order */
+      .action-cart {
+        order: 10;
+      }
+
       .action-wrapper {
         position: relative;
+      }
+
+      .action-wrapper.search {
+        display: flex;
+        align-items: center;
+      }
+
+      .search-form {
+        width: 340px;
+
+        input[type="search"] {
+          width: auto;
+        }
+      }
+
+      /* Show Sign In / Cart text on desktop */
+      .action-icon a {
+        width: auto;
+        gap: 6px;
+        padding: 0 8px;
+      }
+
+      .action-icon .visually-hidden {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip-path: none;
+        white-space: nowrap;
       }
 
       .block-content {

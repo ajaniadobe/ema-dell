@@ -31,7 +31,7 @@
     transition: border-bottom 0.2s ease-in-out;
 
     &.is-active {
-      border-bottom: 2px solid light-dark(#000, #fff);
+      border-bottom: 2px solid var(--color-text);
     }
   }
 }

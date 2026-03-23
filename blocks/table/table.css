@@ -1,11 +1,65 @@
 .table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
   table {
     width: 100%;
     border-collapse: collapse;
+    font-size: var(--body-font-size-s);
+    line-height: 1.5;
+  }
 
-    th,
-    td {
-      border: 1px solid;
-    }
+  th,
+  td {
+    border: 1px solid var(--color-border-light);
+    padding: 12px 16px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead th {
+    background-color: var(--color-dell-blue);
+    color: var(--color-white);
+    font-weight: 500;
+    border-color: var(--color-dell-blue-hover);
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: var(--color-dell-light-gray);
+  }
+
+  tbody tr:hover {
+    background-color: rgb(0 0 0 / 4%);
+  }
+
+  td a {
+    color: var(--color-dell-blue);
+  }
+}
+
+/* Dark section table */
+.section.dark .table {
+  th,
+  td {
+    border-color: var(--color-dark-border);
+    color: var(--color-dark-text);
+  }
+
+  thead th {
+    background-color: var(--color-dark-bg-deep);
+    color: var(--color-white);
+    border-color: var(--color-dark-border);
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: rgb(255 255 255 / 5%);
+  }
+
+  tbody tr:hover {
+    background-color: rgb(255 255 255 / 8%);
+  }
+
+  td a {
+    color: var(--color-dell-light-blue);
   }
 }

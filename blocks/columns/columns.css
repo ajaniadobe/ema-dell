@@ -86,7 +86,7 @@
 }
 
 .section.dark .columns .col {
-  background-color: #1a2a3a;
+  background-color: var(--color-dark-surface);
   border: 1px solid rgb(255 255 255 / 12%);
   border-radius: 8px;
   padding: 32px;
@@ -101,7 +101,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #c5d4e3;
+  color: var(--color-dark-text);
   margin: 0 0 16px;
 }
 
@@ -113,19 +113,19 @@
 }
 
 .section.dark .columns .col p {
-  color: #c5d4e3;
+  color: var(--color-dark-text);
   font-size: 14px;
   line-height: 1.6;
 }
 
 .section.dark .columns .col p a {
-  color: #94dcf7;
+  color: var(--color-dell-light-blue);
   text-decoration: none;
   font-weight: 500;
 }
 
 .section.dark .columns .col p a:hover {
-  color: #b8e8fa;
+  color: var(--color-dark-link-hover);
 }
 
 @media (width >= 900px) {

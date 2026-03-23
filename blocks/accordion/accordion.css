@@ -32,11 +32,11 @@
 }
 
 .accordion details {
-  border-top: 1px solid #e1e1e1;
+  border-top: 1px solid var(--color-border-light);
 }
 
 .accordion details:last-child {
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .accordion details + details {
@@ -104,7 +104,7 @@
 }
 
 .section.dark .accordion:has(details:only-of-type) details {
-  border: 2px solid #839db4;
+  border: 2px solid var(--color-dark-cta-border);
   border-radius: 0;
   max-width: 620px;
   margin: 0 auto;
@@ -112,7 +112,7 @@
 }
 
 .section.dark .accordion:has(details:only-of-type) details:last-child {
-  border-bottom: 2px solid #839db4;
+  border-bottom: 2px solid var(--color-dark-cta-border);
 }
 
 .section.dark .accordion:has(details:only-of-type) details summary {
@@ -134,13 +134,13 @@
 
 .section.dark .accordion:has(details:only-of-type) details .accordion-item-body {
   padding: 16px 0 0;
-  color: #c5d4e3;
+  color: var(--color-dark-text);
   font-size: 14px;
   line-height: 1.6;
 }
 
 .section.dark .accordion:has(details:only-of-type) details .accordion-item-body a {
-  color: #c5d4e3;
+  color: var(--color-dark-text);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -157,14 +157,14 @@
 
 /* Dark section: multi-item FAQ accordion */
 .section.dark .accordion .accordion-controls {
-  color: #c5d4e3;
+  color: var(--color-dark-text);
   border-bottom: 1px solid rgb(255 255 255 / 15%);
   padding-bottom: 12px;
   margin-bottom: 0;
 }
 
 .section.dark .accordion .accordion-controls button {
-  color: #94dcf7;
+  color: var(--color-dell-light-blue);
 }
 
 .section.dark .accordion .accordion-controls button:disabled {
@@ -194,13 +194,13 @@
 }
 
 .section.dark .accordion details summary::after {
-  border-color: #c5d4e3;
+  border-color: var(--color-dark-text);
 }
 
 .section.dark .accordion details .accordion-item-body {
-  color: #c5d4e3;
+  color: var(--color-dark-text);
 }
 
 .section.dark .accordion details .accordion-item-body a {
-  color: #94dcf7;
+  color: var(--color-dell-light-blue);
 }
