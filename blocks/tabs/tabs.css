@@ -275,7 +275,7 @@
 }
 
 .section.dark .tabs .tabs-panel-header {
-  background-color: #141d28;
+  background-color: var(--color-dark-bg-deep);
   border-radius: 4px;
 }
 
@@ -362,8 +362,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f4f4f4;
-  border: 1px solid #e8e8e8;
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 8px;
   padding: 24px 20px;
   margin: 0;
@@ -387,8 +387,8 @@
 }
 
 .tabs-partner .tabs-partner-card {
-  background-color: #f4f4f4;
-  border: 1px solid #e8e8e8;
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -417,7 +417,7 @@
   font-size: var(--body-font-size-s);
   line-height: 1.6;
   margin: 0 0 var(--spacing-s);
-  color: #333;
+  color: var(--color-neutral-800);
 }
 
 /* CTA links inside partner cards */

@@ -133,6 +133,15 @@ function decorateSubnavs() {
 }
 
 export async function loadPage() {
+  // Skip-to-main accessibility link
+  const skip = document.createElement('a');
+  skip.href = '#main';
+  skip.className = 'skip-to-main';
+  skip.textContent = 'Skip to main content';
+  document.body.prepend(skip);
+  const main = document.querySelector('main');
+  if (main) main.id = 'main';
+
   setConfig({ hostnames, locales, linkBlocks, components, decorateArea });
   await loadArea();
 
@@ -159,6 +168,17 @@ export async function loadPage() {
 
   // Decorate sticky sub-navigation bars and add scroll-based highlighting
   decorateSubnavs();
+
+  // Scroll-triggered fade-in for sections
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('main > .section').forEach((s) => sectionObserver.observe(s));
 }
 await loadPage();
 
