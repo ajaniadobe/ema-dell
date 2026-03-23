@@ -613,25 +613,8 @@ p:has(> img[width="1"][height="1"]:only-child) {
   margin: 0 0 16px;
 }
 
-/* Infrastructure for AI — heading icon */
-.section:has(.block-content .carousel) > .default-content > h4::before {
-  content: '';
-  display: block;
-  width: 64px;
-  min-width: 64px;
-  height: 64px;
-  background: url('/img/icons/infrastructure.png') no-repeat center / contain;
-}
-
-/* AI Partner Ecosystem — heading icon */
-.section:not(.dark, .light, .accent):has(.block-content .tabs) > .default-content > h4::before {
-  content: '';
-  display: block;
-  width: 64px;
-  min-width: 64px;
-  height: 64px;
-  background: url('/img/icons/ai-partners.png') no-repeat center / contain;
-}
+/* Section heading icons are now rendered from authored <picture> elements.
+   The images are sized by the "Section icon images" rule above. */
 
 .section:has(.block-content .carousel) > .default-content > h3,
 .section:has(.block-content .tabs) > .default-content > h5 {
@@ -664,16 +647,20 @@ p:has(> img[width="1"][height="1"]:only-child) {
   position: relative;
   min-height: 324px;
   background-color: var(--color-dell-light-gray);
-  background-size: cover;
-  background-position: center;
   border-radius: 0;
   overflow: hidden;
 }
 
-.section:has(.block-content .carousel) .carousel .carousel-slide-image picture,
+.section:has(.block-content .carousel) .carousel .carousel-slide-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .section:has(.block-content .carousel) .carousel .carousel-slide-image img {
-  position: relative;
-  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .section:has(.block-content .carousel) .carousel .carousel-slide-content {
@@ -760,43 +747,9 @@ p:has(> img[width="1"][height="1"]:only-child) {
   border-radius: 20px;
 }
 
-/* Infrastructure carousel slide images
- * NOTE: These images are content-specific and should ideally be authored in the
- * content HTML. They are defined here as CSS custom properties for maintainability
- * until the carousel content is updated with proper <img> tags.
- */
-.section:has(.block-content .carousel) .carousel-slides {
-  --slide-1-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-02-0135-la9450t-poweredge-xe9680.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
-  --slide-2-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-monitor-0086-u4025qw-pr5690nt-km900.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
-  --slide-3-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0205-la9450t-powerscale.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
-  --slide-4-bg: url('https://i.dell.com/is/image/DellContent/content/dam/documents-and-videos/dv2/csbg/en/demand/shared-assets/people-with-product/bulkshoot-datacenter-01-0074-la9450t.psd?qlt=95&fit=constrain,1&hei=600&wid=1000&fmt=jpg');
-  --slide-5-bg: url('https://i.dell.com/is/image/DellContent/content/dam/ss2/page-specific/dell-com-landing-page/07-dataprotection-1920.png?fmt=jpg&wid=1000&hei=600');
-}
+/* Carousel slide images — use authored <picture>/<img> content */
 
-.section:has(.block-content .carousel) .carousel-slide:nth-child(1) .carousel-slide-image {
-  background-image: var(--slide-1-bg);
-}
-
-.section:has(.block-content .carousel) .carousel-slide:nth-child(2) .carousel-slide-image {
-  background-image: var(--slide-2-bg);
-}
-
-.section:has(.block-content .carousel) .carousel-slide:nth-child(3) .carousel-slide-image {
-  background-image: var(--slide-3-bg);
-}
-
-.section:has(.block-content .carousel) .carousel-slide:nth-child(4) .carousel-slide-image {
-  background-image: var(--slide-4-bg);
-}
-
-.section:has(.block-content .carousel) .carousel-slide:nth-child(5) .carousel-slide-image {
-  background-image: var(--slide-5-bg);
-}
-
-/* Data for AI — hide icon image paragraph (icon is rendered via h2::before) */
-.section:not(.light, .dark, .accent):has(.cards):not(:has(.cards.apex-portfolio)) > .default-content > p:first-child:has(picture) {
-  display: none;
-}
+/* Data for AI — icon image paragraph (sized by "Section icon images" rule) */
 
 /* Data for AI — section heading with icon */
 .section:not(.light, .dark, .accent):has(.cards):not(:has(.cards.apex-portfolio)) > .default-content > h2 {
@@ -808,14 +761,7 @@ p:has(> img[width="1"][height="1"]:only-child) {
   line-height: 48px;
 }
 
-.section:not(.light, .dark, .accent):has(.cards):not(:has(.cards.apex-portfolio)) > .default-content > h2::before {
-  content: '';
-  display: block;
-  width: 64px;
-  min-width: 64px;
-  height: 64px;
-  background: url('/img/icons/datastore.png') no-repeat center / contain;
-}
+/* Data for AI heading icon now comes from authored <picture> in default-content */
 
 /* Data for AI cards — gray product tile cards */
 .section:not(.light, .dark, .accent, :has(.cards.apex-portfolio)) .cards > ul {
