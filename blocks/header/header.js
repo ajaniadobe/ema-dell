@@ -219,18 +219,11 @@ function buildBreadcrumbs() {
     }
   }
   if (parentLabel) items.push({ label: parentLabel, href: parentUrl || '/' });
-  // Derive section parent from URL path (e.g., customer-stories-*, industry-*)
-  const slug = window.location.pathname.split('/').pop();
-  const sectionMap = {
-    'customer-stories': 'Customer Stories',
-    industry: 'Industries',
-  };
-  for (const [prefix, label] of Object.entries(sectionMap)) {
-    if (slug.startsWith(`${prefix}-`)) {
-      const sectionUrl = window.location.pathname.replace(slug, prefix);
-      items.push({ label, href: sectionUrl });
-      break;
-    }
+  // Section breadcrumb from page metadata
+  const sectionLabel = getMetadata('breadcrumb-section');
+  const sectionUrl = getMetadata('breadcrumb-section-url');
+  if (sectionLabel) {
+    items.push({ label: sectionLabel, href: sectionUrl || '/' });
   }
   items.push({ label: title });
   items.forEach((item, i) => {

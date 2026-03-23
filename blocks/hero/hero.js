@@ -109,14 +109,15 @@ function decorateForeground(fg) {
 }
 
 function detectPartnerLogo(el) {
-  const desc = document.querySelector('meta[name="description"]')?.content?.toLowerCase() || '';
-  const partners = ['intel', 'nvidia'];
-  for (const partner of partners) {
-    if (desc.includes(partner)) {
-      el.classList.add(partner);
-      break;
-    }
-  }
+  const logoUrl = document.querySelector('meta[name="partner-logo"]')?.content;
+  if (!logoUrl) return;
+  const fg = el.querySelector('.hero-foreground');
+  if (!fg) return;
+  const img = document.createElement('img');
+  img.src = logoUrl;
+  img.alt = '';
+  img.classList.add('hero-partner-logo');
+  fg.append(img);
 }
 
 export default async function init(el) {

@@ -321,12 +321,15 @@ function decorateResourceCards(block) {
 
     hasResourceContent = true;
 
-    // Mark category labels (all-uppercase paragraphs without links/images)
+    // Mark category labels — prefer explicit class, fall back to strong-only paragraphs
     const labelSet = new Set();
     content.querySelectorAll('p').forEach((p) => {
-      const text = p.textContent.trim();
-      if (text && text === text.toUpperCase() && text.length > 2
-        && !p.querySelector('a') && !p.querySelector('img')) {
+      if (p.classList.contains('tabs-resource-label')) {
+        labelSet.add(p);
+        return;
+      }
+      const strong = p.querySelector(':scope > strong:only-child');
+      if (strong && !p.querySelector('a') && !p.querySelector('img')) {
         p.classList.add('tabs-resource-label');
         labelSet.add(p);
       }
