@@ -29,13 +29,19 @@ function applyPageStyles(fragment) {
  * @returns {HTMLElement} The root element of the fragment
  */
 export async function loadFragment(path) {
-  const resp = await fetch(`${path}`);
-  if (!resp.ok) throw Error(`Couldn't fetch ${path}`);
+  // In local dev (/content/ prefix), resolve fragments from content root
+  let fetchPath = path;
+  if (window.location.pathname.startsWith('/content/') && !path.startsWith('/content/')) {
+    fetchPath = `/content${path}`;
+  }
+  const resp = await fetch(fetchPath);
+  if (!resp.ok) throw Error(`Couldn't fetch ${fetchPath}`);
 
   const html = await resp.text();
   const doc = new DOMParser().parseFromString(html, 'text/html');
 
-  const sections = doc.body.querySelectorAll('main > div');
+  let sections = doc.body.querySelectorAll('main > div');
+  if (!sections.length) sections = doc.body.querySelectorAll(':scope > div');
   const fragment = document.createElement('div');
   fragment.classList.add('fragment-content');
   fragment.append(...sections);
@@ -105,7 +111,7 @@ export default async function init(a) {
       ? fragment.querySelectorAll(':scope > *')
       : [fragment];
     for (const [idx, child] of children.entries()) {
-      // If relative, create a unique ID to help fragments be identified after being inserted into the page
+      // If relative, create a unique ID for the fragment
       if (path.startsWith('/')) child.id = btoa(encodeURIComponent(`${path}/${idx + 1}`));
       elToReplace.insertAdjacentElement('afterend', child);
     }

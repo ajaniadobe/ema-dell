@@ -81,10 +81,45 @@ function decorateNavToggle(btn) {
   });
 }
 
+function decorateSearch(btn) {
+  const wrapper = btn.closest('.action-wrapper');
+  if (!wrapper) return;
+
+  const form = document.createElement('form');
+  form.className = 'search-form';
+  form.setAttribute('role', 'search');
+  form.action = 'https://www.dell.com/en-us/search';
+  form.method = 'get';
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.name = 'q';
+  input.placeholder = 'Search Dell';
+  input.setAttribute('aria-label', 'Search Dell');
+  input.autocomplete = 'off';
+
+  const submitBtn = document.createElement('button');
+  submitBtn.type = 'submit';
+  submitBtn.setAttribute('aria-label', 'Search Dell');
+  submitBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+
+  form.append(input, submitBtn);
+
+  // Replace the button with the search form
+  wrapper.replaceChildren(form);
+
+  // Toggle expanded state on mobile
+  btn.addEventListener('click', () => {
+    wrapper.classList.toggle('is-open');
+    if (wrapper.classList.contains('is-open')) input.focus();
+  });
+}
+
 const HEADER_ACTIONS = {
   '/tools/widgets/scheme': decorateScheme,
   '/tools/widgets/language': decorateLanguage,
   '/tools/widgets/toggle': decorateNavToggle,
+  '/tools/widgets/search': decorateSearch,
 };
 
 async function decorateAction(header, pattern, decorateFn) {
@@ -187,6 +222,47 @@ function decorateNavSection(section) {
 
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
+
+  // Style user and cart links as icon buttons
+  const links = section.querySelectorAll('.default-content > p > a');
+  for (const link of links) {
+    const icon = link.querySelector('.icon');
+    const iconName = icon?.classList[1]?.replace('icon-', '');
+    if (iconName === 'user' || iconName === 'cart') {
+      const p = link.parentElement;
+      p.classList.add('action-icon', `action-${iconName}`);
+      const textNodes = Array.from(link.childNodes)
+        .filter((n) => n.nodeType === Node.TEXT_NODE);
+      for (const t of textNodes) {
+        const span = document.createElement('span');
+        span.className = 'visually-hidden';
+        span.textContent = t.textContent;
+        t.replaceWith(span);
+      }
+    }
+  }
+
+  // Add headset icon to Contact Us link (last p without .icon)
+  const contactP = section.querySelector(
+    '.default-content > p:last-child',
+  );
+  const contactLink = contactP?.querySelector('a');
+  if (contactLink && !contactLink.querySelector('.icon, svg')) {
+    const svg = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'svg',
+    );
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '20');
+    svg.setAttribute('height', '20');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.innerHTML = '<path d="M4 18v-6a8 8 0 1 1 16 0v6"/>'
+      + '<path d="M2 17a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2z"/>'
+      + '<path d="M19 17a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-2z"/>';
+    contactLink.prepend(svg);
+  }
 }
 
 async function decorateHeader(fragment) {
