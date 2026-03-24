@@ -39,6 +39,12 @@ const PAGE_TEMPLATE = {
       instances: [
         // AIPC: traditional rwp-webpart hero
         "section[data-iid*='wp1']",
+      ],
+    },
+    {
+      name: 'hero',
+      variant: 'center, full',
+      instances: [
         // Pro Max: TailoredTemplatesMfe containing hero with H1 + video
         "section.rwp-webpart-TailoredTemplatesMfe[data-iid*='product-line-experience']",
       ],
@@ -189,6 +195,7 @@ function findBlocksOnPage(document, template) {
       elements.forEach((element) => {
         pageBlocks.push({
           name: blockDef.name,
+          variant: blockDef.variant || null,
           selector,
           element,
           section: blockDef.section || null,
@@ -213,12 +220,36 @@ export default {
     // 2. Find blocks on page using embedded template
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
 
-    // 3. Parse each block using registered parsers
+    // 3. Parse each block using registered parsers, then apply variants
     pageBlocks.forEach((block) => {
       const parser = parsers[block.name];
       if (parser) {
         try {
+          // Insert marker before element so we can find the created block table
+          const marker = document.createComment('block-marker');
+          block.element.parentNode.insertBefore(marker, block.element);
+
           parser(block.element, { document, url, params });
+
+          // Apply variant: parser replaces source element with a <table>,
+          // the table is now the next element sibling after our marker
+          if (block.variant) {
+            let node = marker.nextSibling;
+            while (node && node.nodeType !== 1) node = node.nextSibling;
+            if (node && node.tagName === 'TABLE') {
+              const th = node.querySelector('th');
+              if (th) {
+                const blockName = th.textContent.trim();
+                const expected = block.name.replace(/-/g, ' ').replace(/\s(.)/g, (m) => m.toUpperCase()).replace(/^(.)/, (m) => m.toUpperCase());
+                if (blockName === expected) {
+                  th.textContent = `${expected} (${block.variant})`;
+                }
+              }
+            }
+            marker.remove();
+          } else {
+            marker.remove();
+          }
         } catch (e) {
           console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
         }

@@ -456,9 +456,9 @@ var CustomImportScript = (() => {
     var _a;
     const { document } = payload;
     if (hookName === TransformHook.beforeTransform) {
-      const heroBlockDef = (((_a = payload.template) == null ? void 0 : _a.blocks) || []).find((b) => b.name === "hero");
-      if (heroBlockDef) {
-        const heroSelectors = heroBlockDef.instances || [];
+      const heroBlockDefs = (((_a = payload.template) == null ? void 0 : _a.blocks) || []).filter((b) => b.name === "hero");
+      const heroSelectors = heroBlockDefs.flatMap((def) => def.instances || []);
+      if (heroSelectors.length) {
         heroSelectors.forEach((sel) => {
           const heroEls = element.querySelectorAll(sel);
           heroEls.forEach((heroEl) => {
@@ -712,7 +712,13 @@ var CustomImportScript = (() => {
         name: "hero",
         instances: [
           // AIPC: traditional rwp-webpart hero
-          "section[data-iid*='wp1']",
+          "section[data-iid*='wp1']"
+        ]
+      },
+      {
+        name: "hero",
+        variant: "center, full",
+        instances: [
           // Pro Max: TailoredTemplatesMfe containing hero with H1 + video
           "section.rwp-webpart-TailoredTemplatesMfe[data-iid*='product-line-experience']"
         ]
@@ -852,6 +858,7 @@ var CustomImportScript = (() => {
         elements.forEach((element) => {
           pageBlocks.push({
             name: blockDef.name,
+            variant: blockDef.variant || null,
             selector,
             element,
             section: blockDef.section || null
@@ -872,7 +879,26 @@ var CustomImportScript = (() => {
         const parser = parsers[block.name];
         if (parser) {
           try {
+            const marker = document.createComment("block-marker");
+            block.element.parentNode.insertBefore(marker, block.element);
             parser(block.element, { document, url, params });
+            if (block.variant) {
+              let node = marker.nextSibling;
+              while (node && node.nodeType !== 1) node = node.nextSibling;
+              if (node && node.tagName === "TABLE") {
+                const th = node.querySelector("th");
+                if (th) {
+                  const blockName = th.textContent.trim();
+                  const expected = block.name.replace(/-/g, " ").replace(/\s(.)/g, (m) => m.toUpperCase()).replace(/^(.)/, (m) => m.toUpperCase());
+                  if (blockName === expected) {
+                    th.textContent = `${expected} (${block.variant})`;
+                  }
+                }
+              }
+              marker.remove();
+            } else {
+              marker.remove();
+            }
           } catch (e) {
             console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
           }

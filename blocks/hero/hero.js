@@ -38,7 +38,7 @@ async function decorateBackground(el, bg) {
 
   const vidSrc = await getVideoSrc(bg);
   if (!vidSrc) {
-    if (!el.classList.contains('overlay')) {
+    if (!el.classList.contains('overlay') && !el.classList.contains('center')) {
       el.classList.add('split');
     }
     return;

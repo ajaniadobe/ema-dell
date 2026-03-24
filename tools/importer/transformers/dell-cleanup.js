@@ -15,10 +15,9 @@ export default function transform(hookName, element, payload) {
     // Cleanup later removes <style> blocks and Video.js elements, so we must
     // capture background images and video posters NOW and inject clean elements
     // that the hero parser can pick up (Pattern A: <video poster="...">).
-    const heroBlockDef = (payload.template?.blocks || []).find((b) => b.name === 'hero');
-    if (heroBlockDef) {
-      const heroSelectors = heroBlockDef.instances || [];
-
+    const heroBlockDefs = (payload.template?.blocks || []).filter((b) => b.name === 'hero');
+    const heroSelectors = heroBlockDefs.flatMap((def) => def.instances || []);
+    if (heroSelectors.length) {
       heroSelectors.forEach((sel) => {
         const heroEls = element.querySelectorAll(sel);
         heroEls.forEach((heroEl) => {
