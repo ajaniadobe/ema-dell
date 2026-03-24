@@ -1,0 +1,131 @@
+.showcase {
+  position: relative;
+  overflow: hidden;
+  color: var(--color-white, #fff);
+  margin: 0 -20px;
+}
+
+.showcase .showcase-background {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+
+  > div {
+    position: absolute;
+    inset: 0;
+  }
+
+  picture {
+    display: block;
+    height: 100%;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.showcase .showcase-content {
+  background: var(--color-dell-navy, #002a58);
+  padding: 48px 24px;
+  text-align: center;
+
+  > div {
+    max-width: var(--grid-container-width);
+    margin: 0 auto;
+  }
+}
+
+.showcase .showcase-heading {
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.15;
+  margin: 0 0 24px;
+  color: var(--color-white, #fff);
+}
+
+.showcase .showcase-description {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 85%);
+  margin: 0 0 16px;
+}
+
+.showcase .btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border: 2px solid var(--color-white, #fff);
+  border-radius: 2px;
+  color: var(--color-white, #fff);
+  background: transparent;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.showcase .btn:hover {
+  background: var(--color-white, #fff);
+  color: var(--color-dell-navy, #002a58);
+}
+
+@media (width >= 600px) {
+  .showcase .showcase-background {
+    min-height: 500px;
+  }
+
+  .showcase .showcase-heading {
+    font-size: 56px;
+  }
+
+  .showcase .showcase-content {
+    padding: 56px 40px;
+  }
+
+  .showcase .showcase-description {
+    font-size: 20px;
+  }
+}
+
+@media (width >= 900px) {
+  .showcase {
+    margin-inline: -40px;
+  }
+
+  .showcase .showcase-background {
+    min-height: 600px;
+  }
+
+  .showcase .showcase-heading {
+    font-size: 72px;
+  }
+
+  .showcase .showcase-content {
+    padding: 64px 60px;
+  }
+
+  .showcase .showcase-description {
+    font-size: 22px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+@media (width >= 1200px) {
+  .showcase {
+    margin-inline: -80px;
+  }
+
+  .showcase .showcase-background {
+    min-height: 700px;
+  }
+
+  .showcase .showcase-heading {
+    font-size: 80px;
+  }
+}

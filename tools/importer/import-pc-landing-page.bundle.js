@@ -450,6 +450,98 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/agreements.js
+  function parse5(element, { document }) {
+    const cells = [];
+    const agreements = element.querySelectorAll(".cp-agreements-agreement");
+    agreements.forEach((agreement) => {
+      var _a, _b;
+      const logoDiv = agreement.querySelector(".cp-agreements-logo");
+      const descDiv = agreement.querySelector(".cp-agreements-description");
+      const row = [];
+      if (logoDiv) {
+        const link = logoDiv.querySelector("a");
+        const img = logoDiv.querySelector("img");
+        if (img && link) {
+          const a = document.createElement("a");
+          a.href = link.href;
+          const newImg = document.createElement("img");
+          newImg.src = ((_a = img.src) == null ? void 0 : _a.startsWith("//")) ? `https:${img.src}` : img.src;
+          newImg.alt = img.alt || "";
+          a.appendChild(newImg);
+          row.push(a);
+        } else if (img) {
+          const newImg = document.createElement("img");
+          newImg.src = ((_b = img.src) == null ? void 0 : _b.startsWith("//")) ? `https:${img.src}` : img.src;
+          newImg.alt = img.alt || "";
+          row.push(newImg);
+        }
+      }
+      if (descDiv) {
+        const container = document.createElement("div");
+        const textDiv = descDiv.querySelector("div");
+        const link = descDiv.querySelector("a");
+        if (textDiv) {
+          const p = document.createElement("p");
+          p.textContent = textDiv.textContent.trim();
+          container.appendChild(p);
+        }
+        if (link) {
+          const a = document.createElement("a");
+          a.href = link.href;
+          a.textContent = link.textContent.trim();
+          container.appendChild(a);
+        }
+        if (container.children.length) row.push(container);
+      }
+      if (row.length > 0) cells.push(row);
+    });
+    if (cells.length > 0) {
+      const block = WebImporter.Blocks.createBlock(document, { name: "agreements", cells });
+      element.replaceWith(block);
+    }
+  }
+
+  // tools/importer/parsers/showcase.js
+  function parse6(element, { document }) {
+    const cells = [];
+    const bgImg = element.querySelector(".showcase-bg-img, .plx-showcase__media img");
+    if (bgImg) {
+      const img = document.createElement("img");
+      const src = bgImg.src || bgImg.getAttribute("src") || "";
+      img.src = src.startsWith("//") ? `https:${src}` : src;
+      img.alt = bgImg.alt || "";
+      cells.push([img]);
+    }
+    const contentCell = [];
+    const heading = element.querySelector("h2");
+    if (heading) {
+      const h2 = document.createElement("h2");
+      h2.textContent = heading.textContent.trim();
+      contentCell.push(h2);
+    }
+    const descEl = element.querySelector(".plx-showcase__description, .plx-showcase-container > p");
+    if (descEl) {
+      const p = document.createElement("p");
+      p.textContent = descEl.textContent.trim();
+      contentCell.push(p);
+    }
+    const ctaLink = element.querySelector("a[href]:not(.plx-nav-anchor)");
+    if (ctaLink && ctaLink.textContent.trim().length > 0) {
+      const a = document.createElement("a");
+      a.href = ctaLink.href;
+      a.textContent = ctaLink.textContent.trim();
+      const p = document.createElement("p");
+      p.appendChild(a);
+      contentCell.push(p);
+    }
+    if (contentCell.length > 0) cells.push(contentCell);
+    if (cells.length > 0) {
+      const block = WebImporter.Blocks.createBlock(document, { name: "showcase", cells });
+      element.replaceWith(block);
+    }
+  }
+
   // tools/importer/transformers/dell-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -519,7 +611,62 @@ var CustomImportScript = (() => {
           });
         });
       }
-      element.querySelectorAll(".plx-nav-section").forEach((nav) => nav.remove());
+      element.querySelectorAll(".plx-showcase-container").forEach((sc) => {
+        const vjsVideo = sc.querySelector("video.vjs-tech[poster], video-js video[poster]");
+        if (vjsVideo) {
+          const poster = vjsVideo.getAttribute("poster");
+          if (poster) {
+            const img = document.createElement("img");
+            img.src = poster.startsWith("//") ? `https:${poster}` : poster;
+            img.alt = "";
+            img.classList.add("showcase-bg-img");
+            const mediaDiv = sc.querySelector(".plx-showcase__media");
+            if (mediaDiv) {
+              mediaDiv.innerHTML = "";
+              mediaDiv.appendChild(img);
+            } else {
+              sc.prepend(img);
+            }
+          }
+        }
+        if (!sc.querySelector(".showcase-bg-img")) {
+          const fallbackImg = sc.querySelector("img");
+          if (fallbackImg) fallbackImg.classList.add("showcase-bg-img");
+        }
+      });
+      element.querySelectorAll(".plx-product-media-container").forEach((mc) => {
+        const id = mc.id;
+        if (!id) return;
+        const parent = mc.closest("#plx-product-info") || element;
+        parent.querySelectorAll("style").forEach((s) => {
+          const re = new RegExp(`#${id}\\s*\\{[^}]*background-image:\\s*url\\(([^)]+)\\)`, "g");
+          let bestUrl = "";
+          let bestWidth = 0;
+          const matches = [...s.textContent.matchAll(new RegExp("min-width:\\s*(\\d+)px[^}]*background-image:\\s*url\\(([^)]+)\\)", "gs"))];
+          matches.forEach((m) => {
+            if (m[0].includes(id)) {
+              const w = parseInt(m[1], 10);
+              if (w >= bestWidth) {
+                bestWidth = w;
+                bestUrl = m[2].replace(/['"]/g, "");
+              }
+            }
+          });
+          if (!bestUrl) {
+            const fallback = s.textContent.match(new RegExp(`#${id}[^}]*background-image:\\s*url\\(["']?([^"')]+)["']?\\)`));
+            if (fallback) bestUrl = fallback[1];
+          }
+          if (bestUrl) {
+            const img = document.createElement("img");
+            img.src = bestUrl.startsWith("//") ? `https:${bestUrl}` : bestUrl;
+            img.alt = "";
+            img.classList.add("product-info-bg-img");
+            mc.innerHTML = "";
+            mc.appendChild(img);
+          }
+        });
+      });
+      element.querySelectorAll(".plx-nav-container").forEach((nav) => nav.remove());
       WebImporter.DOMUtils.remove(element, [
         "header",
         "#unified-masthead"
@@ -530,8 +677,7 @@ var CustomImportScript = (() => {
         "#uc-panel",
         "#uc-floating-button",
         "#dell-global-mbox",
-        ".tnt-html",
-        ".cp-agreements-container"
+        ".tnt-html"
       ]);
       WebImporter.DOMUtils.remove(element, [
         "#onetrust-consent-sdk",
@@ -631,7 +777,6 @@ var CustomImportScript = (() => {
         ".cf-partner-section",
         // Breadcrumbs (customer story pages)
         ".cp-breadcrumbs",
-        ".cp-page-top-container",
         // Screen-reader only page title (customer story pages - content has own headings)
         "h1.sr-only",
         // Footer
@@ -694,7 +839,9 @@ var CustomImportScript = (() => {
     "hero": parse,
     "columns": parse2,
     "cards": parse3,
-    "accordion": parse4
+    "accordion": parse4,
+    "agreements": parse5,
+    "showcase": parse6
   };
   var transformers = [
     transform,
@@ -709,6 +856,13 @@ var CustomImportScript = (() => {
     ],
     blocks: [
       {
+        name: "agreements",
+        instances: [
+          // Both pages: partner agreement badges (Windows 11, Intel Core)
+          ".cp-agreements-container"
+        ]
+      },
+      {
         name: "hero",
         instances: [
           // AIPC: traditional rwp-webpart hero
@@ -722,6 +876,14 @@ var CustomImportScript = (() => {
           // Pro Max: TailoredTemplatesMfe containing hero with H1 + video
           "section.rwp-webpart-TailoredTemplatesMfe[data-iid*='product-line-experience']"
         ]
+      },
+      {
+        name: "showcase",
+        instances: [
+          // Pro Max: PLX showcase sections (Extraordinary performance, etc.)
+          ".plx-showcase-container"
+        ],
+        section: "navy-blue"
       },
       {
         name: "columns",

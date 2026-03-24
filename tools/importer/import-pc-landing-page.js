@@ -6,6 +6,8 @@ import heroParser from './parsers/hero.js';
 import columnsParser from './parsers/columns.js';
 import cardsParser from './parsers/cards.js';
 import accordionParser from './parsers/accordion.js';
+import agreementsParser from './parsers/agreements.js';
+import showcaseParser from './parsers/showcase.js';
 
 // TRANSFORMER IMPORTS
 import dellCleanupTransformer from './transformers/dell-cleanup.js';
@@ -17,6 +19,8 @@ const parsers = {
   'columns': columnsParser,
   'cards': cardsParser,
   'accordion': accordionParser,
+  'agreements': agreementsParser,
+  'showcase': showcaseParser,
 };
 
 // TRANSFORMER REGISTRY
@@ -35,6 +39,13 @@ const PAGE_TEMPLATE = {
   ],
   blocks: [
     {
+      name: 'agreements',
+      instances: [
+        // Both pages: partner agreement badges (Windows 11, Intel Core)
+        '.cp-agreements-container',
+      ],
+    },
+    {
       name: 'hero',
       instances: [
         // AIPC: traditional rwp-webpart hero
@@ -48,6 +59,14 @@ const PAGE_TEMPLATE = {
         // Pro Max: TailoredTemplatesMfe containing hero with H1 + video
         "section.rwp-webpart-TailoredTemplatesMfe[data-iid*='product-line-experience']",
       ],
+    },
+    {
+      name: 'showcase',
+      instances: [
+        // Pro Max: PLX showcase sections (Extraordinary performance, etc.)
+        '.plx-showcase-container',
+      ],
+      section: 'navy-blue',
     },
     {
       name: 'columns',

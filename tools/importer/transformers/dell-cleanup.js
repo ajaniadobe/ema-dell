@@ -85,8 +85,67 @@ export default function transform(hookName, element, payload) {
       });
     }
 
-    // Remove PLX navigation sections from hero areas (prevents spurious CTAs)
-    element.querySelectorAll('.plx-nav-section').forEach((nav) => nav.remove());
+    // --- Pre-extract showcase background images before cleanup removes <style> ---
+    // PLX showcase sections use Brightcove videos with poster images;
+    // preserve the poster/fallback images before Video.js cleanup removes them.
+    element.querySelectorAll('.plx-showcase-container').forEach((sc) => {
+      const vjsVideo = sc.querySelector('video.vjs-tech[poster], video-js video[poster]');
+      if (vjsVideo) {
+        const poster = vjsVideo.getAttribute('poster');
+        if (poster) {
+          const img = document.createElement('img');
+          img.src = poster.startsWith('//') ? `https:${poster}` : poster;
+          img.alt = '';
+          img.classList.add('showcase-bg-img');
+          const mediaDiv = sc.querySelector('.plx-showcase__media');
+          if (mediaDiv) {
+            mediaDiv.innerHTML = '';
+            mediaDiv.appendChild(img);
+          } else {
+            sc.prepend(img);
+          }
+        }
+      }
+      // Fallback: use the existing <img> in the showcase if no video poster
+      if (!sc.querySelector('.showcase-bg-img')) {
+        const fallbackImg = sc.querySelector('img');
+        if (fallbackImg) fallbackImg.classList.add('showcase-bg-img');
+      }
+    });
+
+    // --- Pre-extract product-info background images from inline <style> blocks ---
+    element.querySelectorAll('.plx-product-media-container').forEach((mc) => {
+      const id = mc.id;
+      if (!id) return;
+      const parent = mc.closest('#plx-product-info') || element;
+      parent.querySelectorAll('style').forEach((s) => {
+        const re = new RegExp(`#${id}\\s*\\{[^}]*background-image:\\s*url\\(([^)]+)\\)`, 'g');
+        let bestUrl = '';
+        let bestWidth = 0;
+        const matches = [...s.textContent.matchAll(/min-width:\s*(\d+)px[^}]*background-image:\s*url\(([^)]+)\)/gs)];
+        matches.forEach((m) => {
+          if (m[0].includes(id)) {
+            const w = parseInt(m[1], 10);
+            if (w >= bestWidth) { bestWidth = w; bestUrl = m[2].replace(/['"]/g, ''); }
+          }
+        });
+        if (!bestUrl) {
+          const fallback = s.textContent.match(new RegExp(`#${id}[^}]*background-image:\\s*url\\(["']?([^"')]+)["']?\\)`));
+          if (fallback) bestUrl = fallback[1];
+        }
+        if (bestUrl) {
+          const img = document.createElement('img');
+          img.src = bestUrl.startsWith('//') ? `https:${bestUrl}` : bestUrl;
+          img.alt = '';
+          img.classList.add('product-info-bg-img');
+          mc.innerHTML = '';
+          mc.appendChild(img);
+        }
+      });
+    });
+
+    // Remove PLX navigation tab bar (non-authorable UI chrome) but keep content sections
+    element.querySelectorAll('.plx-nav-container').forEach((nav) => nav.remove());
 
     // Remove site-wide header/navigation chrome
     WebImporter.DOMUtils.remove(element, [
@@ -102,7 +161,6 @@ export default function transform(hookName, element, payload) {
       '#uc-floating-button',
       '#dell-global-mbox',
       '.tnt-html',
-      '.cp-agreements-container',
     ]);
 
     // Remove OneTrust cookie consent SDK (banner, preference center, overlay)
@@ -233,7 +291,6 @@ export default function transform(hookName, element, payload) {
       '.cf-partner-section',
       // Breadcrumbs (customer story pages)
       '.cp-breadcrumbs',
-      '.cp-page-top-container',
       // Screen-reader only page title (customer story pages - content has own headings)
       'h1.sr-only',
       // Footer
