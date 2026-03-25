@@ -79,6 +79,15 @@
   }
 }
 
+/* Feature columns: full-width images when column has heading + text content */
+.columns:not(.image-cover) .col:has(h3) > p:first-child:has(> img:only-child) img {
+  width: 100%;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 /* Dark section: resource card columns */
 .section.dark .columns .row {
   gap: 24px;
@@ -126,6 +135,41 @@
 
 .section.dark .columns .col p a:hover {
   color: var(--color-dark-link-hover);
+}
+
+/* Image+text split layout: remove card styling from image column */
+.section.dark .columns .col:has(> p:only-child > img) {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.section.dark .columns .col:has(> p:only-child > img) img {
+  width: 100%;
+  max-width: 100%;
+  max-height: none;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* CTA button in dark columns */
+.section.dark .columns .col p em strong a {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--color-dell-blue);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  font-style: normal;
+}
+
+.section.dark .columns .col p em strong a:hover {
+  background: var(--color-cta-hover);
+  color: var(--color-white);
 }
 
 @media (width >= 900px) {

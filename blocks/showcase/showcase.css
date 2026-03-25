@@ -34,7 +34,7 @@
 }
 
 .showcase .showcase-content {
-  background: var(--color-dell-navy, #002a58);
+  background: var(--color-dell-blue, #0076ce);
   padding: 48px 24px;
   text-align: center;
 
@@ -76,7 +76,7 @@
 
 .showcase .btn:hover {
   background: var(--color-white, #fff);
-  color: var(--color-dell-navy, #002a58);
+  color: var(--color-dell-blue, #0076ce);
 }
 
 @media (width >= 600px) {
