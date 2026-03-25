@@ -101,7 +101,12 @@ function decorateSearch(btn) {
   const submitBtn = document.createElement('button');
   submitBtn.type = 'submit';
   submitBtn.setAttribute('aria-label', 'Search Dell');
-  submitBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+  const searchIcon = btn.querySelector('svg.icon, .icon');
+  if (searchIcon) {
+    submitBtn.append(searchIcon);
+  } else {
+    submitBtn.innerHTML = `<svg class="icon icon-search"><use href="${codeBase}/img/icons/search.svg#search"></use></svg>`;
+  }
 
   form.append(input, submitBtn);
 
@@ -241,28 +246,6 @@ async function decorateActionSection(section) {
       }
     }
   }
-
-  // Add headset icon to Contact Us link (last p without .icon)
-  const contactP = section.querySelector(
-    '.default-content > p:last-child',
-  );
-  const contactLink = contactP?.querySelector('a');
-  if (contactLink && !contactLink.querySelector('.icon, svg')) {
-    const svg = document.createElementNS(
-      'http://www.w3.org/2000/svg',
-      'svg',
-    );
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('width', '20');
-    svg.setAttribute('height', '20');
-    svg.setAttribute('fill', 'none');
-    svg.setAttribute('stroke', 'currentColor');
-    svg.setAttribute('stroke-width', '2');
-    svg.innerHTML = '<path d="M4 18v-6a8 8 0 1 1 16 0v6"/>'
-      + '<path d="M2 17a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2z"/>'
-      + '<path d="M19 17a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-2z"/>';
-    contactLink.prepend(svg);
-  }
 }
 
 async function decorateHeader(fragment) {
@@ -276,50 +259,34 @@ async function decorateHeader(fragment) {
   }
 }
 
-function buildAgreements() {
-  const items = [];
-  for (let i = 1; i <= 5; i += 1) {
-    const image = getMetadata(`agreement-${i}-image`);
-    if (!image) break;
-    const link = getMetadata(`agreement-${i}-link`) || '#';
-    const alt = getMetadata(`agreement-${i}-alt`) || '';
-    const text = getMetadata(`agreement-${i}-text`) || '';
-    items.push({ image, link, alt, text });
-  }
-  if (!items.length) return null;
+async function buildAgreements() {
+  const path = getMetadata('header-agreements');
+  if (!path) return null;
+  try {
+    const fragment = await loadFragment(`${locale.prefix}${path}`);
+    const agreements = fragment.querySelector('.agreements');
+    if (agreements) return agreements;
+  } catch { /* fragment not found — skip */ }
+  return null;
+}
 
-  const container = document.createElement('div');
-  container.className = 'header-agreements';
-  items.forEach((item) => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'agreements-item';
-
-    const a = document.createElement('a');
-    a.href = item.link;
-    const img = document.createElement('img');
-    img.src = item.image;
-    img.alt = item.alt;
-    img.loading = 'lazy';
-    a.append(img);
-    wrapper.append(a);
-
-    if (item.text) {
-      const textEl = document.createElement('span');
-      textEl.className = 'agreements-text';
-      const textA = document.createElement('a');
-      textA.href = item.link;
-      textA.textContent = item.text;
-      textEl.append(textA);
-      wrapper.append(textEl);
-    }
-
-    container.append(wrapper);
-  });
-  return container;
+async function buildBanner() {
+  const path = getMetadata('header-banner');
+  if (!path) return null;
+  try {
+    const fragment = await loadFragment(`${locale.prefix}${path}`);
+    const banner = document.createElement('div');
+    banner.className = 'header-banner';
+    const content = fragment.querySelector('.default-content') || fragment.querySelector('.section');
+    if (content) banner.append(...content.children);
+    return banner;
+  } catch { /* fragment not found — skip */ }
+  return null;
 }
 
 function buildBreadcrumbs() {
-  const title = getMetadata('og:title') || document.title;
+  let title = getMetadata('breadcrumb-title') || getMetadata('og:title') || document.title;
+  title = title.replace(/\s*\|.*$/, '');
   const nav = document.createElement('nav');
   nav.className = 'breadcrumbs';
   nav.setAttribute('aria-label', 'Breadcrumb');
@@ -351,14 +318,11 @@ function buildBreadcrumbs() {
       a.href = item.href;
       if (item.isHome) {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', '0 0 20 20');
-        svg.setAttribute('width', '16');
-        svg.setAttribute('height', '16');
+        svg.classList.add('icon', 'icon-home');
         svg.setAttribute('aria-label', 'Home');
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', 'M10 2.5L2 9h2.5v6.5h4V12h3v3.5h4V9H18L10 2.5z');
-        path.setAttribute('fill', 'currentColor');
-        svg.append(path);
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttribute('href', `${codeBase}/img/icons/home.svg#home`);
+        svg.append(use);
         a.append(svg);
       } else {
         a.textContent = item.label;
@@ -386,11 +350,13 @@ export default async function init(el) {
     fragment.classList.add('header-content');
     await decorateHeader(fragment);
     el.append(fragment);
+    const banner = await buildBanner();
+    if (banner) el.append(banner);
     const infoBar = document.createElement('div');
     infoBar.className = 'header-info-bar';
     const breadcrumbs = buildBreadcrumbs();
     infoBar.append(breadcrumbs);
-    const agreements = buildAgreements();
+    const agreements = await buildAgreements();
     if (agreements) infoBar.append(agreements);
     el.append(infoBar);
   } catch (e) {
