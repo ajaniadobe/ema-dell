@@ -37,7 +37,7 @@ function getRelativeLuminance({ r, g, b }) {
  * @param {number} threshold - Luminance threshold (default: 0.5)
  * @returns {boolean} true if light, false if dark, null if invalid color
  */
-export function getColorScheme(section) {
+function getColorScheme(section) {
   const rgb = parseColor(section);
   if (!rgb) return null;
 
