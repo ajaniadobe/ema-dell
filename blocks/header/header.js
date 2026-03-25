@@ -294,17 +294,6 @@ async function buildBanner() {
     const fragment = await loadFragment(`${locale.prefix}${path}`);
     const banner = document.createElement('div');
     banner.className = 'header-banner';
-    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    icon.classList.add('header-banner-icon');
-    icon.setAttribute('viewBox', '0 0 24 24');
-    icon.setAttribute('fill', 'none');
-    icon.setAttribute('stroke', 'currentColor');
-    icon.setAttribute('stroke-width', '1.5');
-    icon.setAttribute('aria-hidden', 'true');
-    icon.innerHTML = '<path d="M4 18v-6a8 8 0 1 1 16 0v6"/>'
-      + '<path d="M2 17a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2z"/>'
-      + '<path d="M19 17a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-2z"/>';
-    banner.append(icon);
     const content = fragment.querySelector('.default-content') || fragment.querySelector('.section');
     if (content) banner.append(...content.children);
     return banner;
@@ -313,7 +302,8 @@ async function buildBanner() {
 }
 
 function buildBreadcrumbs() {
-  const title = getMetadata('og:title') || document.title;
+  let title = getMetadata('breadcrumb-title') || getMetadata('og:title') || document.title;
+  title = title.replace(/\s*\|.*$/, '');
   const nav = document.createElement('nav');
   nav.className = 'breadcrumbs';
   nav.setAttribute('aria-label', 'Breadcrumb');
