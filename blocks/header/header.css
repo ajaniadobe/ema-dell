@@ -82,53 +82,50 @@ header {
     gap: 16px;
   }
 
-  /* Agreements in header */
-  .header-agreements {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  /* Agreements block override when inside header info-bar */
+  .header-info-bar .agreements {
+    margin: 0;
+    border-bottom: none;
+    padding: 0;
+    background: transparent;
     flex-shrink: 0;
   }
 
-  .header-agreements .agreements-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .header-agreements .agreements-item img {
-    display: block;
-    height: 28px;
-    width: auto;
-    object-fit: contain;
-  }
-
-  .header-agreements .agreements-text {
-    font-size: 12px;
-    line-height: 1.3;
-  }
-
-  .header-agreements .agreements-text a {
-    color: var(--color-dell-blue, #0672cb);
-    text-decoration: none;
-    font-size: 12px;
-  }
-
-  .header-agreements .agreements-text a:hover {
-    text-decoration: underline;
-  }
-
   @media (width < 600px) {
-    .header-agreements .agreements-text {
+    .header-info-bar .agreements .agreements-text {
       display: none;
     }
 
-    .header-agreements .agreements-item img {
+    .header-info-bar .agreements .agreements-logo img {
       height: 22px;
     }
 
-    .header-agreements {
+    .header-info-bar .agreements {
       gap: 12px;
+    }
+  }
+
+  /* Optional message banner above breadcrumbs */
+  .header-banner {
+    background: var(--color-dell-navy, #002a58);
+    color: var(--color-white, #fff);
+    text-align: center;
+    padding: 8px 20px;
+    font-size: 14px;
+    line-height: 1.4;
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: var(--color-dell-light-blue, #94dcf7);
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -145,8 +142,6 @@ header {
       list-style: none;
       margin: 0;
       padding: 0;
-      max-width: var(--grid-container-width);
-      margin-inline: auto;
     }
 
     li {
@@ -467,10 +462,9 @@ header {
 @media (width >= 900px) {
   header {
     .header-content {
-      max-width: var(--grid-container-width);
-      margin: 0 auto;
       overflow: visible;
       max-height: initial;
+      padding-inline: 40px;
 
       /* Two rows: brand+actions on top, nav on bottom */
       grid-template:
@@ -681,9 +675,7 @@ header {
     }
 
     .header-info-bar {
-      max-width: var(--grid-container-width);
-      margin-inline: auto;
-      padding: 8px 0;
+      padding: 8px 40px;
     }
 
     &.is-mobile-open {

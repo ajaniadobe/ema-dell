@@ -276,46 +276,29 @@ async function decorateHeader(fragment) {
   }
 }
 
-function buildAgreements() {
-  const items = [];
-  for (let i = 1; i <= 5; i += 1) {
-    const image = getMetadata(`agreement-${i}-image`);
-    if (!image) break;
-    const link = getMetadata(`agreement-${i}-link`) || '#';
-    const alt = getMetadata(`agreement-${i}-alt`) || '';
-    const text = getMetadata(`agreement-${i}-text`) || '';
-    items.push({ image, link, alt, text });
-  }
-  if (!items.length) return null;
+async function buildAgreements() {
+  const path = getMetadata('header-agreements');
+  if (!path) return null;
+  try {
+    const fragment = await loadFragment(`${locale.prefix}${path}`);
+    const agreements = fragment.querySelector('.agreements');
+    if (agreements) return agreements;
+  } catch { /* fragment not found — skip */ }
+  return null;
+}
 
-  const container = document.createElement('div');
-  container.className = 'header-agreements';
-  items.forEach((item) => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'agreements-item';
-
-    const a = document.createElement('a');
-    a.href = item.link;
-    const img = document.createElement('img');
-    img.src = item.image;
-    img.alt = item.alt;
-    img.loading = 'lazy';
-    a.append(img);
-    wrapper.append(a);
-
-    if (item.text) {
-      const textEl = document.createElement('span');
-      textEl.className = 'agreements-text';
-      const textA = document.createElement('a');
-      textA.href = item.link;
-      textA.textContent = item.text;
-      textEl.append(textA);
-      wrapper.append(textEl);
-    }
-
-    container.append(wrapper);
-  });
-  return container;
+async function buildBanner() {
+  const path = getMetadata('header-banner');
+  if (!path) return null;
+  try {
+    const fragment = await loadFragment(`${locale.prefix}${path}`);
+    const banner = document.createElement('div');
+    banner.className = 'header-banner';
+    const content = fragment.querySelector('.default-content') || fragment.querySelector('.section');
+    if (content) banner.append(...content.children);
+    return banner;
+  } catch { /* fragment not found — skip */ }
+  return null;
 }
 
 function buildBreadcrumbs() {
@@ -386,11 +369,13 @@ export default async function init(el) {
     fragment.classList.add('header-content');
     await decorateHeader(fragment);
     el.append(fragment);
+    const banner = await buildBanner();
+    if (banner) el.append(banner);
     const infoBar = document.createElement('div');
     infoBar.className = 'header-info-bar';
     const breadcrumbs = buildBreadcrumbs();
     infoBar.append(breadcrumbs);
-    const agreements = buildAgreements();
+    const agreements = await buildAgreements();
     if (agreements) infoBar.append(agreements);
     el.append(infoBar);
   } catch (e) {
