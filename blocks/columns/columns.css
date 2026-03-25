@@ -79,6 +79,15 @@
   }
 }
 
+/* Feature columns: full-width images when column has heading + text content */
+.columns:not(.image-cover) .col:has(h3) > p:first-child:has(> img:only-child) img {
+  width: 100%;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 /* Dark section: resource card columns */
 .section.dark .columns .row {
   gap: 24px;
@@ -139,6 +148,8 @@
 
 .section.dark .columns .col:has(> p:only-child > img) img {
   width: 100%;
+  max-width: 100%;
+  max-height: none;
   height: auto;
   border-radius: 8px;
 }

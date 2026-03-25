@@ -85,16 +85,31 @@
   padding: 20px;
 }
 
+/* Cards with photo images: remove card padding, image edge-to-edge */
+.section.dark .cards > ul > li:has(.cards-card-image img:not([src*=".svg"])) {
+  padding: 0;
+  overflow: hidden;
+}
+
+.section.dark .cards > ul > li:has(.cards-card-image img:not([src*=".svg"])) .cards-card-body {
+  padding: 20px;
+}
+
 .section.dark .cards > ul > li:hover {
   box-shadow: none;
 }
 
 .section.dark .cards .cards-card-image {
   line-height: 0;
+}
+
+/* Icon images get spacing below */
+.section.dark .cards .cards-card-image:has(img[src*=".svg"]) {
   margin-bottom: 16px;
 }
 
-.section.dark .cards .cards-card-image img {
+/* Dark section: only shrink SVG icon images to circular avatars */
+.section.dark .cards .cards-card-image img[src*=".svg"] {
   width: 48px;
   height: 48px;
   aspect-ratio: 1;
@@ -117,13 +132,15 @@
   font-weight: 300;
 }
 
-/* Category labels: first <p> in a text-only card that contains only a <strong> */
-.section.dark .cards:not(:has(.cards-card-image)) .cards-card-body > p:first-child > strong:only-child {
+/* Eyebrow labels: <em> in first <p> of card body (use <em> for category labels) */
+.section.dark .cards .cards-card-body > p:first-child > em:only-child {
   color: var(--color-dark-text);
   font-size: 12px;
   font-weight: 700;
+  font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: block;
 }
 
 .section.dark .cards .cards-card-body a {
