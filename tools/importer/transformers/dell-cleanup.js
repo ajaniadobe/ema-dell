@@ -11,6 +11,142 @@ export default function transform(hookName, element, payload) {
   const { document } = payload;
 
   if (hookName === TransformHook.beforeTransform) {
+    // --- Pre-extract hero background assets before cleanup removes them ---
+    // Cleanup later removes <style> blocks and Video.js elements, so we must
+    // capture background images and video posters NOW and inject clean elements
+    // that the hero parser can pick up (Pattern A: <video poster="...">).
+    const heroBlockDefs = (payload.template?.blocks || []).filter((b) => b.name === 'hero');
+    const heroSelectors = heroBlockDefs.flatMap((def) => def.instances || []);
+    if (heroSelectors.length) {
+      heroSelectors.forEach((sel) => {
+        const heroEls = element.querySelectorAll(sel);
+        heroEls.forEach((heroEl) => {
+          // 1. CSS background-image from ancestor cp-container <style> blocks
+          let ancestor = heroEl.parentElement;
+          while (ancestor && ancestor !== element) {
+            if (ancestor.classList && ancestor.classList.contains('cp-container')) {
+              let bgUrl = '';
+              let bgWidth = 0;
+              ancestor.querySelectorAll('style').forEach((s) => {
+                const matches = [...s.textContent.matchAll(/min-width:\s*(\d+)px[^}]*background-image:\s*url\("([^"]+)"\)/gs)];
+                matches.forEach((m) => {
+                  const mw = parseInt(m[1], 10);
+                  if (mw >= bgWidth) { bgWidth = mw; bgUrl = m[2]; }
+                });
+                if (!bgUrl) {
+                  const fallback = s.textContent.match(/background-image:\s*url\("([^"]+)"\)/);
+                  if (fallback) bgUrl = fallback[1];
+                }
+              });
+              if (bgUrl && !heroEl.querySelector('video:not(.vjs-tech)')) {
+                const v = document.createElement('video');
+                v.setAttribute('poster', bgUrl.startsWith('//') ? `https:${bgUrl}` : bgUrl);
+                heroEl.prepend(v);
+              }
+              break;
+            }
+            ancestor = ancestor.parentElement;
+          }
+
+          // 2. Preserve video poster from Video.js players before vjs cleanup
+          const vjsVideo = heroEl.querySelector('video.vjs-tech[poster], video-js video[poster]');
+          if (vjsVideo) {
+            const poster = vjsVideo.getAttribute('poster');
+            if (poster && !heroEl.querySelector('video:not(.vjs-tech)')) {
+              const v = document.createElement('video');
+              v.setAttribute('poster', poster.startsWith('//') ? `https:${poster}` : poster);
+              heroEl.prepend(v);
+            }
+          }
+
+          // 3. Promote first H2/H3 to H1 (hero should always have an H1)
+          if (!heroEl.querySelector('h1')) {
+            const heading = heroEl.querySelector('h2, h3');
+            if (heading) {
+              const h1 = document.createElement('h1');
+              h1.innerHTML = heading.innerHTML;
+              if (heading.id) h1.id = heading.id;
+              heading.replaceWith(h1);
+            }
+          }
+
+          // 4. Wrap loose text+inline content in description divs into a <p>
+          //    Prevents WebImporter from splitting "Intel Inside<sup>®</sup>." into
+          //    separate paragraphs during HTML serialization
+          const desc = heroEl.querySelector('.rwp-contentlayout-item__description, .dds_Hero-ai-content');
+          if (desc && !desc.querySelector('p')) {
+            const p = document.createElement('p');
+            while (desc.firstChild) {
+              p.appendChild(desc.firstChild);
+            }
+            desc.appendChild(p);
+          }
+        });
+      });
+    }
+
+    // --- Pre-extract showcase background images before cleanup removes <style> ---
+    // PLX showcase sections use Brightcove videos with poster images;
+    // preserve the poster/fallback images before Video.js cleanup removes them.
+    element.querySelectorAll('.plx-showcase-container').forEach((sc) => {
+      const vjsVideo = sc.querySelector('video.vjs-tech[poster], video-js video[poster]');
+      if (vjsVideo) {
+        const poster = vjsVideo.getAttribute('poster');
+        if (poster) {
+          const img = document.createElement('img');
+          img.src = poster.startsWith('//') ? `https:${poster}` : poster;
+          img.alt = '';
+          img.classList.add('showcase-bg-img');
+          const mediaDiv = sc.querySelector('.plx-showcase__media');
+          if (mediaDiv) {
+            mediaDiv.innerHTML = '';
+            mediaDiv.appendChild(img);
+          } else {
+            sc.prepend(img);
+          }
+        }
+      }
+      // Fallback: use the existing <img> in the showcase if no video poster
+      if (!sc.querySelector('.showcase-bg-img')) {
+        const fallbackImg = sc.querySelector('img');
+        if (fallbackImg) fallbackImg.classList.add('showcase-bg-img');
+      }
+    });
+
+    // --- Pre-extract product-info background images from inline <style> blocks ---
+    element.querySelectorAll('.plx-product-media-container').forEach((mc) => {
+      const id = mc.id;
+      if (!id) return;
+      const parent = mc.closest('#plx-product-info') || element;
+      parent.querySelectorAll('style').forEach((s) => {
+        const re = new RegExp(`#${id}\\s*\\{[^}]*background-image:\\s*url\\(([^)]+)\\)`, 'g');
+        let bestUrl = '';
+        let bestWidth = 0;
+        const matches = [...s.textContent.matchAll(/min-width:\s*(\d+)px[^}]*background-image:\s*url\(([^)]+)\)/gs)];
+        matches.forEach((m) => {
+          if (m[0].includes(id)) {
+            const w = parseInt(m[1], 10);
+            if (w >= bestWidth) { bestWidth = w; bestUrl = m[2].replace(/['"]/g, ''); }
+          }
+        });
+        if (!bestUrl) {
+          const fallback = s.textContent.match(new RegExp(`#${id}[^}]*background-image:\\s*url\\(["']?([^"')]+)["']?\\)`));
+          if (fallback) bestUrl = fallback[1];
+        }
+        if (bestUrl) {
+          const img = document.createElement('img');
+          img.src = bestUrl.startsWith('//') ? `https:${bestUrl}` : bestUrl;
+          img.alt = '';
+          img.classList.add('product-info-bg-img');
+          mc.innerHTML = '';
+          mc.appendChild(img);
+        }
+      });
+    });
+
+    // Remove PLX navigation tab bar (non-authorable UI chrome) but keep content sections
+    element.querySelectorAll('.plx-nav-container').forEach((nav) => nav.remove());
+
     // Remove site-wide header/navigation chrome
     WebImporter.DOMUtils.remove(element, [
       'header',
@@ -25,7 +161,6 @@ export default function transform(hookName, element, payload) {
       '#uc-floating-button',
       '#dell-global-mbox',
       '.tnt-html',
-      '.cp-agreements-container',
     ]);
 
     // Remove OneTrust cookie consent SDK (banner, preference center, overlay)
@@ -124,6 +259,18 @@ export default function transform(hookName, element, payload) {
       'img[src*="loading.gif"]',
     ]);
 
+    // --- AIPC / Consumer PC Landing Page cleanup ---
+    // VOCAAS survey widget, inline ad-hoc style blocks, contact banner (non-authorable)
+    WebImporter.DOMUtils.remove(element, [
+      'section[data-iid="vocaas"]',
+      '#vocaas',
+      '.voc_stm_container',
+      'section[data-iid="site-banner-contact-sales"]',
+      'section[data-iid="aipc-adhoc"]',
+    ]);
+    // Remove inline <style> blocks that leak into content
+    element.querySelectorAll('style').forEach((el) => el.remove());
+
     // Remove tracking pixel images (broader patterns for Batch 3 pages)
     WebImporter.DOMUtils.remove(element, [
       'img[src*="t.co/i/adsct"]',
@@ -144,7 +291,6 @@ export default function transform(hookName, element, payload) {
       '.cf-partner-section',
       // Breadcrumbs (customer story pages)
       '.cp-breadcrumbs',
-      '.cp-page-top-container',
       // Screen-reader only page title (customer story pages - content has own headings)
       'h1.sr-only',
       // Footer

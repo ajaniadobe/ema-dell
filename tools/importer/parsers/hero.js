@@ -8,6 +8,10 @@
  *     Instances: #hero-ai (main hero with video), .live-optics-section (CTA banner with bg image)
  *   - https://www.dell.com/en-us/lp/dt/customer-stories-mclaren-racing
  *     Instance: cp-container with bgvideo + rwp-contentlayout (logo + eyebrow + heading)
+ *   - https://www.dell.com/en-us/lp/aipc
+ *     Instance: cp-container with CSS background-image in inline <style> blocks
+ *   - https://www.dell.com/en-us/lp/dell-pro-max-pcs
+ *     Instance: TailoredTemplatesMfe with .plx-page hero (H1 + video poster + description)
  *
  * Block library structure:
  *   Row 1: Background image or video (optional)
@@ -53,6 +57,29 @@ export default function parse(element, { document }) {
     }
   }
 
+  // Pattern D: CSS background-image from inline <style> blocks (Dell CP pages)
+  if (cells.length === 0) {
+    let bgUrl = '';
+    let bgWidth = 0;
+    element.querySelectorAll('style').forEach((s) => {
+      const matches = [...s.textContent.matchAll(/min-width:\s*(\d+)px[^}]*background-image:\s*url\("([^"]+)"\)/gs)];
+      matches.forEach((m) => {
+        const mw = parseInt(m[1], 10);
+        if (mw >= bgWidth) { bgWidth = mw; bgUrl = m[2]; }
+      });
+      if (!bgUrl) {
+        const fallback = s.textContent.match(/background-image:\s*url\("([^"]+)"\)/);
+        if (fallback) bgUrl = fallback[1];
+      }
+    });
+    if (bgUrl) {
+      const img = document.createElement('img');
+      img.src = bgUrl.startsWith('//') ? `https:${bgUrl}` : bgUrl;
+      img.alt = 'Hero background';
+      cells.push([img]);
+    }
+  }
+
   // --- Row 2: Heading + description + CTAs ---
   const contentCell = [];
 
@@ -79,7 +106,7 @@ export default function parse(element, { document }) {
 
   // Description / subtitle
   const desc = element.querySelector(
-    '.dds_Hero-ai-content, .live-optics-description, .rwp-contentlayout-item__description, p:not(.faq-question)'
+    '.plx-hero__copy, .mh-content-layout-description, .dds_Hero-ai-content, .live-optics-description, .rwp-contentlayout-item__description, p:not(.faq-question)'
   );
   if (desc && desc !== heading) contentCell.push(desc);
 

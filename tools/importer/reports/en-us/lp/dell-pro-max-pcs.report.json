@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/dell-pro-max-pcs",
+  "path": "en-us/lp/dell-pro-max-pcs",
+  "timestamp": "2026-03-24T15:54:22.184Z",
+  "title": "Dell Pro Max High-Performance PCs, Laptops & Desktops | Dell USA",
+  "template": "pc-landing-page",
+  "blocks": [
+    "agreements",
+    "agreements",
+    "hero",
+    "showcase",
+    "showcase",
+    "showcase",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "accordion"
+  ]
+}

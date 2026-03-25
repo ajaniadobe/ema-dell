@@ -1351,6 +1351,147 @@
         }
       ],
       "sections": []
+    },
+    {
+      "name": "pc-landing-page",
+      "urls": [
+        "https://www.dell.com/en-us/lp/aipc",
+        "https://www.dell.com/en-us/lp/dell-pro-max-pcs"
+      ],
+      "description": "Consumer PC product landing page with hero, feature highlights, product cards, comparison sections, and dark CTA banners",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "section[data-iid*='wp1']"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "section[data-iid='aipc-wp2']"
+          ],
+          "section": "navy-blue"
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".rwp-webpart-ItemCarousel[data-iid*='wp3']",
+            "section[data-iid*='wp4-new-webpart']",
+            "section[data-iid='aipc-wp11']",
+            "section[data-iid='aipc-wp8']",
+            "section[data-iid='aipc-wp9']"
+          ],
+          "section": "navy-blue"
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            ".rwp-webpart-FAQ[data-iid*='faq']"
+          ],
+          "section": "navy-blue"
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-hero",
+          "name": "Hero Section",
+          "selector": "div[id*='aipc-wp1-item-jan6-wp1'].cp-container",
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-feature",
+          "name": "Feature Highlight",
+          "selector": "div[id*='aipc-wp2'].cp-container",
+          "style": "navy-blue",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-use-cases",
+          "name": "Use Cases Cards",
+          "selector": "div[id*='aipc-wp3'].cp-container",
+          "style": "navy-blue",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-products",
+          "name": "Product Portfolio",
+          "selector": "div[id*='aipc-wp4'].cp-container",
+          "style": "navy-blue",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "h2"
+          ]
+        },
+        {
+          "id": "section-meet-family",
+          "name": "Meet the Family",
+          "selector": "div[id*='aipc-wp5'].cp-container",
+          "style": "navy-blue",
+          "blocks": [],
+          "defaultContent": [
+            "h2",
+            "p",
+            "a"
+          ]
+        },
+        {
+          "id": "section-benefits",
+          "name": "Benefits Videos",
+          "selector": "div[id*='aipc-wp11'].cp-container",
+          "style": "navy-blue",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "h2"
+          ]
+        },
+        {
+          "id": "section-resources",
+          "name": "Resource Cards",
+          "selector": "div[id*='aipc-wp8'].cp-container",
+          "style": "navy-blue",
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-faq",
+          "name": "FAQ",
+          "selector": "div[id*='aipc-faq'].cp-container",
+          "style": "navy-blue",
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": [
+            "h2"
+          ]
+        },
+        {
+          "id": "section-disclaimers",
+          "name": "Disclaimers",
+          "selector": "div[id*='aipc-wp10'].cp-container",
+          "style": "quartz-gray",
+          "blocks": [],
+          "defaultContent": [
+            "p"
+          ]
+        }
+      ]
     }
   ]
 }

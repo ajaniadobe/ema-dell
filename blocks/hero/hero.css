@@ -259,6 +259,11 @@
     .hero-foreground {
       justify-content: center;
       text-align: center;
+      background: linear-gradient(180deg, rgb(0 0 0 / 10%) 0%, rgb(0 0 0 / 40%) 100%);
+    }
+
+    .hero-heading {
+      font-weight: 400;
     }
   }
 
@@ -392,6 +397,7 @@
     &.center {
       .hero-foreground {
         display: flex;
+        background: linear-gradient(180deg, rgb(0 0 0 / 10%) 0%, rgb(0 0 0 / 40%) 100%);
       }
     }
 

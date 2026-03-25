@@ -18,7 +18,7 @@ export function getMetadata(name) {
   return meta && meta.content;
 }
 
-export function getLocale(locales = { '': {} }) {
+function getLocale(locales = { '': {} }) {
   const { pathname } = window.location;
   const matches = Object.keys(locales).filter((locale) => pathname.startsWith(`${locale}/`));
   const prefix = getMetadata('locale') || matches.sort((a, b) => b.length - a.length)?.[0] || '';
@@ -179,7 +179,7 @@ function decorateHash(a, url) {
   return { dnt, dnb };
 }
 
-export function decorateLink(config, a) {
+function decorateLink(config, a) {
   try {
     const url = new URL(a.href);
     const hostMatch = config.hostnames.some((host) => url.hostname.endsWith(host));

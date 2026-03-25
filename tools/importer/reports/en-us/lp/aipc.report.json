@@ -1,0 +1,27 @@
+{
+  "status": "success",
+  "url": "https://www.dell.com/en-us/lp/aipc",
+  "path": "en-us/lp/aipc",
+  "timestamp": "2026-03-24T15:54:14.087Z",
+  "title": "Dell AI Laptops & PCs with Intel Processors | Dell USA",
+  "template": "pc-landing-page",
+  "blocks": [
+    "agreements",
+    "agreements",
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "hero",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "accordion",
+    "accordion"
+  ]
+}
