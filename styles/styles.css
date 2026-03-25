@@ -1403,6 +1403,11 @@ aem-sidekick {
 /* ===== Sticky Sub-Navigation Bar (Product Category pages) ===== */
 
 /* Pattern: default-content with p + ul + p (title + nav links + CTA) — JS adds .subnav class */
+main > .section > .default-content.subnav {
+  max-width: unset;
+  margin: 0 -20px;
+}
+
 .subnav {
   position: relative;
   z-index: 100;
