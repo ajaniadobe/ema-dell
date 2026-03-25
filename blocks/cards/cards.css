@@ -117,6 +117,15 @@
   font-weight: 300;
 }
 
+/* Category labels: first <p> in a text-only card that contains only a <strong> */
+.section.dark .cards:not(:has(.cards-card-image)) .cards-card-body > p:first-child > strong:only-child {
+  color: var(--color-dark-text);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .section.dark .cards .cards-card-body a {
   color: var(--color-dell-light-blue);
   text-decoration: underline;
@@ -325,6 +334,13 @@
 
 .section.dark .cards.apex-portfolio .cards-card-body p {
   color: var(--color-dark-text, #ccc);
+}
+
+/* 4-item apex-portfolio grids: force 2x2 layout */
+@media (width >= 600px) {
+  .section .cards.apex-portfolio > ul:has(> li:nth-child(4):last-child) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (width >= 900px) {
