@@ -255,6 +255,11 @@ main > .section {
     max-width: var(--grid-container-width);
     margin-inline: auto;
   }
+
+  > .block-content:has(.hero),
+  > .block-content:has(.showcase) {
+    max-width: unset;
+  }
 }
 
 /* Reduce spacing between adjacent dark sections */

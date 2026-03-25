@@ -32,4 +32,25 @@ export default function decorate(block) {
       }
     });
   }
+
+  // Parallax: translate the background image slower than scroll speed
+  if (bgRow) {
+    const img = bgRow.querySelector('img');
+    if (!img) return;
+
+    const onScroll = () => {
+      const rect = block.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      // Only animate while the block is near or in the viewport
+      if (rect.bottom < -200 || rect.top > viewH + 200) return;
+      // Progress: 0 when block enters bottom, 1 when block exits top
+      const progress = 1 - (rect.bottom / (viewH + rect.height));
+      // Shift image by up to ±15% of its container height
+      const shift = (progress - 0.5) * 0.3;
+      img.style.transform = `translateY(${shift * 100}%)`;
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 }
